@@ -16,17 +16,21 @@ const Navbar = () => {
   const pathname = usePathname();
 
   const [showMenu, setShowMenu] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      setLoggedIn(true);
+    }
+  });
 
   const handleProfileClick = () => {
-    setShowMenu(!showMenu);
+    if (loggedIn) {
+      setShowMenu(!showMenu);
+    } else {
+      window.location.href = "/login"; // Redirect to login page
+    }
   };
-
-  const [loggedIn, setLoggedIn] = useState(false);
-  // onAuthStateChanged(auth, (user) => {
-  //   if (user) {
-  //     setLoggedIn(true);
-  //   }
-  // });
 
   useEffect(() => {
     const hasShownToast = localStorage.getItem("hasShownLoginToast");
