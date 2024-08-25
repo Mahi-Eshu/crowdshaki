@@ -25,8 +25,7 @@ const FundRaising = () => {
                     <h1 className="font-light text-black text-lg">by alpha</h1>
                   </div>
                   <h2 className="text-lg">Rs.2,00,000/-</h2>
-                  <p>/ 250g</p>
-                  <p className="flex justify-center items-center text-xl text-red-500 mt-4">Special</p>
+                  <button className="px-auto py-3 bg-[#F74541] w-full h-[50px] text-center rounded-full text-white font-medium">Donate</button>
                 </div>
                 <div className="p-2 flex justify-center items-center">
                 
