@@ -8,10 +8,10 @@ const FundRaising = () => {
         <div className=" w-full">
         <div className="grid grid-flow-col gap-10 overflow-x-scroll py-5 lg:overflow-x-auto lg:justify-items-center">
             <div
-              className="w-[250px] rounded-3xl backdrop-blur-md bg-white/20 flex flex-col shadow-xl hover:scale-105 duration-300 hover:transition-all hover:ease-in"
+              className="w-[250px] rounded-3xl backdrop-blur-md bg-white/20 flex flex-col shadow-[0_5px_60px_-15px_rgba(0,0,0,0.3)] hover:scale-105 duration-300 hover:transition-all hover:ease-in"
             >
               <Image
-                src="/assets/art1.png"
+                src="/assets/art2.jpg"
                 width={1000}
                 height={700}
                 alt="item"
@@ -25,7 +25,7 @@ const FundRaising = () => {
                     <h1 className="font-light text-black text-lg">by alpha</h1>
                   </div>
                   <h2 className="text-lg">Rs.2,00,000/-</h2>
-                  <button className="px-auto py-3 bg-[#F74541] w-full h-[50px] text-center rounded-full text-white font-medium">Donate</button>
+                  <button className="px-auto py-3 mt-4 bg-[#F74541] w-full h-[50px] text-center rounded-full text-white font-medium">Donate</button>
                 </div>
                 <div className="p-2 flex justify-center items-center">
                 

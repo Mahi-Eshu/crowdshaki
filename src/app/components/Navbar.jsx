@@ -1,28 +1,107 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { UserAuth } from "../context/AuthContext";
 import { usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 const Navbar = () => {
   const pathname = usePathname();
+  const { user, googleSignIn, logOut } = UserAuth();
+  const [loading, setLoading] = useState(true);
   const [selectMenu, setSelectMenu] = useState(false);
+  const router = useRouter();
 
   const toggleSelectMenu = () => {
     setSelectMenu(!selectMenu);
   };
 
+  const handleSignIn = async () => {
+    try {
+      await googleSignIn();
+      router.push("/");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleSignOut = async () => {
+    try {
+      await logOut();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    // Check if the user is authenticated on component mount and whenever the user object changes
+    const isAuthenticated = !!user;
+    console.log("User is authenticated:", isAuthenticated);
+
+    // Set isInitialLoad to false after the first render
+    if (loading) {
+      setLoading(false);
+    }
+  }, [user, loading]);
+
   const menuLinks = [
-    { text: "About", url: "/" },
-    { text: "Funds Raised", url: "/" },
-    { text: "Funds Given", url: "/" },
+    { text: "Browse Fundraisers", url: "/browse_fundraisers" },
+    { text: "How It Works?", url: "/how_it_works" },
+    { text: "Raise Funds", url: "/raise_funds" },
   ];
 
   return (
     <div>
-      <div className="w-full relative">
-        <div className="z-10 p-4 flex flex-row justify-between items-center absolute backdrop-blur-2xl bg-white/50 w-full">
-          <h1 className="font-medium text-xl">Crowdshaki</h1>
+      <div className="w-full">
+        <div className="z-10 py-4 px-4 md:px-8 flex flex-row justify-between items-center absolute lg:relative bg-transparent w-full">
+          <h1 className="font-medium text-xl">
+            <Link href="/">Crowdshaki</Link>
+          </h1>
+          <div className="hidden lg:flex">
+            <ul className="flex flex-row gap-10 ">
+              {menuLinks.map((link, index) => (
+                <li
+                  key={index}
+                  className={`text-black font-medium hover:text-gray-500 hover:scale-110 duration-150 ${
+                    pathname === link.url ? "underline underline-offset-4" : ""
+                  }`}
+                >
+                  <Link href={link.url}>{link.text}</Link>
+                </li>
+              ))}
+              {/* <button onClick={handleSignIn} className={`text-black font-medium hover:text-gray-500 hover:scale-110 duration-150`}>Login</button> */}
+              {loading ? null : !user ? (
+                <Link href="/login" onClick={handleSignIn}>
+                  <h1 className="text-black font-medium hover:text-gray-500 hover:scale-110 duration-150">
+                    Login!
+                  </h1>
+                </Link>
+              ) : (
+                <div className="flex flex-row gap-10">
+                  <Link href="/personal_details">
+                    <h1
+                      className={`text-black font-medium hover:text-gray-500 hover:scale-110 duration-150 ${
+                        pathname === "/personal_details"
+                          ? "underline underline-offset-4"
+                          : ""
+                      }`}
+                    >
+                      Profile
+                    </h1>
+                  </Link>
+                  <button
+                    className={`text-red-600 font-medium hover:scale-110 duration-150 `}
+                    onClick={() => {
+                      handleSignOut();
+                    }}
+                  >
+                    Logout
+                  </button>
+                </div>
+              )}
+            </ul>
+          </div>
           {!selectMenu && (
             <Image
               src="/assets/menu.png"
@@ -30,95 +109,73 @@ const Navbar = () => {
               height={28}
               alt="menu"
               onClick={toggleSelectMenu}
+              className="lg:hidden"
             />
           )}
-          {selectMenu && (
-            <div
-              className={
-                selectMenu
-                  ? "absolute bottom-0 right-0 top-0 z-10 h-[100%] flex flex-col gap-4 text-black bg-white w-[300px] pr-4 pt-4 ease-in duration-200"
-                  : "absolute bottom-0 right-0 hidden top-0 z-10 h-screen flex-col gap-4 text-black bg-white w-[300px] pr-4 pt-4 ease-in duration-200"
-              }
-            >
-              <div className="flex flex-col justify-end items-end gap-10 w-full">
-                <Image
-                  src="/assets/close.png"
-                  width={30}
-                  height={30}
-                  alt="close"
-                  onClick={toggleSelectMenu}
-                  className=" w-[32px] h-[32px] ml-8 lg:hidden"
-                />
-                <div className="flex flex-col gap-8 items-end">
-                  {menuLinks.map((link, index) => (
-                    <Link
-                      href={link.url}
-                      key={index}
-                      className={`relative font-medium text-2xl ${
-                        pathname === link.url
-                          ? `underline decoration-wavy underline-offset-8`
-                          : ` underline-offset-8 after:bg-white after:absolute after:h-[2px] after:w-0 after:bottom-0 after:left-0 after:top-7 hover:after:w-full after:transition-all after:duration-300 cursor-pointer`
-                      }`}
-                      onClick={toggleSelectMenu}
-                    >
-                      {link.text}
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            </div>
-          )}
         </div>
-        <div className="relative">
-          <Image
-            src="/assets/art2.jpg"
-            width={1000}
-            height={2000}
-            alt="Background"
-            className="w-full h-auto"
-          />
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center">
-            {/* <p className='text-white text-3xl mb-4'>Utilize our <main></main>odest service in the market 0% platform fee.</p> */}
-            
-          </div>
-        </div>
+
         {selectMenu && (
-            <div
-              className={
-                selectMenu
-                  ? "absolute bottom-0 right-0 top-0 z-10 h-screen flex flex-col gap-4 text-black bg-white w-[250px] pr-4 pt-4 ease-in duration-200"
-                  : "absolute bottom-0 right-0 hidden top-0 z-10 h-screen flex-col gap-4 text-black bg-white w-[250px] pr-4 pt-4 ease-in duration-200"
-              }
-            >
-              <div className="flex flex-col justify-end items-end gap-10 w-full">
-                <Image
-                  src="/assets/close.png"
-                  width={30}
-                  height={30}
-                  alt="close"
-                  onClick={toggleSelectMenu}
-                  className=" w-[32px] h-[32px] ml-8 lg:hidden"
-                />
-                <div className="flex flex-col gap-8 items-end">
-                  {menuLinks.map((link, index) => (
-                    <Link
-                      href={link.url}
-                      key={index}
-                      className={`relative font-medium text-2xl ${
-                        pathname === link.url
-                          ? `underline decoration-wavy underline-offset-8`
-                          : ` underline-offset-8 after:bg-white after:absolute after:h-[2px] after:w-0 after:bottom-0 after:left-0 after:top-7 hover:after:w-full after:transition-all after:duration-300 cursor-pointer`
-                      }`}
-                      onClick={toggleSelectMenu}
-                    >
-                      {link.text}
+          <div
+            className={
+              selectMenu
+                ? "absolute bottom-0 right-0 top-0 z-10 h-screen flex flex-col gap-4 text-black bg-white w-[250px] pr-4 pt-4 ease-in duration-200"
+                : "absolute bottom-0 right-0 hidden top-0 z-10 h-screen flex-col gap-4 text-black bg-white w-[250px] pr-4 pt-4 ease-in duration-200"
+            }
+          >
+            <div className="flex flex-col justify-end items-end gap-10 w-full">
+              <Image
+                src="/assets/close.png"
+                width={30}
+                height={30}
+                alt="close"
+                onClick={toggleSelectMenu}
+                className=" ml-8"
+              />
+              <div className="flex flex-col gap-8 items-end">
+                {menuLinks.map((link, index) => (
+                  <Link
+                    href={link.url}
+                    key={index}
+                    className={`relative font-medium text-2xl ${
+                      pathname === link.url
+                        ? `underline decoration-wavy underline-offset-8`
+                        : ` underline-offset-8 after:bg-white after:absolute after:h-[2px] after:w-0 after:bottom-0 after:left-0 after:top-7 hover:after:w-full after:transition-all after:duration-300 cursor-pointer`
+                    }`}
+                    onClick={toggleSelectMenu}
+                  >
+                    {link.text}
+                  </Link>
+                ))}
+                {/* <button className="px-8 py-4 bg-[#F74541] text-center rounded-full font-medium text-2xl">Login / Sign up</button> */}
+
+                {loading ? null : !user ? (
+                  <Link href="/login" onClick={handleSignIn}>
+                    <h1 className="absolute font-medium text-2xl bottom-24 right-8">
+                      Login
+                    </h1>
+                  </Link>
+                ) : (
+                  <div className="">
+                    <Link href="/personal_details" onClick={toggleSelectMenu}>
+                      <h1 className="absolute font-medium text-2xl bottom-28 right-8">
+                        Profile
+                      </h1>
                     </Link>
-                  ))}
-                  <button className="px-8 py-4 bg-[#F74541] text-center rounded-full text-white font-medium text-2xl">Login / Sign up</button>
-                </div>
+                    <button
+                      className="absolute font-medium text-2xl text-red-600 bottom-16 right-8"
+                      onClick={() => {
+                        toggleSelectMenu();
+                        handleSignOut();
+                      }}
+                    >
+                      Logout
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
-          )}
+          </div>
+        )}
       </div>
     </div>
   );
