@@ -53,10 +53,10 @@ const Navbar = () => {
 
   return (
     <div>
-      <div className="w-full">
+      <div className="absolute w-full">
         <div className="z-10 py-4 px-4 md:px-8 flex flex-row justify-between items-center absolute lg:relative bg-transparent w-full">
           <h1 className="font-medium text-xl">
-            <Link href="/">Crowdshaki</Link>
+            <Link href="/">Crowdshaki.</Link>
           </h1>
           <div className="hidden lg:flex">
             <ul className="flex flex-row gap-10 ">
@@ -138,7 +138,7 @@ const Navbar = () => {
                     key={index}
                     className={`relative font-medium text-2xl ${
                       pathname === link.url
-                        ? `underline decoration-wavy underline-offset-8`
+                        ? `underline underline-offset-4`
                         : ` underline-offset-8 after:bg-white after:absolute after:h-[2px] after:w-0 after:bottom-0 after:left-0 after:top-7 hover:after:w-full after:transition-all after:duration-300 cursor-pointer`
                     }`}
                     onClick={toggleSelectMenu}

@@ -54,7 +54,7 @@ const UserDetailsForm = ({ user }: any) => {
                   })
             }
         }}>
-            <h1 className='m-2 mt-12 text-2xl font-medium'>Personal Details</h1>
+            <h1 className='m-2 mt-16 mb-12 text-2xl font-medium'>Personal Details</h1>
             <div className='m-2 flex flex-col gap-4'>
                 <div className='flex flex-col gap-4 lg:flex-row lg:gap-40'>
                     <div>
@@ -103,7 +103,7 @@ const UserDetailsForm = ({ user }: any) => {
                         <input type="text" name="pincode" id="pincode" placeholder="Enter your pincode" value={formValues.pincode} onChange={handleInputChange} required maxLength={6} className='w-full p-2 border-b-2 border-gray-500 rounded-sm lg:w-[400px]' />
                     </div>
                 </div>
-                <input type="submit" className='w-full p-4 bg-yellow-950 text-white rounded-sm my-10 lg:w-[400px]' value='Save' />
+                <input type="submit" className='w-full p-4 bg-black text-white rounded-sm my-10 lg:w-[400px]' value='Save' />
             </div>
         </form>
 
