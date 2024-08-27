@@ -198,8 +198,7 @@ const RaiseFundsForm = (data) => {
                 <label htmlFor="reasonForFund" className="block font-medium mb-2">
                   Reason For Fund
                 </label>
-                <input
-                  type="text"
+                <textarea
                   name="reasonForFund"
                   id="reasonForFund"
                   placeholder="Enter the reason for the fund raising"
@@ -207,8 +206,8 @@ const RaiseFundsForm = (data) => {
                   onChange={handleChange}
                   required
                   maxLength={10}
-                  className="w-full p-2 rounded-xl lg:w-[400px] bg-gray-100"
-                />
+                  className="w-full p-2 rounded-xl lg:w-[400px] bg-gray-100">
+                  </textarea>
               </div>
             </div>
           </div>

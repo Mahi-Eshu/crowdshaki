@@ -3,18 +3,13 @@
 import { NextRequest } from "next/server"
 
 export const personalDetails = async(formdata: FormData, userId: string|null) => {
-    // console.log(formdata)
-
-    // console.log(userId)
+    console.log(formdata)
     
     const firstName = formdata.get("firstName")
     const lastName = formdata.get("lastName")
     const mailid = formdata.get("email")
     const mobile = formdata.get("mobile")
-    const street = formdata.get("street")
-    const city = formdata.get("city")
-    const district = formdata.get("district")
-    const state = formdata.get("state")
+    const address = formdata.get("address")
     const pincode = formdata.get("pincode")
 
     const res = await fetch("http://localhost:3000/api/personalDetails", {
@@ -27,16 +22,13 @@ export const personalDetails = async(formdata: FormData, userId: string|null) =>
             lastName,
             mailid,
             mobile,
-            street,
-            city,
-            district,
-            state,
+            address,
             pincode,
             userId
         })
     })
 
-    const data = await res.json()
-    console.log(data)
-    return data
+    // const data = await res.json()
+    // console.log(data)
+    // return data
 }

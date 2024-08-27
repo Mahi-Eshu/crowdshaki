@@ -79,7 +79,7 @@ const Navbar = () => {
                 </Link>
               ) : (
                 <div className="flex flex-row gap-10">
-                  <Link href="/personal_details">
+                  <Link href={`/personal_details?userId=${user.uid}`}>
                     <h1
                       className={`text-black font-medium hover:text-gray-500 hover:scale-110 duration-150 ${
                         pathname === "/personal_details"
@@ -156,7 +156,7 @@ const Navbar = () => {
                   </Link>
                 ) : (
                   <div className="">
-                    <Link href="/personal_details" onClick={toggleSelectMenu}>
+                    <Link href={`/personal_details?userId=${user.uid}`} onClick={toggleSelectMenu}>
                       <h1 className="absolute font-medium text-2xl bottom-28 right-8">
                         Profile
                       </h1>

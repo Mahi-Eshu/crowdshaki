@@ -24,7 +24,7 @@ const page = () => {
   return (
     <>
       <Navbar></Navbar>
-      <div className="flex flex-col-reverse md:flex-row w-full h-auto md:h-[80vh] xl:h-[100vh]">
+      <div className="flex flex-col lg:flex-row w-full h-auto xl:h-[100vh]">
         {/* Image */}
         <div className="w-full md:w-2/2 h-[40vh] md:h-full flex justify-center items-center">
           <Image
@@ -36,7 +36,7 @@ const page = () => {
           />
         </div>
         {/* Text Content */}
-        <div className="flex flex-col items-center md:items-start justify-center w-full md:w-1/2 px-4 sm:px-8">
+        <div className="flex flex-col items-center lg:items-start justify-center w-full lg:w-1/2 px-4 sm:px-8">
           <form>
             <h1 className="m-2 mt-16 mb-12 text-2xl font-medium text-center">
               Need Money Urgently?

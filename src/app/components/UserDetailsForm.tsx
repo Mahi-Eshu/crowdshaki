@@ -6,8 +6,8 @@ import { personalDetails } from "@/app/actions/personalDetails";
 import { toast } from "react-toastify";
 
 const UserDetailsForm = ({ user }: any) => {
-  const searchParams = useSearchParams();
-  const uid = searchParams.get("userId");
+    const searchParams = useSearchParams()
+    const uid = searchParams.get('userId')
 
     const [formValues, setFormValues] = useState({
         firstName: user?.firstName || "",
@@ -18,17 +18,6 @@ const UserDetailsForm = ({ user }: any) => {
         pincode: user?.pincode || "",
     });
 
-  // const [formValues, setFormValues] = useState({
-  //     firstName: '',
-  //     lastName: '',
-  //     mailid: '',
-  //     mobile: '',
-  //     street: '',
-  //     city: '',
-  //     district:'',
-  //     state:'',
-  //     pincode:'',
-  // });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -40,18 +29,18 @@ const UserDetailsForm = ({ user }: any) => {
       <form
         action={async (formData) => {
           const data = await personalDetails(formData, uid);
-          if (data.status === 200 || data.status === 409) {
-            toast.success("Updated Successfully", {
-              position: "bottom-right",
-              autoClose: 4000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "dark",
-            });
-          }
+          // if (data.status === 200 || data.status === 409) {
+          //   toast.success("Updated Successfully", {
+          //     position: "bottom-right",
+          //     autoClose: 4000,
+          //     hideProgressBar: false,
+          //     closeOnClick: true,
+          //     pauseOnHover: true,
+          //     draggable: true,
+          //     progress: undefined,
+          //     theme: "dark",
+          //   });
+          // }
         }}
       >
         <h1 className="m-2 mt-16 mb-12 text-2xl font-medium text-center">
@@ -127,14 +116,14 @@ const UserDetailsForm = ({ user }: any) => {
         <h1 className="m-2 mt-8 text-2xl font-medium">Address</h1>
         <div className="m-2 flex flex-col gap-4">
           <div>
-            <label htmlFor="street" className="block font-medium mb-2">
+            <label htmlFor="address" className="block font-medium mb-2">
               Address
             </label>
             <input
               type="text"
-              name="street"
-              id="street"
-              placeholder="Enter your street name"
+              name="address"
+              id="address"
+              placeholder="Enter your address"
               value={formValues.address}
               onChange={handleInputChange}
               required
