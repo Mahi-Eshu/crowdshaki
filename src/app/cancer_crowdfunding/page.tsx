@@ -91,14 +91,14 @@ const page = () => {
                 />
               </div>
               <div>
-                <label htmlFor="adresss" className="block font-medium mb-2">
+                <label htmlFor="address" className="block font-medium mb-2">
                   Address
                 </label>
                 <input
                   type="text"
-                  name="adresss"
-                  id="adresss"
-                  placeholder="Enter your adresss name"
+                  name="address"
+                  id="address"
+                  placeholder="Enter your address"
                   value={formValues.address}
                   onChange={handleInputChange}
                   required
