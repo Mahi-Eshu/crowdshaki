@@ -41,20 +41,21 @@ const Footer = () => {
                 </div>
                 <div className="flex flex-col gap-3">
                   {[
-                    "Medical Crowdfunding",
-                    "Cancer Crowdfunding",
-                    "Transplant Crowdfunding",
-                    "Education Crowdfunding",
-                    "Sports Crowdfunding",
-                    "Child Welfare",
-                    "Animal Fundraisers",
+                    {text:"Medical Crowdfunding", url: "/medical_crowdfunding"},
+                    {text:"Cancer Crowdfunding", url: "/cancer_crowdfunding"},
+                    {text:"Transplant Crowdfunding", url: "/transplant_crowdfunding"},
+                    {text:"Education Crowdfunding", url: "/education_crowdfunding"},
+                    {text:"Sports Crowdfunding", url: "/sports_crowdfunding"},
+                    {text:"Child Welfare", url: "/child_welfare"},
+                    {text:"Animal Fundraisers", url: "/animal_fundraisers"},
                   ].map((cause, index) => (
-                    <span
+                    <Link
                       key={index}
+                      href={cause.url}
                       className="hover:text-red-600 text-xl font-regular hover:cursor-pointer transition-all"
                     >
-                      {cause}
-                    </span>
+                      {cause.text}
+                    </Link>
                   ))}
                 </div>
               </div>

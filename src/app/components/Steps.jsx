@@ -4,7 +4,7 @@ import Link from "next/link";
 
 const Steps = () => {
   return (
-    <div className="p-4 flex flex-col items-center justify-center my-20">
+    <div className="p-4 flex flex-col items-center justify-center mb-20">
       {/* Optional Background Image */}
       {/* <Image
     src="/assets/art1.png"
