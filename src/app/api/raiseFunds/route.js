@@ -7,7 +7,7 @@ export const POST = async (req, res) => {
       const data = await req.json();
       const firstName = data.firstName;
       const lastName = data.lastName;
-      const email = data.mailid;
+      const email = data.email;
       const mobile = data.mobile;
       const address = data.address;
       const pincode = data.pincode;

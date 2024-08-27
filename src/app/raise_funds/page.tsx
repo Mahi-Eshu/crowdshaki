@@ -6,9 +6,6 @@ import Image from 'next/image'
 import RaiseFundsForm from "../components/RaiseFundsForm"
 import { useSearchParams } from 'next/navigation'
 
-
-
-
 const getData = async (uid: string | null) => {
   const res = await fetch(
     "http://localhost:3000/api/raiseFunds",

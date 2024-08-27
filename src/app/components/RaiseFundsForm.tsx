@@ -1,9 +1,12 @@
 "use client";
 import React, { useState } from "react";
-import { UserAuth } from "../context/AuthContext";
+import { useSearchParams } from "next/navigation";
+import { raiseFundDetails } from "@/app/actions/raiseFundDetails";
 
-const RaiseFundsForm = (data) => {
+const RaiseFundsForm = (data:any) => {
   const fundDetails = data.data;
+  const searchParams = useSearchParams()
+    const uid = searchParams.get('userId')
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -22,23 +25,29 @@ const RaiseFundsForm = (data) => {
     ifscCode: "",
   });
 
-  const handleChange = (e) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
+    setFormData((prevValues) => ({ ...prevValues, [name]: value }));
   };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(formData);
-    // Here you can add logic to send the form data to your backend
-  };
+  
 
   return (
     <main className="md:px-8 md:py-4 shadow-xl md:border-2 md:border-gray-200">
-      <form onSubmit={handleSubmit}>
+      <form action={async (formData) => {
+          const data = await raiseFundDetails(formData, uid);
+          // if (data.status === 200 || data.status === 409) {
+          //   toast.success("Updated Successfully", {
+          //     position: "bottom-right",
+          //     autoClose: 4000,
+          //     hideProgressBar: false,
+          //     closeOnClick: true,
+          //     pauseOnHover: true,
+          //     draggable: true,
+          //     progress: undefined,
+          //     theme: "dark",
+          //   });
+          // }
+        }}>
         <h1 className="m-2 my-12 text-2xl font-medium">
           1. Campaigner Details
         </h1>
@@ -54,7 +63,7 @@ const RaiseFundsForm = (data) => {
                 id="firstName"
                 placeholder="Enter your first name"
                 value={formData.firstName}
-                onChange={handleChange}
+                onChange={handleInputChange}
                 required
                 className="w-full p-2 rounded-xl lg:w-[400px] bg-gray-100"
               />
@@ -69,7 +78,7 @@ const RaiseFundsForm = (data) => {
                 id="lastName"
                 placeholder="Enter your last name"
                 value={formData.lastName}
-                onChange={handleChange}
+                onChange={handleInputChange}
                 required
                 className="w-full p-2 rounded-xl lg:w-[400px] bg-gray-100"
               />
@@ -86,7 +95,7 @@ const RaiseFundsForm = (data) => {
                 id="email"
                 placeholder="Enter your email ID"
                 value={formData.email}
-                onChange={handleChange}
+                onChange={handleInputChange}
                 required
                 className="w-full p-2 rounded-xl lg:w-[400px] bg-gray-100"
               />
@@ -101,7 +110,7 @@ const RaiseFundsForm = (data) => {
                 id="mobile"
                 placeholder="Enter your mobile number"
                 value={formData.mobile}
-                onChange={handleChange}
+                onChange={handleInputChange}
                 required
                 maxLength={10}
                 className="w-full p-2 rounded-xl lg:w-[400px] bg-gray-100"
@@ -121,7 +130,7 @@ const RaiseFundsForm = (data) => {
               id="address"
               placeholder="Enter your address"
               value={formData.address}
-              onChange={handleChange}
+              onChange={handleInputChange}
               required
               className="w-full p-2 rounded-xl lg:w-[400px] bg-gray-100"
             />
@@ -137,7 +146,7 @@ const RaiseFundsForm = (data) => {
                 id="pincode"
                 placeholder="Enter your pincode"
                 value={formData.pincode}
-                onChange={handleChange}
+                onChange={handleInputChange}
                 required
                 maxLength={6}
                 className="w-full p-2 rounded-xl lg:w-[400px] bg-gray-100"
@@ -157,7 +166,7 @@ const RaiseFundsForm = (data) => {
                   id="beneficiaryName"
                   placeholder="Enter beneficiary name"
                   value={formData.beneficiaryName}
-                  onChange={handleChange}
+                  onChange={handleInputChange}
                   required
                   className="w-full p-2 rounded-xl lg:w-[400px] bg-gray-100"
                 />
@@ -172,7 +181,7 @@ const RaiseFundsForm = (data) => {
                   id="relationship"
                   placeholder="Enter your relationship with beneficiary"
                   value={formData.relationship}
-                  onChange={handleChange}
+                  onChange={handleInputChange}
                   required
                   className="w-full p-2 rounded-xl lg:w-[400px] bg-gray-100"
                 />
@@ -189,7 +198,7 @@ const RaiseFundsForm = (data) => {
                   id="amountForFund"
                   placeholder="Enter the amount for fund raising"
                   value={formData.amountForFund}
-                  onChange={handleChange}
+                  onChange={handleInputChange}
                   required
                   className="w-full p-2 rounded-xl lg:w-[400px] bg-gray-100"
                 />
@@ -203,9 +212,8 @@ const RaiseFundsForm = (data) => {
                   id="reasonForFund"
                   placeholder="Enter the reason for the fund raising"
                   value={formData.reasonForFund}
-                  onChange={handleChange}
+                  onChange={handleInputChange}
                   required
-                  maxLength={10}
                   className="w-full p-2 rounded-xl lg:w-[400px] bg-gray-100">
                   </textarea>
               </div>
@@ -225,7 +233,7 @@ const RaiseFundsForm = (data) => {
                   id="accountHolder"
                   placeholder="Enter account holder name"
                   value={formData.accountHolder}
-                  onChange={handleChange}
+                  onChange={handleInputChange}
                   required
                   className="w-full p-2 rounded-xl lg:w-[400px] bg-gray-100"
                 />
@@ -240,7 +248,7 @@ const RaiseFundsForm = (data) => {
                   id="accountNumber"
                   placeholder="Enter the account number"
                   value={formData.accountNumber}
-                  onChange={handleChange}
+                  onChange={handleInputChange}
                   required
                   className="w-full p-2 rounded-xl lg:w-[400px] bg-gray-100"
                 />
@@ -257,7 +265,7 @@ const RaiseFundsForm = (data) => {
                   id="accountType"
                   placeholder="Enter the account type"
                   value={formData.accountType}
-                  onChange={handleChange}
+                  onChange={handleInputChange}
                   required
                   className="w-full p-2 rounded-xl lg:w-[400px] bg-gray-100"
                 />
@@ -272,9 +280,8 @@ const RaiseFundsForm = (data) => {
                   id="ifscCode"
                   placeholder="Enter the IFSC code"
                   value={formData.ifscCode}
-                  onChange={handleChange}
+                  onChange={handleInputChange}
                   required
-                  maxLength={10}
                   className="w-full p-2 rounded-xl lg:w-[400px] bg-gray-100"
                 />
               </div>
