@@ -28,11 +28,11 @@ const Steps = () => {
       <div className="flex flex-col lg:flex-row items-center justify-center lg:justify-between w-full px-5 md:px-20">
         {/* Steps Image */}
         <Image
-          src="/assets/steps.png"
-          width={100}
-          height={100}
+          src="/assets/steps.jpg"
+          width={1000}
+          height={700}
           alt="steps"
-          className="w-3/4 lg:w-1/4 mb-8 lg:mb-0 lg:w-full"
+          className="w-3/4 lg:w-2/3 mb-8 lg:mb-0"
         />
 
         {/* Steps Information */}
