@@ -59,18 +59,28 @@ const Navbar = () => {
             <Link href="/">Crowdshaki.</Link>
           </h1>
           <div className="hidden lg:flex">
-            <ul className="flex flex-row gap-10 ">
+            <ul className="flex flex-row gap-10">
               {menuLinks.map((link, index) => (
                 <li
                   key={index}
                   className={`text-black font-medium hover:text-gray-500 hover:scale-110 duration-150 ${
                     pathname === link.url ? "underline underline-offset-4" : ""
                   }`}
+                  onClick={() => {
+                    if (link.text === "Raise Funds" && !user) {
+                      alert("Please login to raise funds");
+                      return;
+                    }
+                    router.push(link.url);
+                  }}
                 >
-                  <Link href={link.url}>{link.text}</Link>
+                  <Link
+                    href={user || link.text !== "Raise Funds" ? link.url : "#"}
+                  >
+                    {link.text}
+                  </Link>
                 </li>
               ))}
-              {/* <button onClick={handleSignIn} className={`text-black font-medium hover:text-gray-500 hover:scale-110 duration-150`}>Login</button> */}
               {loading ? null : !user ? (
                 <Link href="/login" onClick={handleSignIn}>
                   <h1 className="text-black font-medium hover:text-gray-500 hover:scale-110 duration-150">
@@ -156,7 +166,10 @@ const Navbar = () => {
                   </Link>
                 ) : (
                   <div className="">
-                    <Link href={`/personal_details?userId=${user.uid}`} onClick={toggleSelectMenu}>
+                    <Link
+                      href={`/personal_details?userId=${user.uid}`}
+                      onClick={toggleSelectMenu}
+                    >
                       <h1 className="absolute font-medium text-2xl bottom-28 right-8">
                         Profile
                       </h1>

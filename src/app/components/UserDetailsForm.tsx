@@ -3,21 +3,21 @@
 import React, { useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { personalDetails } from "@/app/actions/personalDetails";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const UserDetailsForm = ({ user }: any) => {
-    const searchParams = useSearchParams()
-    const uid = searchParams.get('userId')
+  const searchParams = useSearchParams();
+  const uid = searchParams.get('userId');
 
-    const [formValues, setFormValues] = useState({
-        firstName: user?.firstName || "",
-        lastName: user?.lastName || "",
-        email: user?.email || "",
-        mobile: user?.mobile || "",
-        address: user?.address || "",
-        pincode: user?.pincode || "",
-    });
-
+  const [formValues, setFormValues] = useState({
+    firstName: user?.firstName || "",
+    lastName: user?.lastName || "",
+    email: user?.email || "",
+    mobile: user?.mobile || "",
+    address: user?.address || "",
+    pincode: user?.pincode || "",
+  });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -26,11 +26,44 @@ const UserDetailsForm = ({ user }: any) => {
 
   return (
     <div className="border-2 border-gray-300 shadow-lg rounded-xl my-20 px-14">
+      <ToastContainer />
       <form
         action={async (formData) => {
-          const data = await personalDetails(formData, uid);
-          // if (data.status === 200 || data.status === 409) {
-          //   toast.success("Updated Successfully", {
+          // try {
+          //   const data: any = await personalDetails(formData, uid);
+
+          //   // Check if data is defined and has the expected structure
+          //   if (data && data[0].acknowledged) {
+          //     console.log("Data:", data[0].acknowledged); // For debugging
+          //     if (data[0].modifiedCount > 0) {
+          //       toast.success("Updated Successfully", {
+          //         position: "bottom-right",
+          //         autoClose: 4000,
+          //         hideProgressBar: false,
+          //         closeOnClick: true,
+          //         pauseOnHover: true,
+          //         draggable: true,
+          //         progress: undefined,
+          //         theme: "dark",
+          //       });
+          //     } else if (data[0].matchedCount > 0) {
+          //       toast.info("No changes detected, nothing was updated.", {
+          //         position: "bottom-right",
+          //         autoClose: 4000,
+          //         hideProgressBar: false,
+          //         closeOnClick: true,
+          //         pauseOnHover: true,
+          //         draggable: true,
+          //         progress: undefined,
+          //         theme: "dark",
+          //       });
+          //     }
+          //   } else {
+          //     throw new Error("Unexpected response structure");
+          //   }
+          // } catch (error) {
+          //   console.error("Error:", error);
+          //   toast.error("An error occurred. Please try again.", {
           //     position: "bottom-right",
           //     autoClose: 4000,
           //     hideProgressBar: false,

@@ -25,7 +25,7 @@ const page = async() => {
   const uid = searchParams.get("userId");
   const details = await getData(uid)
   const user = details.user_details[0]
-  console.log(uid)
+  // console.log(uid)
 
   return (
     <div>

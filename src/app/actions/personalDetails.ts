@@ -3,7 +3,6 @@
 import { NextRequest } from "next/server"
 
 export const personalDetails = async(formdata: FormData, userId: string|null) => {
-    console.log(formdata)
     
     const firstName = formdata.get("firstName")
     const lastName = formdata.get("lastName")

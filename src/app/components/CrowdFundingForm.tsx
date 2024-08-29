@@ -121,7 +121,8 @@ const CrowdFundingForm = () => {
                     <option value="" disabled>
                       Select your choice
                     </option>
-                    <option value="acident">Accident Treatment</option>
+                    <option value="cancer">Cancer Treatment</option>
+                    <option value="accident">Accident Treatment</option>
                     <option value="liver_kidney_transplant">
                       Liver/Kidney Transplant
                     </option>

@@ -19,13 +19,14 @@ const RaiseFundsForm = (data:any) => {
     relationship: "",
     amountForFund: "",
     reasonForFund: "",
+    category: "",
     accountHolder: "",
     accountNumber: "",
     accountType: "",
     ifscCode: "",
   });
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData((prevValues) => ({ ...prevValues, [name]: value }));
   };
@@ -218,6 +219,28 @@ const RaiseFundsForm = (data:any) => {
                   </textarea>
               </div>
             </div>
+            <div>
+                <label htmlFor="category" className="block font-medium mb-2">
+                  Fund Category
+                </label>
+                <select
+                    name="category"
+                    id="category"
+                    value={formData.category}
+                    onChange={handleInputChange}
+                    required
+                    className="w-full p-2 rounded-xl lg:w-[400px] bg-gray-100"
+                  >
+                    <option value="" disabled>
+                      Select your choice
+                    </option>
+                    <option value="medical_treatment">Medical Treatment</option>
+                    <option value="ngo_charity">
+                      NGO / Charity
+                    </option>
+                    <option value="other_cause">Other Cause</option>
+                  </select>
+              </div>
           </div>
 
           <h1 className="my-12 text-2xl font-medium">3. Account Details</h1>
