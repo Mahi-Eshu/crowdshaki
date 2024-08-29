@@ -9,19 +9,19 @@ import { useEffect } from "react";
 const slides = [
   {
     text: "Our son’s cancer had relapsed after 2.5 years of chemotherapy & we knew we couldn’t afford his life-saving treatment. But thanks to your donations & prayers, he underwent successful treatment & is recovering well. May God bless you all for saving his life!” -Dhanasar (Father)",
-    url: "/assets/art1.png",
+    url: "/assets/art2.jpg",
   },
   {
     text: "Our son’s cancer had relapsed after 2.5 years of chemotherapy & we knew we couldn’t afford his life-saving treatment. But thanks to your donations & prayers, he underwent successful treatment & is recovering well. May God bless you all for saving his life!” -Dhanasar (Father)",
-    url: "/assets/art1.png",
+    url: "/assets/art2.jpg",
   },
   {
     text: "Our son’s cancer had relapsed after 2.5 years of chemotherapy & we knew we couldn’t afford his life-saving treatment. But thanks to your donations & prayers, he underwent successful treatment & is recovering well. May God bless you all for saving his life!” -Dhanasar (Father)",
-    url: "/assets/art1.png",
+    url: "/assets/art2.jpg",
   },
   {
     text: "Our son’s cancer had relapsed after 2.5 years of chemotherapy & we knew we couldn’t afford his life-saving treatment. But thanks to your donations & prayers, he underwent successful treatment & is recovering well. May God bless you all for saving his life!” -Dhanasar (Father)",
-    url: "/assets/art1.png",
+    url: "/assets/art2.jpg",
   },
 ];
 

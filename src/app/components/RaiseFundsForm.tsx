@@ -234,11 +234,16 @@ const RaiseFundsForm = (data:any) => {
                     <option value="" disabled>
                       Select your choice
                     </option>
-                    <option value="medical_treatment">Medical Treatment</option>
-                    <option value="ngo_charity">
-                      NGO / Charity
-                    </option>
-                    <option value="other_cause">Other Cause</option>
+                    <option value="education">Education</option>
+                    <option value="medical">Medical</option>
+                    <option value="women_girls">Women & Girls</option>
+                    <option value="animals">Animals</option>
+                    <option value="creative">Creative</option>
+                    <option value="food_hunger">Food & Hunger</option>
+                    <option value="environment">Environment</option>
+                    <option value="children">Children</option>
+                    <option value="memorial">Memorial</option>
+                    <option value="community_development">Community Development</option>
                   </select>
               </div>
           </div>

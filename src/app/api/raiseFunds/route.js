@@ -22,15 +22,15 @@ export const POST = async (req, res) => {
 
       // Connect to MongoDB
       const client = await connectToDatabase();
-      const db = client.db("crowdshaki");
+      const db = client.db('crowdshaki');
 
       // Check if user with given UID already exists
       const existingUser = await db
-        .collection("userDetails")
+        .collection('userDetails')
         .findOne({ userId: userID });
 
       if (existingUser) {
-        const update = await db.collection("raisedFunds").updateOne(
+        const update = await db.collection('raisedFunds').updateOne(
           {
             userId: userID,
           },
@@ -61,7 +61,7 @@ export const POST = async (req, res) => {
       }
 
       // Add user data to MongoDB
-      const insert = await db.collection("raisedFunds").insertOne({
+      const insert = await db.collection('raisedFunds').insertOne({
         firstName,
         lastName,
         email,
