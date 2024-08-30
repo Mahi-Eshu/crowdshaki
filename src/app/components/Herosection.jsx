@@ -7,7 +7,7 @@ const Herosection = () => {
     <div className="flex flex-col-reverse md:flex-row w-full h-auto md:h-[80vh] xl:h-[100vh]">
       {/* Text Content */}
       <div className="flex flex-col items-center md:items-start justify-center w-full md:w-1/2 px-4 sm:px-8">
-        <h1 className="font-medium text-[24px] md:text-[40px] lg:text-[60px] xl:text-[70px] leading-tight text-gray-800 text-center md:text-left">
+        <h1 className="font-medium text-[24px] md:text-[40px] lg:text-[60px] xl:text-[70px] leading-tight text-gray-800 text-center md:text-left drop-shadow-lg">
           Your <br className="hidden md:block" /> Generosity{" "}
           <br className="hidden md:block" /> Can <br /> Change{" "}
           <br className="hidden md:block" /> Lives

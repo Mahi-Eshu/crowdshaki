@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 const FundRaising = () => {
   var neededAmount = 200000;
@@ -19,9 +20,9 @@ const FundRaising = () => {
           count on <br /> us for the project that you want to raise funds for.
         </p>
       </div>
-      <div className="w-full">
+      <div className=" flex flex-col  items-center justify-center  w-full">
         <div className="flex flex-wrap justify-center gap-6 py-5">
-          {[...Array(6)].map((_, index) => (
+          {[...Array(4)].map((_, index) => (
             <div
               key={index}
               className="w-full sm:w-[250px] md:w-[250px] rounded-3xl backdrop-blur-md bg-white/20 flex flex-col shadow-[0_5px_60px_-15px_rgba(0,0,0,0.3)] hover:scale-105 duration-300 hover:transition-all hover:ease-in"
@@ -69,6 +70,12 @@ const FundRaising = () => {
             </div>
           ))}
         </div>
+        <Link
+        href="/browse_fundraisers"
+        className="text-lg sm:text-xl md:text-2xl font-medium bg-red-400 py-3 px-6 sm:py-4 sm:px-8 text-center text-white hover:scale-105 transition-transform duration-300 ease-in-out mt-10"
+      >
+        Browse Fundraisers
+      </Link>
       </div>
     </div>
   );
