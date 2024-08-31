@@ -22,7 +22,7 @@ const getData = async (uid: string | null) => {
   }
   return res.json();
 };
-const page = async() => {
+const page = () => {
 
   const searchParams = useSearchParams();
   const uid = searchParams.get("userId");

@@ -2,11 +2,12 @@
 import React, { useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { raiseFundDetails } from "@/app/actions/raiseFundDetails";
+import { UserAuth } from "../context/AuthContext";
 
-const RaiseFundsForm = (data:any) => {
+const RaiseFundsForm = (data: any) => {
   const fundDetails = data.data;
-  const searchParams = useSearchParams()
-    const uid = searchParams.get('userId')
+  const { user } = UserAuth();
+  console.log("user fucker", user);
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -26,16 +27,20 @@ const RaiseFundsForm = (data:any) => {
     ifscCode: "",
   });
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
     const { name, value } = e.target;
     setFormData((prevValues) => ({ ...prevValues, [name]: value }));
   };
-  
 
   return (
     <main className="md:px-8 md:py-4 shadow-xl md:border-2 md:border-gray-200">
-      <form action={async (formData) => {
-          const data = await raiseFundDetails(formData, uid);
+      <form
+        action={async (formData) => {
+          const data = await raiseFundDetails(formData);
           // if (data.status === 200 || data.status === 409) {
           //   toast.success("Updated Successfully", {
           //     position: "bottom-right",
@@ -48,7 +53,8 @@ const RaiseFundsForm = (data:any) => {
           //     theme: "dark",
           //   });
           // }
-        }}>
+        }}
+      >
         <h1 className="m-2 my-12 text-2xl font-medium">
           1. Campaigner Details
         </h1>
@@ -158,7 +164,10 @@ const RaiseFundsForm = (data:any) => {
           <div className=" flex flex-col gap-4">
             <div className="flex flex-col gap-4 lg:flex-row lg:gap-40">
               <div>
-                <label htmlFor="beneficiaryName" className="block font-medium mb-2">
+                <label
+                  htmlFor="beneficiaryName"
+                  className="block font-medium mb-2"
+                >
                   Beneficiary Name
                 </label>
                 <input
@@ -173,7 +182,10 @@ const RaiseFundsForm = (data:any) => {
                 />
               </div>
               <div>
-                <label htmlFor="relationship" className="block font-medium mb-2">
+                <label
+                  htmlFor="relationship"
+                  className="block font-medium mb-2"
+                >
                   Relationship
                 </label>
                 <input
@@ -190,7 +202,10 @@ const RaiseFundsForm = (data:any) => {
             </div>
             <div className="flex flex-col gap-4 lg:flex-row lg:gap-40">
               <div>
-                <label htmlFor="amountForFund" className="block font-medium mb-2">
+                <label
+                  htmlFor="amountForFund"
+                  className="block font-medium mb-2"
+                >
                   Amount For Fund
                 </label>
                 <input
@@ -205,7 +220,10 @@ const RaiseFundsForm = (data:any) => {
                 />
               </div>
               <div>
-                <label htmlFor="reasonForFund" className="block font-medium mb-2">
+                <label
+                  htmlFor="reasonForFund"
+                  className="block font-medium mb-2"
+                >
                   Reason For Fund
                 </label>
                 <textarea
@@ -215,44 +233,49 @@ const RaiseFundsForm = (data:any) => {
                   value={formData.reasonForFund}
                   onChange={handleInputChange}
                   required
-                  className="w-full p-2 rounded-xl lg:w-[400px] bg-gray-100">
-                  </textarea>
+                  className="w-full p-2 rounded-xl lg:w-[400px] bg-gray-100"
+                ></textarea>
               </div>
             </div>
             <div>
-                <label htmlFor="category" className="block font-medium mb-2">
-                  Fund Category
-                </label>
-                <select
-                    name="category"
-                    id="category"
-                    value={formData.category}
-                    onChange={handleInputChange}
-                    required
-                    className="w-full p-2 rounded-xl lg:w-[400px] bg-gray-100"
-                  >
-                    <option value="" disabled>
-                      Select your choice
-                    </option>
-                    <option value="education">Education</option>
-                    <option value="medical">Medical</option>
-                    <option value="women_girls">Women & Girls</option>
-                    <option value="animals">Animals</option>
-                    <option value="creative">Creative</option>
-                    <option value="food_hunger">Food & Hunger</option>
-                    <option value="environment">Environment</option>
-                    <option value="children">Children</option>
-                    <option value="memorial">Memorial</option>
-                    <option value="community_development">Community Development</option>
-                  </select>
-              </div>
+              <label htmlFor="category" className="block font-medium mb-2">
+                Fund Category
+              </label>
+              <select
+                name="category"
+                id="category"
+                value={formData.category}
+                onChange={handleInputChange}
+                required
+                className="w-full p-2 rounded-xl lg:w-[400px] bg-gray-100"
+              >
+                <option value="" disabled>
+                  Select your choice
+                </option>
+                <option value="education">Education</option>
+                <option value="medical">Medical</option>
+                <option value="women_girls">Women & Girls</option>
+                <option value="animals">Animals</option>
+                <option value="creative">Creative</option>
+                <option value="food_hunger">Food & Hunger</option>
+                <option value="environment">Environment</option>
+                <option value="children">Children</option>
+                <option value="memorial">Memorial</option>
+                <option value="community_development">
+                  Community Development
+                </option>
+              </select>
+            </div>
           </div>
 
           <h1 className="my-12 text-2xl font-medium">3. Account Details</h1>
           <div className=" flex flex-col gap-4">
             <div className="flex flex-col gap-4 lg:flex-row lg:gap-40">
               <div>
-                <label htmlFor="accountHolder" className="block font-medium mb-2">
+                <label
+                  htmlFor="accountHolder"
+                  className="block font-medium mb-2"
+                >
                   Account Holder Name
                 </label>
                 <input
@@ -267,7 +290,10 @@ const RaiseFundsForm = (data:any) => {
                 />
               </div>
               <div>
-                <label htmlFor="accountNumber" className="block font-medium mb-2">
+                <label
+                  htmlFor="accountNumber"
+                  className="block font-medium mb-2"
+                >
                   Account Number
                 </label>
                 <input

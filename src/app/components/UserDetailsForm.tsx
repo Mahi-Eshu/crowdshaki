@@ -3,7 +3,6 @@
 import React, { useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { personalDetails } from "@/app/actions/personalDetails";
-import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
 const UserDetailsForm = ({ user }: any) => {
@@ -26,9 +25,9 @@ const UserDetailsForm = ({ user }: any) => {
 
   return (
     <div className="border-2 border-gray-300 shadow-lg rounded-xl my-20 px-14">
-      <ToastContainer />
       <form
         action={async (formData) => {
+          const data: any = await personalDetails(formData, uid);
           // try {
           //   const data: any = await personalDetails(formData, uid);
 

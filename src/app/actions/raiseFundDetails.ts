@@ -2,7 +2,7 @@
 
 import { NextRequest } from "next/server"
 
-export const raiseFundDetails = async(formdata: FormData, userId: string|null) => {
+export const raiseFundDetails = async(formdata: FormData) => {
     console.log(formdata)
     
     const firstName = formdata.get("firstName")
@@ -15,6 +15,7 @@ export const raiseFundDetails = async(formdata: FormData, userId: string|null) =
     const relationship = formdata.get("relationship")
     const amountForFund = formdata.get("amountForFund")
     const reasonForFund = formdata.get("reasonForFund")
+    const category = formdata.get("category")
     const accountNumber = formdata.get("accountNumber")
     const accountHolder = formdata.get("accountHolder")
     const accountType = formdata.get("accountType")
@@ -36,11 +37,12 @@ export const raiseFundDetails = async(formdata: FormData, userId: string|null) =
             relationship,
             amountForFund,
             reasonForFund,
+            category,
             accountHolder,
             accountNumber,
             accountType,
             ifscCode,
-            userId
+            // userId
         })
     })
 

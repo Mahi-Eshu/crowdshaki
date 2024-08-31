@@ -15,6 +15,7 @@ export const POST = async (req, res) => {
       const relationship = data.relationship;
       const amountForFund = data.amountForFund;
       const reasonForFund = data.reasonForFund;
+      const category = data.category;
       const accountHolder = data.accountHolder;
       const accountNumber = data.accountNumber;
       const accountType = data.accountType;
@@ -25,40 +26,9 @@ export const POST = async (req, res) => {
       const db = client.db('crowdshaki');
 
       // Check if user with given UID already exists
-      const existingUser = await db
-        .collection('userDetails')
-        .findOne({ userId: userID });
-
-      if (existingUser) {
-        const update = await db.collection('raisedFunds').updateOne(
-          {
-            userId: userID,
-          },
-          {
-            $set: {
-              firstName,
-              lastName,
-              email,
-              mobile,
-              address,
-              pincode,
-              beneficiaryName,
-              relationship,
-              amountForFund,
-              reasonForFund,
-              accountHolder,
-              accountNumber,
-              accountType,
-              ifscCode,
-            },
-          }
-        );
-        console.log(update);
-        return NextResponse.json({
-          status: 409,
-          message: "Fund already raised",
-        });
-      }
+      // const existingUser = await db
+      //   .collection('userDetails')
+      //   .findOne({ userId: userID });
 
       // Add user data to MongoDB
       const insert = await db.collection('raisedFunds').insertOne({
@@ -72,11 +42,12 @@ export const POST = async (req, res) => {
         relationship,
         amountForFund,
         reasonForFund,
+        category,
         accountHolder,
         accountNumber,
         accountType,
         ifscCode,
-        userId: userID,
+        // userId: userID,
       });
       console.log(insert);
 
