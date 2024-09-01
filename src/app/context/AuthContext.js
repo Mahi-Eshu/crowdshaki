@@ -1,23 +1,23 @@
-"use client"
+"use client";
 
 import { useContext, createContext, useState, useEffect } from "react";
-import {signInWithPopup, signOut, onAuthStateChanged, GoogleAuthProvider} from "firebase/auth";
-import {auth} from "../firebase/config";
+import { signInWithPopup, signOut, onAuthStateChanged, GoogleAuthProvider } from "firebase/auth";
+import { auth } from "../firebase/config";
 
 const AuthContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
     const [user, setUser] = useState(null);
-    const [userDetailsAdded, setUserDetailsAdded] = useState(false);
+    const [initialLoad, setInitialLoad] = useState(true);
 
     const googleSignIn = () => {
         const provider = new GoogleAuthProvider();
-        signInWithPopup(auth, provider)
-    }
+        signInWithPopup(auth, provider);
+    };
 
     const logOut = () => {
         signOut(auth);
-    }
+    };
 
     const addUserToMongoDB = async (userData) => {
         try {
@@ -32,50 +32,49 @@ export const AuthContextProvider = ({ children }) => {
             if (!response.ok) {
                 throw new Error('Failed to add user to MongoDB');
             }
-            setUserDetailsAdded(true);
+            console.log("User added to MongoDB successfully");
         } catch (error) {
             console.error(error);
             throw error;
         }
     };
 
-
-
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, async(currentUser) => {
+        const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
             if (currentUser) {
-                setUser(currentUser);
-
-                // Add user details to MongoDB if not already added
-                if (!userDetailsAdded) {
+                // Only add user details to MongoDB if this is the first time the user is detected
+                if (!user) {
                     const userData = {
                         uid: currentUser.uid,
                         email: currentUser.email,
                         displayName: currentUser.displayName,
                         photo: currentUser.photoURL,
-                        phone: currentUser.providerData[0].phoneNumber
+                        phone: currentUser.providerData[0]?.phoneNumber || null,
                         // Add other user details you want to store
                     };
                     await addUserToMongoDB(userData);
                 }
-
+                setUser(currentUser);
             } else {
                 setUser(null);
             }
 
+            // Set initialLoad to false after the first authentication check
+            if (initialLoad) {
+                setInitialLoad(false);
+            }
         });
 
         return () => unsubscribe();
-    }, [user, userDetailsAdded])
+    }, [user]);
 
-    return(
-        <AuthContext.Provider value={{user, googleSignIn, logOut}}>
+    return (
+        <AuthContext.Provider value={{ user, googleSignIn, logOut }}>
             {children}
         </AuthContext.Provider>
-    )
+    );
+};
 
-}
-
-export const UserAuth = () => { 
+export const UserAuth = () => {
     return useContext(AuthContext);
-}
+};

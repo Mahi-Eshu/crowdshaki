@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { raiseFundDetails } from "@/app/actions/raiseFundDetails";
 
-const RaiseFundsForm = (data: any) => {
+const RaiseFundsForm = () => {
   const searchParams = useSearchParams();
   const uid = searchParams.get('userId');
 
@@ -247,16 +247,16 @@ const RaiseFundsForm = (data: any) => {
                 <option value="" disabled>
                   Select your choice
                 </option>
-                <option value="education">Education</option>
-                <option value="medical">Medical</option>
-                <option value="women_girls">Women & Girls</option>
-                <option value="animals">Animals</option>
-                <option value="creative">Creative</option>
-                <option value="food_hunger">Food & Hunger</option>
-                <option value="environment">Environment</option>
-                <option value="children">Children</option>
-                <option value="memorial">Memorial</option>
-                <option value="community_development">
+                <option value="Education">Education</option>
+                <option value="Medical">Medical</option>
+                <option value="Women & Girls">Women & Girls</option>
+                <option value="Animals">Animals</option>
+                <option value="Creative">Creative</option>
+                <option value="Food Hunger">Food & Hunger</option>
+                <option value="Environment">Environment</option>
+                <option value="Children">Children</option>
+                <option value="Memorial">Memorial</option>
+                <option value="Community Development">
                   Community Development
                 </option>
               </select>
