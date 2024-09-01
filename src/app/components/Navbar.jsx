@@ -48,7 +48,6 @@ const Navbar = () => {
   const menuLinks = [
     { text: "Browse Fundraisers", url: "/browse_fundraisers" },
     { text: "How It Works?", url: "/how_it_works" },
-    { text: "Raise Funds", url: "/raise_funds" },
   ];
 
   return (
@@ -75,7 +74,7 @@ const Navbar = () => {
                   }}
                 >
                   <Link
-                    href={user || link.text !== "Raise Funds" ? link.url : "#"}
+                    href={link.url}
                   >
                     {link.text}
                   </Link>
@@ -89,6 +88,17 @@ const Navbar = () => {
                 </Link>
               ) : (
                 <div className="flex flex-row gap-10">
+                  <Link href={`/raise_funds?userId=${user.uid}`}>
+                    <h1
+                      className={`text-black font-medium hover:text-gray-500 hover:scale-110 duration-150 ${
+                        pathname === "/personal_details"
+                          ? "underline underline-offset-4"
+                          : ""
+                      }`}
+                    >
+                      Raise Funds
+                    </h1>
+                  </Link>
                   <Link href={`/personal_details?userId=${user.uid}`}>
                     <h1
                       className={`text-black font-medium hover:text-gray-500 hover:scale-110 duration-150 ${
@@ -166,6 +176,14 @@ const Navbar = () => {
                   </Link>
                 ) : (
                   <div className="">
+                    <Link
+                      href={`/raise_funds?userId=${user.uid}`}
+                      onClick={toggleSelectMenu}
+                    >
+                      <h1 className="font-medium text-2xl bottom-28 right-8">
+                        Raise Funds
+                      </h1>
+                    </Link>
                     <Link
                       href={`/personal_details?userId=${user.uid}`}
                       onClick={toggleSelectMenu}

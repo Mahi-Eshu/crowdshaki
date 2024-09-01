@@ -2,7 +2,7 @@
 
 import { NextRequest } from "next/server"
 
-export const raiseFundDetails = async(formdata: FormData) => {
+export const raiseFundDetails = async(formdata: FormData, userId: string|null) => {
     console.log(formdata)
     
     const firstName = formdata.get("firstName")
@@ -21,7 +21,7 @@ export const raiseFundDetails = async(formdata: FormData) => {
     const accountType = formdata.get("accountType")
     const ifscCode = formdata.get("ifscCode")
 
-    const res = await fetch("http://localhost:3000/api/raiseFundDetails", {
+    const res = await fetch("http://localhost:3000/api/raiseFunds", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -42,7 +42,7 @@ export const raiseFundDetails = async(formdata: FormData) => {
             accountNumber,
             accountType,
             ifscCode,
-            // userId
+            userId
         })
     })
 

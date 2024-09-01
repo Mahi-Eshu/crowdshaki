@@ -1,13 +1,11 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { raiseFundDetails } from "@/app/actions/raiseFundDetails";
-import { UserAuth } from "../context/AuthContext";
 
 const RaiseFundsForm = (data: any) => {
-  const fundDetails = data.data;
-  const { user } = UserAuth();
-  console.log("user fucker", user);
+  const searchParams = useSearchParams();
+  const uid = searchParams.get('userId');
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -36,24 +34,21 @@ const RaiseFundsForm = (data: any) => {
     setFormData((prevValues) => ({ ...prevValues, [name]: value }));
   };
 
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault(); // Prevent the form from submitting on load/reload
+
+    const data = new FormData();
+    Object.entries(formData).forEach(([key, value]) => {
+      data.append(key, value);
+    });
+
+    await raiseFundDetails(data, uid);
+  };
+
   return (
     <main className="md:px-8 md:py-4 shadow-xl md:border-2 md:border-gray-200">
       <form
-        action={async (formData) => {
-          const data = await raiseFundDetails(formData);
-          // if (data.status === 200 || data.status === 409) {
-          //   toast.success("Updated Successfully", {
-          //     position: "bottom-right",
-          //     autoClose: 4000,
-          //     hideProgressBar: false,
-          //     closeOnClick: true,
-          //     pauseOnHover: true,
-          //     draggable: true,
-          //     progress: undefined,
-          //     theme: "dark",
-          //   });
-          // }
-        }}
+        onSubmit={handleSubmit}
       >
         <h1 className="m-2 my-12 text-2xl font-medium">
           1. Campaigner Details
