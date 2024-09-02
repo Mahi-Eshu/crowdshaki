@@ -16,6 +16,8 @@
     "@mui/styled-engine-sc": "^6.0.0-alpha.18",
     "algoliasearch": "^5.1.1",
     "clsx": "^2.1.1",
+    "crypto": "^1.0.1",
+    "crypto-js": "^4.2.0",
     "firebase": "^10.13.0",
     "framer-motion": "^11.3.29",
     "gsap": "^3.12.5",

@@ -11,11 +11,11 @@ const Footer = () => {
     },
     {
       name: "Funds Raised",
-      link: "/menu/sweets",
+      link: "/personal_details",
     },
     {
       name: "Funds Given",
-      link: "/menu/savouries",
+      link: "/personal_details",
     },
   ];
 

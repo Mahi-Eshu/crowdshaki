@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server';
 import { connectToDatabase } from '@/app/lib/database';
+import crypto from 'crypto';
+import CryptoJS from 'crypto-js';
 
 export const POST = async (req, res) => {
   if (req.method === 'POST') {
@@ -58,6 +60,19 @@ export const POST = async (req, res) => {
       // Connect to MongoDB
       const client = await connectToDatabase();
       const db = client.db('crowdshaki');
+
+      // const latestEntry = await db.collection('raisedFunds')
+      //   .find({}, { sort: { i: 1 }, limit: 1 })
+      //   .toArray();
+      //   console.log("latest")
+
+
+      // let i = 1;
+      // if (latestEntry.length > 0) {
+      //   i = latestEntry[0]._id + 1; // Increment `i` by 1
+      // }
+      // const fundID = CryptoJS.SHA256('crowdshaki' + i).toString(CryptoJS.enc.Hex);
+      // console.log("fund ID: ",fundID)
 
       // Add user data to MongoDB
       const insert = await db.collection('raisedFunds').insertOne({

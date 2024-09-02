@@ -4,8 +4,10 @@ import Image from "next/image";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Link from "next/link";
+import { ObjectId } from 'mongodb';
 
 interface Fundraiser {
+  _id: ObjectId | string;
   category: string;
   reasonForFund: string;
   amountForFund: number;
@@ -105,9 +107,10 @@ const Page = () => {
           </button>
           <div className="flex flex-col md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 py-5">
             {filteredFundraisers.map((fund, index) => (
-              <div
+              <Link
+              href={`/browse_fundraisers/${fund._id.toString()}`}
                 key={index}
-                className="w-full sm:w-[250px] md:w-[250px] rounded-3xl backdrop-blur-md bg-white/20 flex flex-col shadow-[0_5px_60px_-15px_rgba(0,0,0,0.3)] hover:scale-105 duration-300 hover:transition-all hover:ease-in"
+                className="w-full sm:w-[250px] md:w-[ 250px] rounded-3xl backdrop-blur-md bg-white/20 flex flex-col shadow-[0_5px_60px_-15px_rgba(0,0,0,0.3)] hover:scale-105 duration-300 hover:transition-all hover:ease-in"
               >
                 <Image
                   src="/assets/art2.jpg"
@@ -140,7 +143,7 @@ const Page = () => {
                     Donate
                   </button>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
