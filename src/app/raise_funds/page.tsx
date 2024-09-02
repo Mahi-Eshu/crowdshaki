@@ -1,21 +1,18 @@
-"use client"
-import React from 'react'
-import Navbar from '../components/Navbar'
-import Footer from '../components/Footer'
-import Image from 'next/image'
-import RaiseFundsForm from "../components/RaiseFundsForm"
-import { useSearchParams } from 'next/navigation'
+"use client";
+import React, { Suspense } from 'react';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
+import Image from 'next/image';
+import RaiseFundsForm from "../components/RaiseFundsForm";
+import { useSearchParams } from 'next/navigation';
 
-
-const page = () => {
-
+const Page = () => {
   const searchParams = useSearchParams();
   const uid = searchParams.get("userId");
-  // const details = getData(uid);
 
   return (
     <div>
-      <Navbar></Navbar>
+      <Navbar />
       <Image
           src="/assets/give_funds.jpg"
           width={1000}
@@ -24,11 +21,13 @@ const page = () => {
           alt="illustration"
       />
       <div className='p-4 md:flex md:flex-row md:justify-center md:items-center'>
-        <RaiseFundsForm />
+        <Suspense fallback={<div>Loading...</div>}>
+          <RaiseFundsForm />
+        </Suspense>
       </div>
-      <Footer></Footer>
+      <Footer />
     </div>
   )
 }
 
-export default page;
+export default Page;

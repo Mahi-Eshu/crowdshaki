@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Navbar from "./components/Navbar"
-import FundRaising from "./components/FundRaising"
+import FundRaising from "./components/FundRaising";
 import Steps from "./components/Steps"
 import FundCauses from "./components/FundCauses"
 import SuccessStories from "./components/SuccessStories"
