@@ -121,17 +121,17 @@ const Page = () => {
                   <div className="mt-2">
                     <div className="flex justify-between">
                       <span className="text-sm font-medium">
-                        Received: Rs.{fund.amountForFund.toLocaleString()}/-
+                        Received: Rs.{(fund.amountForFund/2).toLocaleString()}/-
                       </span>
                       <span className="text-sm font-medium">
-                        Goal: Rs.{2000000}/-
+                        Goal: Rs.{fund.amountForFund.toLocaleString()}/-
                       </span>
                     </div>
                     <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700 mt-2">
                       <div
                         className="bg-[#F74541] h-2.5 rounded-full"
                         style={{
-                          width: `${(fund.amountForFund / 2000000) * 100}%`,
+                          width: `${(fund.amountForFund / (2 * fund.amountForFund))*100}%`,
                         }}
                       ></div>
                     </div>
