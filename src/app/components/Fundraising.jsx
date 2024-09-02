@@ -20,12 +20,12 @@ const FundRaising = () => {
           count on <br /> us for the project that you want to raise funds for.
         </p>
       </div>
-      <div className=" flex flex-col  items-center justify-center  w-full">
-        <div className="flex flex-wrap justify-center gap-6 py-5">
+      <div className="flex flex-col overflow items-center justify-center w-full lg:px-20">
+        <div className="flex flex-wrap items-center justify-center gap-10 py-5">
           {[...Array(4)].map((_, index) => (
             <div
               key={index}
-              className="w-full sm:w-[250px] md:w-[250px] rounded-3xl backdrop-blur-md bg-white/20 flex flex-col shadow-[0_5px_60px_-15px_rgba(0,0,0,0.3)] hover:scale-105 duration-300 hover:transition-all hover:ease-in"
+              className="w-full sm:w-[250px] md:w-[2/3] xl:w-1/4 rounded-3xl backdrop-blur-md bg-white/20 flex flex-col hover:scale-105 duration-300 hover:transition-all hover:ease-in"
             >
               <Image
                 src="/assets/art2.jpg"
@@ -54,7 +54,7 @@ const FundRaising = () => {
                         Goal: Rs.{formattedNeededAmount}/-
                       </span>
                     </div>
-                    <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700 mt-2">
+                    <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-black mt-2">
                       <div
                         className="bg-[#F74541] h-2.5 rounded-full"
                         style={{ width: `${receivedPercentage}%` }} // Adjust this percentage based on received amount/goal
@@ -62,7 +62,7 @@ const FundRaising = () => {
                     </div>
                   </div>
                   <h2 className="text-lg mt-4">Rs.{formattedNeededAmount}/-</h2>
-                  <button className="px-auto py-3 mt-4 bg-[#F74541] w-full h-[50px] text-center rounded-full text-white font-medium">
+                  <button className="px-auto py-3 mt-4 bg-red-400 w-full h-[50px] text-center rounded-full text-white font-medium">
                     Donate
                   </button>
                 </div>

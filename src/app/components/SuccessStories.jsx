@@ -9,7 +9,7 @@ import { useEffect } from "react";
 const slides = [
   {
     text: "Our son’s cancer had relapsed after 2.5 years of chemotherapy & we knew we couldn’t afford his life-saving treatment. But thanks to your donations & prayers, he underwent successful treatment & is recovering well. May God bless you all for saving his life!” -Dhanasar (Father)",
-    url: "/assets/art2.jpg",
+    url: "/assets/success_1.jpg",
   },
   {
     text: "Our son’s cancer had relapsed after 2.5 years of chemotherapy & we knew we couldn’t afford his life-saving treatment. But thanks to your donations & prayers, he underwent successful treatment & is recovering well. May God bless you all for saving his life!” -Dhanasar (Father)",
@@ -37,7 +37,7 @@ const SuccessStories = () => {
   }, []);
 
   return (
-    <div className="flex flex-col items-center justify-center max-w-4xl mx-auto px-4 py-8 my-20">
+    <div className="flex flex-col items-center justify-center max-w-1/2 mx-auto px-4 py-8 my-20">
       {/* Section Heading */}
       <div className="flex flex-col gap-4 mb-20 text-center">
         <h1 className="text-3xl sm:text-4xl md:text-5xl font-medium text-red-400">

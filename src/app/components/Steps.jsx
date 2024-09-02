@@ -36,7 +36,7 @@ const Steps = () => {
         />
 
         {/* Steps Information */}
-        <div className="flex flex-col gap-8 md:gap-12 bg-red-400 text-white py-12 md:py-16 px-8 md:px-12 justify-between w-full lg:w-1/2 rounded-lg">
+        <div className="flex flex-col gap-8 md:gap-12 bg-[#ed7f73] text-white py-12 md:py-16 px-8 md:px-12 justify-between w-full lg:w-1/2 rounded-lg">
           <div className="flex flex-col gap-2">
             <h1 className="text-xl md:text-2xl font-semibold">
               Start your fundraiser

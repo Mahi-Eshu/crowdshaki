@@ -28,7 +28,7 @@ const page = () => {
       <Navbar></Navbar>
       <div className="flex flex-col items-center justify-center gap-6 px-4 md:px-8 lg:px-16 xl:px-32">
         {/* 1 */}
-        <div className="flex flex-col lg:flex-row w-full h-auto xl:h-[100vh] items-center justify-center gap-10">
+        <div className="flex flex-col lg:flex-row w-full h-auto xl:h-[100vh] items-center justify-center gap-10 my-20">
           {/* Image */}
           <div className="w-full lg:w-1/2 h-[40vh] lg:h-full flex justify-center items-center">
             <Image
