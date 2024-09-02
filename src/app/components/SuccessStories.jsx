@@ -37,7 +37,7 @@ const SuccessStories = () => {
   }, []);
 
   return (
-    <div className="flex flex-col items-center justify-center max-w-1/2 mx-auto px-4 py-8 my-20">
+    <div className="flex flex-col items-center justify-center w-3/4 mx-auto px-4 py-8 my-20">
       {/* Section Heading */}
       <div className="flex flex-col gap-4 mb-20 text-center">
         <h1 className="text-3xl sm:text-4xl md:text-5xl font-medium text-red-400">
@@ -56,7 +56,7 @@ const SuccessStories = () => {
         {/* Carousel Container */}
         <div className="overflow-hidden rounded-lg shadow-lg">
           <div
-            className="flex transition-transform ease-out duration-500"
+            className="flex transition-transform ease-in duration-500"
             style={{ transform: `translateX(-${current * 100}%)` }}
           >
             {slides.map((slide, index) => (
@@ -67,7 +67,7 @@ const SuccessStories = () => {
                     alt={`Success story ${index + 1}`}
                     layout="fill"
                     objectFit="cover"
-                    className="rounded-t-lg"
+                    className="rounded-t-lg object-fit"
                   />
                 </div>
                 <div className="bg-white p-4 md:p-6 rounded-b-lg">
