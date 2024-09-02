@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Navbar from "./components/Navbar"
-import Fundraising from "./components/FundRaising"
+import FundRaising from "./components/FundRaising"
 import Steps from "./components/Steps"
 import FundCauses from "./components/FundCauses"
 import SuccessStories from "./components/SuccessStories"
@@ -13,7 +13,7 @@ export default function Home() {
       <Navbar />
       <Herosection></Herosection>
       <Steps />
-      <Fundraising />
+      <FundRaising />
       <FundCauses />
       <SuccessStories />
       <Footer />
