@@ -52,8 +52,8 @@ const Navbar = () => {
 
   return (
     <div>
-      <div className="absolute w-full">
-        <div className="py-4 px-4 md:px-8 flex flex-row justify-between items-center absolute bg-transparent w-full  ">
+      <div className="w-full">
+        <div className="py-4 px-4 md:px-8 flex flex-row justify-between items-center bg-transparent w-full  ">
           <h1 className="font-medium text-xl">
             <Link href="/">Crowdshaki.</Link>
           </h1>

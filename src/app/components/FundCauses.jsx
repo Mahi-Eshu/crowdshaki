@@ -9,7 +9,7 @@ const causes =[
   { text: "Organ Transplant", url: "/transplant_crowdfunding"},
     { text: "Children", url: "/child_welfare" },
     { text: "Education", url: "/education_crowdfunding"},
-    { text: "Animal", url: "/animal_crowdfunding"},
+    { text: "Animal", url: "/animal_fundraisers"},
     { text: "Sports", url: "/sports_crowdfunding"},
 ]
 

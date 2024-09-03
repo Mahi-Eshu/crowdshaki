@@ -1,13 +1,12 @@
 "use client";
-import React, { useEffect, Suspense, useState } from 'react';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
+import React, { useEffect, Suspense, useState } from "react";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 import { useSearchParams } from "next/navigation";
-import dynamic from 'next/dynamic';
+import dynamic from "next/dynamic";
 
-
-const UserDetailsForm = dynamic(() => import('../components/UserDetailsForm'), { 
-  ssr: false 
+const UserDetailsForm = dynamic(() => import("../components/UserDetailsForm"), {
+  ssr: false,
 });
 
 const Page = () => {
@@ -21,13 +20,16 @@ const Page = () => {
     const fetchData = async () => {
       try {
         if (uid) {
-          const res = await fetch("https://crowdshaki.vercel.app/api/personalDetails/fetchData", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ uid }),
-          });
+          const res = await fetch(
+            "http://localhost:3000/api/personalDetails/fetchData",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ uid }),
+            }
+          );
 
           if (!res.ok) {
             throw new Error("Failed to fetch user details");
@@ -62,13 +64,13 @@ const Page = () => {
   }
 
   return (
-    <div>
-      <Navbar />
-      <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<div>Loading...</div>}>
+      <div>
+        <Navbar />
         <UserDetailsForm />
-      </Suspense>
-      <Footer />
-    </div>
+        <Footer />
+      </div>
+    </Suspense>
   );
 };
 
