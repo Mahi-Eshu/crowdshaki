@@ -1,9 +1,14 @@
 "use client";
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, Suspense, useState } from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
-import UserDetailsForm from '../components/UserDetailsForm';
 import { useSearchParams } from "next/navigation";
+import dynamic from 'next/dynamic';
+
+
+const UserDetailsForm = dynamic(() => import('../components/UserDetailsForm'), { 
+  ssr: false 
+});
 
 const Page = () => {
   const [user, setUser] = useState(null);
@@ -59,13 +64,9 @@ const Page = () => {
   return (
     <div>
       <Navbar />
-      <div className='p-4 md:flex md:flex-row md:justify-center md:items-center'>
-        {error ? (
-          <div>Error: {error}</div>
-        ) : (
-          user ? <UserDetailsForm user={user} /> : <div>No user found</div>
-        )}
-      </div>
+      <Suspense fallback={<div>Loading...</div>}>
+        <UserDetailsForm />
+      </Suspense>
       <Footer />
     </div>
   );

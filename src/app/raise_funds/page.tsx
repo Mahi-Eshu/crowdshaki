@@ -1,10 +1,14 @@
 "use client";
-import React, { useState, useEffect } from 'react';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
-import Image from 'next/image';
-import RaiseFundsForm from "../components/RaiseFundsForm";
-import { useSearchParams } from 'next/navigation';
+import React, { useState, Suspense, useEffect } from "react";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
+import Image from "next/image";
+import { useSearchParams } from "next/navigation";
+import dynamic from "next/dynamic";
+
+const RaiseFundsForm = dynamic(() => import("../components/RaiseFundsForm"), {
+  ssr: false,
+});
 
 const Page = () => {
   const [uid, setUid] = useState<string | null>(null);
@@ -12,7 +16,7 @@ const Page = () => {
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       const userId = searchParams.get("userId");
       setUid(userId);
       setLoading(false);
@@ -20,7 +24,7 @@ const Page = () => {
   }, [searchParams]);
 
   if (loading) {
-    return <div>Loading...</div>
+    return <div>Loading...</div>;
   }
 
   return (
@@ -30,15 +34,17 @@ const Page = () => {
         src="/assets/give_funds.jpg"
         width={1000}
         height={600}
-        className='object-scale-down w-full h-[350px]'
+        className="object-scale-down w-full h-[350px]"
         alt="illustration"
       />
-      <div className='p-4 md:flex md:flex-row md:justify-center md:items-center'>
-        <RaiseFundsForm />
+      <div className="p-4 md:flex md:flex-row md:justify-center md:items-center">
+        <Suspense fallback={<div>Loading...</div>}>
+          <RaiseFundsForm />
+        </Suspense>
       </div>
       <Footer />
     </div>
   );
-}
+};
 
 export default Page;
