@@ -13,10 +13,13 @@ const Page = () => {
 
 
   useEffect(() => {
-    const userId = searchParams.get("userId");
-    setUid(userId);
-    setLoading(false);
+    if (typeof window !== 'undefined') {
+      const userId = searchParams.get("userId");
+      setUid(userId);
+      setLoading(false);
+    }
   }, [searchParams]);
+  
 
   if ( loading ) {
     return <div>Loading...</div>
@@ -33,9 +36,9 @@ const Page = () => {
           alt="illustration"
       />
       <div className='p-4 md:flex md:flex-row md:justify-center md:items-center'>
-        <Suspense fallback={<div>Loading form...</div>}>
+        {/* <Suspense fallback={<div>Loading form...</div>}> */}
           <RaiseFundsForm />
-        </Suspense>
+        {/* </Suspense> */}
       </div>
       <Footer />
     </div>
