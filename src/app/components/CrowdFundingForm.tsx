@@ -18,7 +18,7 @@ const CrowdFundingForm = () => {
       };
   return (
     <div>
-      <div className="flex flex-col items-center lg:items-start justify-center w-full lg:w-1/2 px-4 sm:px-8">
+      <div className="flex flex-col items-center lg:items-start justify-center w-full px-4 sm:px-8">
           <form>
             <h1 className="m-2 mt-16 mb-12 text-2xl font-medium text-center">
               Need Money Urgently?

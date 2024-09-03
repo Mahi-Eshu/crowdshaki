@@ -25,17 +25,32 @@ const FundCauses = () => {
       <br className="hidden md:block" /> the project that you want to raise funds for.
     </p>
   </div>
-  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6 lg:gap-8">
-    {causes.map((cause, index) => (
-      <Link 
+  <div className="flex flex-wrap justify-center gap-4 md:gap-6 lg:gap-8 lg:px-10">
+  {causes.map((cause, index) => (
+    <Link 
       href={cause.url}
-        key={index}
-        className="px-4 py-8 md:px-6 md:py-12 lg:px-10 lg:py-16 text-center bg-red-400 rounded-3xl hover:bg-red-500 hover:rounded-lg hover:scale-105 duration-200 text-white text-lg md:text-xl lg:text-2xl"
-      >
-        {cause.text}
-      </Link>
-    ))}
-  </div>
+      key={index}
+      className="
+        w-40 h-40   /* Default box size */
+        md:w-48 md:h-48  /* Medium screen box size */
+        lg:w-56 lg:h-56  /* Large screen box size */
+         /* Extra-large screen box size */
+        text-center 
+        bg-red-400 rounded-2xl 
+        hover:bg-red-500 hover:scale-105 
+        duration-200 text-white 
+        text-base 
+        md:text-lg 
+        lg:text-xl 
+        xl:text-2xl 
+        flex items-center justify-center
+      "
+    >
+      {cause.text}
+    </Link>
+  ))}
+</div>
+
 </div>
   );
 };

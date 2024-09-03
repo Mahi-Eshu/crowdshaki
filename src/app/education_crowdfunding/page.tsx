@@ -40,7 +40,7 @@ const page = () => {
             />
           </div>
           {/* Form Content */}
-          <div className="w-full lg:w-1/2 flex justify-center">
+          <div className="w-full flex justify-center">
             <CrowdFundingForm />
           </div>
         </div>
