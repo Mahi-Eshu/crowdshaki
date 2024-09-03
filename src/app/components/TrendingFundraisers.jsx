@@ -22,7 +22,7 @@ const FundRaising = () => {
       </div>
       <div className="flex flex-col overflow items-center justify-center w-full lg:px-20">
         <div className="flex flex-wrap items-center justify-center gap-10 py-5">
-          {[...Array(4)].map((_, index) => (
+          {[...Array(6)].map((_, index) => (
             <div
               key={index}
               className="w-full sm:w-[250px] md:w-[2/3] xl:w-1/4 rounded-3xl backdrop-blur-md bg-white/20 flex flex-col hover:scale-105 duration-300 hover:transition-all hover:ease-in"
