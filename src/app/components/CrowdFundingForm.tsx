@@ -1,5 +1,5 @@
+'use client';
 import React, { useState } from 'react';
-
 
 const CrowdFundingForm = () => {
     const [formValues, setFormValues] = useState({
