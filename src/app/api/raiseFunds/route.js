@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { connectToDatabase } from '@/app/lib/database';
-import crypto from 'crypto';
-import CryptoJS from 'crypto-js';
+// import crypto from 'crypto';
+// import CryptoJS from 'crypto-js';
 
 export const POST = async (req, res) => {
   if (req.method === 'POST') {
