@@ -29,39 +29,41 @@ const page = async ({ params, searchParams }: any) => {
     <main>
       <Navbar />
       <div>
-        <h1 className="text-3xl font-bold text-black text-center my-10">
+        <h1 className="text-4xl font-bold text-black text-center my-10">
           {fund.reasonForFund}
         </h1>
       </div>
-      <div className="flex flex-col lg:flex-row w-full h-auto xl:h-[100vh] justify-between gap-10 my-10 lg:px-10">
+      <div className="flex flex-col w-full h-auto items-left justify-center gap-10 my-10 lg:px-10 mx-auto">
         {/* Image */}
-        <div className="w-full lg:w-2/3 h-[40vh] lg:h-2/3">
-          <Image
-            src="/assets/art2.jpg"
-            width={1000}
-            height={2000}
-            alt="Background"
-            className="w-full h-full mt-10 md:mt-0 object-scale-down"
-          />
-          {/* <div>
+        <div className="flex flex-row gap-11 justify-center items-center">
+          <div className="w-full flex gap-10 lg:w-2/3 lg:h-2/3">
             <Image
               src="/assets/art2.jpg"
               width={1000}
               height={2000}
               alt="Background"
-              className="w-full h-full mt-10 md:mt-0 object-contain"
+              className="w-full h-full mt-10 md:mt-0 object-scale-down"
+            />
+          </div>
+          <div className="w-1/2 flex flex-col gap-11">
+            <Image
+              src="/assets/art2.jpg"
+              width={1000}
+              height={2000}
+              alt="Background"
+              className="w-2/5 mt-10 md:mt-0 object-scale-down"
             />
             <Image
               src="/assets/art2.jpg"
               width={1000}
               height={2000}
               alt="Background"
-              className="w-full h-full mt-10 md:mt-0 object-contain"
+              className="w-2/5 mt-10 md:mt-0 object-scale-down"
             />
-            </div> */}
+          </div>
         </div>
         {/* Form Content */}
-        <div className="w-full lg:w-1/2 flex flex-col justify-center">
+        <div className="w-full lg:w-1/2 flex flex-col">
           <button className="px-6 py-4 my-6 font-semibold text-2xl border-2 border-red-400 bg-white text-red-400 ">
             Contribute Now
           </button>

@@ -15,6 +15,7 @@ const Page = () => {
   const [error, setError] = useState<string | null>(null);
   const searchParams = useSearchParams();
   const uid = searchParams.get("userId");
+  // console.log(uid)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -58,7 +59,7 @@ const Page = () => {
 
     fetchData();
   }, [uid]);
-
+  console.log("Welcome",user.firstName)
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -67,7 +68,9 @@ const Page = () => {
     <Suspense fallback={<div>Loading...</div>}>
       <div>
         <Navbar />
-        <UserDetailsForm />
+        <div className="flex items-center justify-center">
+        <UserDetailsForm user={user}/>
+        </div>
         <Footer />
       </div>
     </Suspense>
