@@ -59,7 +59,7 @@ const Page = () => {
 
     fetchData();
   }, [uid]);
-  console.log("Welcome",user.firstName)
+  // console.log("Welcome",user.firstName)
   if (loading) {
     return <div>Loading...</div>;
   }
