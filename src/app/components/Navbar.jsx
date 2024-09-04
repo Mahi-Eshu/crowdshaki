@@ -48,6 +48,7 @@ const Navbar = () => {
   const menuLinks = [
     { text: "Browse Fundraisers", url: "/browse_fundraisers" },
     { text: "How It Works?", url: "/how_it_works" },
+    { text: "Gcare Council", url: "/gcare_council"}
   ];
 
   return (

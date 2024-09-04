@@ -62,9 +62,9 @@ const page = async ({ params, searchParams }: any) => {
             />
           </div>
         </div>
-        {/* Form Content */}
+        {/* RHS Content */}
         <div className="w-full lg:w-1/2 flex flex-col">
-          <button className="px-6 py-4 my-6 font-semibold text-2xl border-2 border-red-400 bg-white text-red-400 ">
+          <button className="px-6 py-4 my-6 font-semibold text-2xl border-2 border-red-400 bg-white text-red-400 hover:bg-red-400 hover:text-white hover:scale-105 transition-transform duration-500 ease-in">
             Contribute Now
           </button>
           <div className="mt-2">
@@ -84,6 +84,14 @@ const page = async ({ params, searchParams }: any) => {
                 style={{ width: `${receivedPercentage}%` }} // Adjust this percentage based on received amount/goal
               ></div>
             </div>
+          </div>
+          <div className="shadow-lg px-8 py-6 rounded-lg my-4 border-t border-gray-100">
+                <div className="py-4 border-b border-gray-300">
+                  Campaigner : {fund.firstName + " " + fund.lastName} 
+                </div>
+                <div className="py-4">
+                  Beneficiary : {fund.beneficiaryName}
+                </div>
           </div>
         </div>
       </div>
