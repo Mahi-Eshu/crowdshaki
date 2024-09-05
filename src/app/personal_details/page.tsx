@@ -4,25 +4,25 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { useSearchParams } from "next/navigation";
 import dynamic from "next/dynamic";
+import { UserAuth } from "../context/AuthContext";
 
 const UserDetailsForm = dynamic(() => import("../components/UserDetailsForm"), {
   ssr: false,
 });
 
 const Page = () => {
-  const [user, setUser] = useState(null);
+  const [User, setUser] = useState(null);
+  const { user } = UserAuth();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const searchParams = useSearchParams();
-  const uid = searchParams.get("userId");
-  // console.log(uid)
+  const uid = user?.uid;
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         if (uid) {
           const res = await fetch(
-            "https://crowdshaki.vercel.app/api/personalDetails/fetchData",
+            "http://localhost:3000/api/personalDetails/fetchData",
             {
               method: "POST",
               headers: {
@@ -59,7 +59,6 @@ const Page = () => {
 
     fetchData();
   }, [uid]);
-  // console.log("Welcome",user.firstName)
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -69,7 +68,7 @@ const Page = () => {
       <div>
         <Navbar />
         <div className="flex items-center justify-center">
-        <UserDetailsForm user={user}/>
+        <UserDetailsForm user={User}/>
         </div>
         <Footer />
       </div>

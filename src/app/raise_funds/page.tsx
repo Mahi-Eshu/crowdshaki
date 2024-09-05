@@ -5,28 +5,20 @@ import Footer from "../components/Footer";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import dynamic from "next/dynamic";
+import { UserAuth } from "../context/AuthContext";
 
 const RaiseFundsForm = dynamic(() => import("../components/RaiseFundsForm"), {
   ssr: false,
 });
 
 const Page = () => {
-  const [uid, setUid] = useState<string | null>(null);
+  const [User, setUser] = useState(null);
+  const { user } = UserAuth();
   const [loading, setLoading] = useState(true);
-  const searchParams = useSearchParams();
+  const [error, setError] = useState<string | null>(null);
+  const uid = user?.uid;
 
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const userId = searchParams.get("userId");
-      setUid(userId);
-      setLoading(false);
-    }
-  }, [searchParams]);
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
+  console.log("Welcome", uid)
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <div>
@@ -39,7 +31,7 @@ const Page = () => {
           alt="illustration"
         />
         <div className="p-4 md:flex md:flex-row md:justify-center md:items-center">
-          <RaiseFundsForm />
+          <RaiseFundsForm uid={uid}/>
         </div>
         <Footer />
       </div>

@@ -6,7 +6,7 @@ import Footer from "@/app/components/Footer";
 
 const getData = async (fund: string) => {
   const res = await fetch(
-    `https://crowdshaki.vercel.app/api/browse_fundraisers/${fund}`,
+    `http://localhost:3000/api/browse_fundraisers/${fund}`,
     { cache: "no-store" }
   );
   if (!res.ok) {
