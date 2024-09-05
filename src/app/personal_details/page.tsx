@@ -22,7 +22,7 @@ const Page = () => {
       try {
         if (uid) {
           const res = await fetch(
-            "http://localhost:3000/api/personalDetails/fetchData",
+            "https://crowdshaki.vercel.app/api/personalDetails/fetchData",
             {
               method: "POST",
               headers: {
