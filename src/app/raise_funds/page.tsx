@@ -12,10 +12,7 @@ const RaiseFundsForm = dynamic(() => import("../components/RaiseFundsForm"), {
 });
 
 const Page = () => {
-  const [User, setUser] = useState(null);
   const { user } = UserAuth();
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const uid = user?.uid;
 
   console.log("Welcome", uid)
