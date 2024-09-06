@@ -8,7 +8,7 @@ import { usePathname } from "next/navigation";
 // Fetch data for the specific fund
 const getData = async (fund: string) => {
   const res = await fetch(
-    `http://localhost:3000/api/browse_fundraisers/${fund}`,
+    `https://crowdshaki.vercel.app/api/browse_fundraisers/${fund}`,
     { cache: "no-store" }
   );
   if (!res.ok) {
