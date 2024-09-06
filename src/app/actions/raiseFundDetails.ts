@@ -15,13 +15,14 @@ export const raiseFundDetails = async(formdata: FormData, userId: string|null) =
     const relationship = formdata.get("relationship")
     const amountForFund = formdata.get("amountForFund")
     const reasonForFund = formdata.get("reasonForFund")
+    const situation = formdata.get("situation")
     const category = formdata.get("category")
     const accountNumber = formdata.get("accountNumber")
     const accountHolder = formdata.get("accountHolder")
     const accountType = formdata.get("accountType")
     const ifscCode = formdata.get("ifscCode")
 
-    const res = await fetch("https://crowdshaki.vercel.app/api/raiseFunds", {
+    const res = await fetch("http://localhost:3000/api/raiseFunds", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -37,6 +38,7 @@ export const raiseFundDetails = async(formdata: FormData, userId: string|null) =
             relationship,
             amountForFund,
             reasonForFund,
+            situation,
             category,
             accountHolder,
             accountNumber,

@@ -3,8 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { raiseFundDetails } from "@/app/actions/raiseFundDetails";
 
-const RaiseFundsForm = ({uid}: any) => {
-
+const RaiseFundsForm = ({ uid }: any) => {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -16,6 +15,7 @@ const RaiseFundsForm = ({uid}: any) => {
     relationship: "",
     amountForFund: "",
     reasonForFund: "",
+    situation: "",
     category: "",
     accountHolder: "",
     accountNumber: "",
@@ -45,9 +45,7 @@ const RaiseFundsForm = ({uid}: any) => {
 
   return (
     <main className="md:px-8 md:py-4 shadow-xl md:border-2 md:border-gray-200">
-      <form
-        onSubmit={handleSubmit}
-      >
+      <form onSubmit={handleSubmit}>
         <h1 className="m-2 my-12 text-2xl font-medium">
           1. Campaigner Details
         </h1>
@@ -230,34 +228,53 @@ const RaiseFundsForm = ({uid}: any) => {
                 ></textarea>
               </div>
             </div>
-            <div>
-              <label htmlFor="category" className="block font-medium mb-2">
-                Fund Category
-              </label>
-              <select
-                name="category"
-                id="category"
-                value={formData.category}
-                onChange={handleInputChange}
-                required
-                className="w-full p-2 rounded-xl lg:w-[400px] bg-gray-100"
-              >
-                <option value="" disabled>
-                  Select your choice
-                </option>
-                <option value="Education">Education</option>
-                <option value="Medical">Medical</option>
-                <option value="Women & Girls">Women & Girls</option>
-                <option value="Animals">Animals</option>
-                <option value="Creative">Creative</option>
-                <option value="Food Hunger">Food & Hunger</option>
-                <option value="Environment">Environment</option>
-                <option value="Children">Children</option>
-                <option value="Memorial">Memorial</option>
-                <option value="Community Development">
-                  Community Development
-                </option>
-              </select>
+            <div className="flex flex-col gap-4 lg:flex-row lg:gap-40">
+              <div>
+                <label
+                  htmlFor="situation"
+                  className="block font-medium mb-2"
+                >
+                  Situation
+                </label>
+                <textarea
+                  name="situation"
+                  id="situation"
+                  placeholder="Your situation in 500 words"
+                  value={formData.situation}
+                  onChange={handleInputChange}
+                  required
+                  className="w-full p-2 rounded-xl lg:w-[400px] bg-gray-100"
+                ></textarea>
+              </div>
+              <div>
+                <label htmlFor="category" className="block font-medium mb-2">
+                  Fund Category
+                </label>
+                <select
+                  name="category"
+                  id="category"
+                  value={formData.category}
+                  onChange={handleInputChange}
+                  required
+                  className="w-full p-2 rounded-xl lg:w-[400px] bg-gray-100"
+                >
+                  <option value="" disabled>
+                    Select your choice
+                  </option>
+                  <option value="Education">Education</option>
+                  <option value="Medical">Medical</option>
+                  <option value="Women & Girls">Women & Girls</option>
+                  <option value="Animals">Animals</option>
+                  <option value="Creative">Creative</option>
+                  <option value="Food Hunger">Food & Hunger</option>
+                  <option value="Environment">Environment</option>
+                  <option value="Children">Children</option>
+                  <option value="Memorial">Memorial</option>
+                  <option value="Community Development">
+                    Community Development
+                  </option>
+                </select>
+              </div>
             </div>
           </div>
 
