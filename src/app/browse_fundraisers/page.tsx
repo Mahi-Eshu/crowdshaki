@@ -22,6 +22,7 @@ const Page = () => {
     const fetchData = async () => {
       try {
         const res = await fetch("https://crowdshaki.vercel.app/api/browse_fundraisers", {
+          // const res = await fetch("http://localhost:3000/api/browse_fundraisers", {
           cache: "no-store",
         });
         if (!res.ok) {
