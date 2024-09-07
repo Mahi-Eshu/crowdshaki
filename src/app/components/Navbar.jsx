@@ -92,7 +92,7 @@ const Navbar = () => {
                   <Link href={`/raise_funds?userId=${user.uid}`}>
                     <h1
                       className={`text-black font-medium hover:text-gray-500 hover:scale-110 duration-150 ${
-                        pathname === "/personal_details"
+                        pathname === "/raise_funds"
                           ? "underline underline-offset-4"
                           : ""
                       }`}
