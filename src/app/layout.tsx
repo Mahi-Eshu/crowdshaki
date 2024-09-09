@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import { Inter_Tight } from "next/font/google";
+import { DM_Sans, Red_Hat_Display, Plus_Jakarta_Sans } from "next/font/google";
 import { AuthContextProvider } from "./context/AuthContext";
 import "./globals.css";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css'; // Add this line
 
-const inter = Inter_Tight({ subsets: ["latin"] });
+const inter = Plus_Jakarta_Sans({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Crowdshaki",

@@ -81,7 +81,7 @@ const Page = () => {
             ].map((cause, index) => (
               <h1
                 key={index}
-                className={`hover:cursor-pointer hover:text-red-400 ${
+                className={`hover:cursor-pointer hover:text-red-400 font-medium ${
                   selectedCategory === cause ? "text-red-400" : ""
                 }`}
                 onClick={() => setSelectedCategory(cause)}
@@ -101,7 +101,7 @@ const Page = () => {
 
         <div className="w-full my-10">
           <button
-            className="text-right text-red-400 hover:underline hover:underline-offset-4 hover:scale-105"
+            className="text-right font-medium text-red-400 hover:underline hover:underline-offset-4 hover:scale-105"
             onClick={() => setSelectedCategory("All Categories")}
           >
             Reset filters
@@ -111,7 +111,7 @@ const Page = () => {
               <Link
               href={`/browse_fundraisers/${fund._id.toString()}`}
                 key={index}
-                className="w-full sm:w-[250px] md:w-[ 250px] rounded-3xl backdrop-blur-md bg-white/20 flex flex-col shadow-[0_5px_60px_-15px_rgba(0,0,0,0.3)] hover:scale-105 duration-300 hover:transition-all hover:ease-in"
+                className="w-full sm:w-[250px] md:w-[ 250px] rounded-3xl backdrop-blur-md bg-white/20 flex flex-col shadow-[0_5px_60px_-30px_rgba(0,0,0,0.3)] hover:scale-105 duration-300 hover:transition-all hover:ease-in"
               >
                 <Image
                   src="/assets/art2.jpg"
@@ -121,7 +121,7 @@ const Page = () => {
                   className="object-cover rounded-br-none rounded-bl-none rounded-3xl"
                 />
                 <div className="flex flex-col p-4">
-                  <h1 className="font-[400] text-xl">{fund.reasonForFund}</h1>
+                  <h1 className="font-medium text-xl">{fund.reasonForFund}</h1>
                   <div className="mt-2">
                     <div className="flex justify-between">
                       <span className="text-sm font-medium">

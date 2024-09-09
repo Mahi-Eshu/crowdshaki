@@ -58,7 +58,9 @@ const Page = ({ params }: any) => {
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
 
-  const neededAmount = fund.amountForFund;
+  
+
+  const neededAmount = fund.amountForFund / 1;
   const receivedAmount = neededAmount / 2;
   const formattedNeededAmount = neededAmount.toLocaleString();
   const formattedReceivedAmount = receivedAmount.toLocaleString();
@@ -155,15 +157,18 @@ const Page = ({ params }: any) => {
             </div>
 
           </div>
-          <div className="w-2/5 border-[3px] h-fit border-black rounded-[50px] p-14 flex flex-col gap-8 sticky top-10">
+          <div className="w-2/5 border-[3px] h-fit border-black rounded-[50px] p-10 flex flex-col gap-8 sticky top-10">
             <p className="text-lg"><span className="text-3xl font-medium mr-2"> Rs.{formattedReceivedAmount}</span> raised out of <span className="text-3xl font-medium mx-2">Rs.{formattedNeededAmount}</span> goal</p>
-            <div className="w-full bg-gray-200 rounded-full h-2.5 mt-2">
-                  <div
-                    className="bg-[#267f35] h-2.5 rounded-full"
-                    style={{ width: `${receivedPercentage}%` }}
-                  ></div>
+            <div>
+
+              <div className="w-full bg-gray-200 rounded-full h-2.5 mt-2">
+                    <div
+                      className="bg-[#267f35] h-2.5 rounded-full"
+                      style={{ width: `${receivedPercentage}%` }}
+                    ></div>
+              </div>
+              <p className="font-medium">100 donations so far</p>
             </div>
-            <p>100 donations so far</p>
             <div className="w-full flex justify-center items-center">
               <button className="px-16 py-4 bg-[#FF6868] font-medium text-2xl">Donate</button>
             </div>
