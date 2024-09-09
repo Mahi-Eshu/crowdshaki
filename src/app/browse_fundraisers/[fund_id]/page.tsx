@@ -8,8 +8,8 @@ import { usePathname } from "next/navigation";
 // Fetch data for the specific fund
 const getData = async (fund: string) => {
   const res = await fetch(
-    `https://crowdshaki.vercel.app/api/browse_fundraisers/${fund}`,
-    // `http://localhost:3000/api/browse_fundraisers/${fund}`,
+    // `https://crowdshaki.vercel.app/api/browse_fundraisers/${fund}`,
+    `http://localhost:3000/api/browse_fundraisers/${fund}`,
     { cache: "no-store" }
   );
   if (!res.ok) {
@@ -72,90 +72,118 @@ const Page = ({ params }: any) => {
   return (
     <main>
       <Navbar />
-      <div>
-        <h1 className="font-semibold text-3xl text-center my-10">
-          {fund.reasonForFund}
-        </h1>
-      </div>
-      <div className="my-10">
-        {/* Image Section */}
-        <div className="lg:px-20">
-          <div className="flex flex-row justify-between">
+      <div className="p-8">
+        <h1 className="text-3xl mb-4 font-medium">{fund.reasonForFund}</h1>
+        <div className="flex flex-row gap-10">
+          <div className="w-3/5 flex flex-col gap-8">
             <Image
               src="/assets/art2.jpg"
               width={1000}
               height={2000}
               alt="Background"
-              className="w-1/2 h-auto mt-6 md:mt-0 object-scale-down"
+              className="w-full h-auto object-scale-down rounded-[50px]"
             />
-            <div className="">
-              <div className="shadow-lg px-4 md:px-8 py-4 md:py-6 rounded-lg my-4 border-t border-gray-100 w-full">
-                <div className="py-2 md:py-4 border-b border-gray-300">
-                  <span className="text-gray-600 font-semibold">
-                    Campaigner:
-                  </span>{" "}
-                  {fund.firstName + " " + fund.lastName}
+
+            <div className="flex flex-row gap-4 items-center">
+              <Image
+                src="/assets/art2.jpg"
+                width={100}
+                height={100}
+                alt="Background"
+                className="w-[60px] h-[60px]  rounded-full"
+              />
+              <p><span className="font-medium">{fund.firstName}</span> is organizing this fundraiser for <span className="font-medium">{fund.beneficiaryName}</span></p>
+            </div>
+
+            <hr className="border border-[#898783]" />
+
+            <div className="flex flex-col gap-8">
+              <h1 className="text-2xl font-medium">
+                Organizer and Beneficiary
+              </h1>
+              <div className="flex flex-row gap-40">
+                <div className="flex flex-row gap-4 items-center">
+                  <Image
+                    src="/assets/art2.jpg"
+                    width={100}
+                    height={100}
+                    alt="Background"
+                    className="w-[60px] h-[60px]  rounded-full"
+                  />
+                  <div>
+                    <p><span className="font-medium">{fund.firstName}</span></p>
+                    <p>Campainer</p>
+                  </div>
                 </div>
-                <div className="py-2 md:py-4">
-                  <span className="text-gray-600 font-semibold">
-                    Beneficiary:
-                  </span>{" "}
-                  {fund.beneficiaryName}
+                <div className="flex flex-row gap-4 items-center">
+                  <Image
+                    src="/assets/art2.jpg"
+                    width={100}
+                    height={100}
+                    alt="Background"
+                    className="w-[60px] h-[60px]  rounded-full"
+                  />
+                  <div>
+                    <p><span className="font-medium">{fund.beneficiaryName}</span></p>
+                    <p>Beneficiary</p>
+                  </div>
                 </div>
-              </div>
-              <button className="px-4 md:px-6 py-3 md:py-4 my-4 md:my-6 font-semibold text-xl md:text-2xl border-2 border-red-400 bg-white text-red-400 hover:bg-red-400 hover:text-white hover:scale-105 transition-transform duration-500 ease-in">
-                Donate Now
-              </button>
-              <div className="mt-2 w-full">
-                <div className="flex flex-wrap justify-between gap-2 md:gap-10">
-                  <span className="text-2xl md:text-3xl font-medium">
-                    Rs.{formattedReceivedAmount}/-
-                  </span>
-                  <span className="text-sm md:text-base font-medium">
-                    Raised out of
-                  </span>
-                  <span className="text-2xl md:text-3xl font-medium">
-                    Rs.{formattedNeededAmount}/-
-                  </span>
-                </div>
-                <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-black mt-2">
-                  <div
-                    className="bg-[#F74541] h-2.5 rounded-full"
-                    style={{ width: `${receivedPercentage}%` }}
-                  ></div>
-                </div>
+
               </div>
             </div>
+
+            <hr className="border border-[#898783]" />
+
+            <div className="flex flex-col gap-8">
+              <h1 className="text-2xl font-medium">
+                About
+              </h1>
+              <p className="w-full text-justify">
+                {fund.situation}
+              </p>
+            </div>
+
+            <hr className="border border-[#898783]" />
+
+            <div className="flex flex-col gap-8">
+              <h1 className="text-2xl font-medium">
+                Documents
+              </h1>
+              <p className="w-full text-justify">
+                  Documents for verification
+              </p>
+            </div>
+
+          </div>
+          <div className="w-2/5 border-[3px] h-fit border-black rounded-[50px] p-14 flex flex-col gap-8 sticky top-10">
+            <p className="text-lg"><span className="text-3xl font-medium mr-2"> Rs.{formattedReceivedAmount}</span> raised out of <span className="text-3xl font-medium mx-2">Rs.{formattedNeededAmount}</span> goal</p>
+            <div className="w-full bg-gray-200 rounded-full h-2.5 mt-2">
+                  <div
+                    className="bg-[#267f35] h-2.5 rounded-full"
+                    style={{ width: `${receivedPercentage}%` }}
+                  ></div>
+            </div>
+            <p>100 donations so far</p>
+            <div className="w-full flex justify-center items-center">
+              <button className="px-16 py-4 bg-[#FF6868] font-medium text-2xl">Donate</button>
+            </div>
+            <h1 className="text-2xl font-medium">Recent Donations</h1>
+            <div className="flex flex-row gap-4 items-center">
+                  <Image
+                    src="/assets/art2.jpg"
+                    width={100}
+                    height={100}
+                    alt="Background"
+                    className="w-[60px] h-[60px]  rounded-full"
+                  />
+                  <div>
+                    <p><span className="text-lg">Randy Pitts</span></p>
+                    <p className="font-medium">Rs.5000</p>
+                  </div>
+                </div>
           </div>
         </div>
-      </div>
 
-
-      <div className="lg:px-20">
-        <ul className="flex flex-col text-center">
-          {menuLinks.map((link, index) => (
-            <li
-              key={index}
-              className="text-black flex flex-col justify-between font-medium border border-gray-200 py-4 px-20"
-            >
-              <div
-                className="flex justify-between items-center cursor-pointer"
-                onClick={() => toggleDropdown(index)}
-              >
-                <div>{link.text}</div>
-                <button className="w-8 h-8 flex items-center justify-center bg-white rounded-full shadow hover:bg-gray-200">
-                  {openIndex === index ? "▼" : "▶"}
-                </button>
-              </div>
-              {/* Dropdown content */}
-              {openIndex === index && (
-                <div className="mt-4 text-left text-gray-700">
-                  {link.content}
-                </div>
-              )}
-            </li>
-          ))}
-        </ul>
       </div>
       <Footer />
     </main>

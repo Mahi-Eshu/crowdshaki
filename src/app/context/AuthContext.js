@@ -21,8 +21,8 @@ export const AuthContextProvider = ({ children }) => {
 
     const addUserToMongoDB = async (userData) => {
         try {
-            const response = await fetch('https://crowdshaki.vercel.app/api/addUserDetails', {
-                // const response = await fetch('http://localhost:3000/api/addUserDetails', {
+            // const response = await fetch('https://crowdshaki.vercel.app/api/addUserDetails', {
+                const response = await fetch('http://localhost:3000/api/addUserDetails', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
