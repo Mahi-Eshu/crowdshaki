@@ -8,8 +8,8 @@ import { usePathname } from "next/navigation";
 // Fetch data for the specific fund
 const getData = async (fund: string) => {
   const res = await fetch(
-    // `https://crowdshaki.vercel.app/api/browse_fundraisers/${fund}`,
-    `http://localhost:3000/api/browse_fundraisers/${fund}`,
+    `https://crowdshaki.vercel.app/api/browse_fundraisers/${fund}`,
+    // `http://localhost:3000/api/browse_fundraisers/${fund}`,
     { cache: "no-store" }
   );
   if (!res.ok) {
@@ -75,7 +75,7 @@ const Page = ({ params }: any) => {
     <main>
       <Navbar />
       <div className="p-8">
-        <h1 className="text-3xl mb-4 font-medium">{fund.reasonForFund}</h1>
+        <h1 className="text-3xl mb-4 font-medium text-center my-6">{fund.reasonForFund}</h1>
         <div className="flex flex-row gap-10">
           <div className="w-3/5 flex flex-col gap-8">
             <Image
@@ -114,7 +114,7 @@ const Page = ({ params }: any) => {
                   />
                   <div>
                     <p><span className="font-medium">{fund.firstName}</span></p>
-                    <p>Campainer</p>
+                    <p>Campaigner</p>
                   </div>
                 </div>
                 <div className="flex flex-row gap-4 items-center">
@@ -123,7 +123,7 @@ const Page = ({ params }: any) => {
                     width={100}
                     height={100}
                     alt="Background"
-                    className="w-[60px] h-[60px]  rounded-full"
+                    className="w-[60px] h-[60px] rounded-full"
                   />
                   <div>
                     <p><span className="font-medium">{fund.beneficiaryName}</span></p>
