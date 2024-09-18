@@ -4,6 +4,7 @@ import { useSearchParams } from "next/navigation";
 import { raiseFundDetails } from "@/app/actions/raiseFundDetails";
 
 const RaiseFundsForm = ({ uid }: any) => {
+  
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -22,6 +23,39 @@ const RaiseFundsForm = ({ uid }: any) => {
     accountType: "",
     ifscCode: "",
   });
+  useEffect(() => {
+    const fetchPersonalDetails = async () => {
+      try {
+        const response = await fetch(`/api/personalDetails/fetchData?uid=${uid}`);
+        const data = await response.json();
+        if (response.ok) {
+          // Populate the form with fetched data
+          setFormData({
+            firstName: data?.firstName || "",
+            lastName: data?.lastName || "",
+            email: data?.email || "",
+            mobile: data?.mobile || "",
+            address: data?.address || "",
+            pincode: data?.pincode || "",
+            beneficiaryName: data?.beneficiaryName || "",
+            relationship: data?.relationship || "",
+            amountForFund: data?.amountForFund || "",
+            reasonForFund: data?.reasonForFund || "",
+            situation: data?.situation || "",
+            category: data?.category || "",
+            accountHolder: data?.accountHolder || "",
+            accountNumber: data?.accountNumber || "",
+            accountType: data?.accountType || "",
+            ifscCode: data?.ifscCode || "",
+          });
+        } else {
+          console.error("Failed to fetch personal details:", data?.message);
+        }
+      } catch (error) {
+        console.error("Error fetching personal details:", error);
+      }
+    };
+  }, [uid]);
 
   const handleInputChange = (
     e: React.ChangeEvent<

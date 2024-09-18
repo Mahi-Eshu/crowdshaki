@@ -4,13 +4,11 @@ import Image from "next/image";
 import Navbar from "@/app/components/Navbar";
 import Footer from "@/app/components/Footer";
 import { usePathname } from "next/navigation";
-import DonateButton from "@/app/components/DonateButton";
 
 // Fetch data for the specific fund
 const getData = async (fund: string) => {
   const res = await fetch(
-    // `https://crowdshaki.vercel.app/api/browse_fundraisers/${fund}`,
-    `http://localhost:3000/api/browse_fundraisers/${fund}`,
+    `/api/browse_fundraisers/${fund}`,
     { cache: "no-store" }
   );
   if (!res.ok) {
@@ -159,7 +157,7 @@ const Page = ({ params }: any) => {
 
           </div>
           <div className="w-2/5 border-[3px] h-fit border-black rounded-[50px] p-10 flex flex-col gap-8 sticky top-10">
-            <p className="text-lg"><span className="text-3xl font-medium mr-2"> Rs.{formattedReceivedAmount}</span> raised out of <span className="text-3xl font-medium mx-2">Rs.{formattedNeededAmount}</span> goal</p>
+            <p className="text-lg"><span className="text-3xl font-medium mr-2"> Rs.{formattedReceivedAmount}</span> raised out of <span className="text-3xl font-medium mx-2">Rs.{formattedNeededAmount}</span></p>
             <div>
 
               <div className="w-full bg-gray-200 rounded-full h-2.5 mt-2">
@@ -171,7 +169,7 @@ const Page = ({ params }: any) => {
               <p className="font-medium">100 donations so far</p>
             </div>
             <div className="w-full flex justify-center items-center">
-            <DonateButton style="px-16 py-4 bg-[#FF6868] font-semibold text-2xl hover:scale-105 duration-300 hover:transition-all hover:ease-in" fundraiserId={fundId}/>
+              <button className="px-16 py-4 bg-[#FF6868] font-medium text-2xl">Donate</button>
             </div>
             <h1 className="text-2xl font-medium">Recent Donations</h1>
             <div className="flex flex-row gap-4 items-center">
@@ -189,7 +187,6 @@ const Page = ({ params }: any) => {
                 </div>
           </div>
         </div>
-
       </div>
       <Footer />
     </main>

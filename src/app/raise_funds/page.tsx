@@ -13,9 +13,6 @@ const RaiseFundsForm = dynamic(() => import("../components/RaiseFundsForm"), {
 
 const Page = () => {
   const { user } = UserAuth();
-  const uid = user?.uid;
-
-  console.log("Welcome", uid)
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <div>
@@ -28,7 +25,7 @@ const Page = () => {
           alt="illustration"
         />
         <div className="p-4 md:flex md:flex-row md:justify-center md:items-center">
-          <RaiseFundsForm uid={uid}/>
+          <RaiseFundsForm user={user}/>
         </div>
         <Footer />
       </div>

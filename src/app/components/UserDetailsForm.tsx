@@ -8,6 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 const UserDetailsForm = ({ user }: any) => {
   const searchParams = useSearchParams();
   const uid = searchParams.get('userId');
+  console.log("fucker", user);
 
   const [formValues, setFormValues] = useState({
     firstName: user?.firstName || "",
