@@ -5,7 +5,7 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Link from "next/link";
 import { ObjectId } from 'mongodb';
-
+import DonateButton from "../components/DonateButton"
 interface Fundraiser {
   _id: ObjectId | string;
   category: string;
@@ -21,8 +21,8 @@ const Page = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch("https://crowdshaki.vercel.app/api/browse_fundraisers", {
-          // const res = await fetch("http://localhost:3000/api/browse_fundraisers", {
+        // const res = await fetch("https://crowdshaki.vercel.app/api/browse_fundraisers", {
+          const res = await fetch("http://localhost:3000/api/browse_fundraisers", {
           cache: "no-store",
         });
         if (!res.ok) {
@@ -50,7 +50,7 @@ const Page = () => {
   }
 
   return (
-    <div>
+    <div className="">
       <Navbar />
       <Image
         src="/assets/raise_funds.jpg"
@@ -108,10 +108,9 @@ const Page = () => {
           </button>
           <div className="flex flex-col md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 py-5">
             {filteredFundraisers.map((fund, index) => (
+              <div key={index} className="w-full p-4 sm:w-[250px] md:w-[ 250px] rounded-3xl backdrop-blur-md bg-white/20 flex flex-col shadow-[0_5px_60px_-30px_rgba(0,0,0,0.3)] ">
               <Link
               href={`/browse_fundraisers/${fund._id.toString()}`}
-                key={index}
-                className="w-full sm:w-[250px] md:w-[ 250px] rounded-3xl backdrop-blur-md bg-white/20 flex flex-col shadow-[0_5px_60px_-30px_rgba(0,0,0,0.3)] hover:scale-105 duration-300 hover:transition-all hover:ease-in"
               >
                 <Image
                   src="/assets/art2.jpg"
@@ -120,7 +119,7 @@ const Page = () => {
                   alt="item"
                   className="object-cover rounded-br-none rounded-bl-none rounded-3xl"
                 />
-                <div className="flex flex-col p-4">
+                <div className="flex flex-col py-4">
                   <h1 className="font-medium text-xl">{fund.reasonForFund}</h1>
                   <div className="mt-2">
                     <div className="flex justify-between">
@@ -140,11 +139,12 @@ const Page = () => {
                       ></div>
                     </div>
                   </div>
-                  <button className="px-auto py-3 mt-4 bg-[#F74541] w-full h-[50px] text-center rounded-full text-white font-medium">
-                    Donate
-                  </button>
+                  {/* bg-[#F74541] */}
+                  
                 </div>
               </Link>
+              <DonateButton style="px-auto py-3 mt-4 bg-teal-950 w-full h-[50px] text-center rounded-full text-white font-medium hover:scale-105 duration-300 hover:transition-all hover:ease-in" fundraiserId={fund._id}/>
+              </div>
             ))}
           </div>
         </div>

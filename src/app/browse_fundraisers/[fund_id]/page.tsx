@@ -4,12 +4,13 @@ import Image from "next/image";
 import Navbar from "@/app/components/Navbar";
 import Footer from "@/app/components/Footer";
 import { usePathname } from "next/navigation";
+import DonateButton from "@/app/components/DonateButton";
 
 // Fetch data for the specific fund
 const getData = async (fund: string) => {
   const res = await fetch(
-    `https://crowdshaki.vercel.app/api/browse_fundraisers/${fund}`,
-    // `http://localhost:3000/api/browse_fundraisers/${fund}`,
+    // `https://crowdshaki.vercel.app/api/browse_fundraisers/${fund}`,
+    `http://localhost:3000/api/browse_fundraisers/${fund}`,
     { cache: "no-store" }
   );
   if (!res.ok) {
@@ -170,7 +171,7 @@ const Page = ({ params }: any) => {
               <p className="font-medium">100 donations so far</p>
             </div>
             <div className="w-full flex justify-center items-center">
-              <button className="px-16 py-4 bg-[#FF6868] font-medium text-2xl">Donate</button>
+            <DonateButton style="px-16 py-4 bg-[#FF6868] font-semibold text-2xl hover:scale-105 duration-300 hover:transition-all hover:ease-in" fundraiserId={fundId}/>
             </div>
             <h1 className="text-2xl font-medium">Recent Donations</h1>
             <div className="flex flex-row gap-4 items-center">
