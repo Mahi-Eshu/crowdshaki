@@ -11,6 +11,7 @@ const Navbar = () => {
   const { user, googleSignIn, logOut } = UserAuth();
   const [loading, setLoading] = useState(true);
   const [selectMenu, setSelectMenu] = useState(false);
+  const [isEmpanelledOpen, setIsEmpanelledOpen] = useState(false);
   const router = useRouter();
 
   const toggleSelectMenu = () => {
@@ -35,11 +36,9 @@ const Navbar = () => {
   };
 
   useEffect(() => {
-    // Check if the user is authenticated on component mount and whenever the user object changes
     const isAuthenticated = !!user;
     console.log("User is authenticated:", isAuthenticated);
 
-    // Set isInitialLoad to false after the first render
     if (loading) {
       setLoading(false);
     }
@@ -48,13 +47,21 @@ const Navbar = () => {
   const menuLinks = [
     { text: "Browse Fundraisers", url: "/browse_fundraisers" },
     { text: "How It Works?", url: "/how_it_works" },
-    { text: "Gcare Council", url: "/gcare_council"}
+    { text: "Gcare Council", url: "/gcare_council" },
+  ];
+
+  const empanelledLinks = [
+    { text: "Labs", url: "/empanelled/labs" },
+    { text: "Pharmacies", url: "/empanelled/pharmacies" },
+    { text: "Doctors", url: "/empanelled/doctors" },
+    { text: "Hospitals", url: "/empanelled/hospitals" },
+    { text: "Medical Institutions", url: "/empanelled/medical_institutions" },
   ];
 
   return (
     <div>
       <div className="w-full">
-        <div className="py-4 px-4 md:px-8 flex flex-row justify-between items-center bg-transparent w-full  ">
+        <div className="py-4 px-4 md:px-8 flex flex-row justify-between items-center bg-transparent w-full">
           <h1 className="font-medium text-xl">
             <Link href="/">Crowdshaki.</Link>
           </h1>
@@ -74,13 +81,33 @@ const Navbar = () => {
                     router.push(link.url);
                   }}
                 >
-                  <Link
-                    href={link.url}
-                  >
-                    {link.text}
-                  </Link>
+                  <Link href={link.url}>{link.text}</Link>
                 </li>
               ))}
+
+              {/* Empanelled Associates with dropdown */}
+              <li
+                className="relative text-black font-medium hover:text-gray-500 hover:scale-110 duration-150"
+                onMouseEnter={() => setIsEmpanelledOpen(true)}
+                onMouseLeave={() => setIsEmpanelledOpen(false)}
+              >
+                <span>Empanelled Associate</span>
+                {isEmpanelledOpen && (
+                  <ul className="absolute top-full left-0 mt-2 bg-white shadow-lg rounded-lg py-2 w-48">
+                    {empanelledLinks.map((subLink, index) => (
+                      <li key={index}>
+                        <Link
+                          href={subLink.url}
+                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        >
+                          {subLink.text}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </li>
+
               {loading ? null : !user ? (
                 <Link href="/login" onClick={handleSignIn}>
                   <h1 className="text-black font-medium hover:text-gray-500 hover:scale-110 duration-150">
@@ -112,10 +139,8 @@ const Navbar = () => {
                     </h1>
                   </Link>
                   <button
-                    className={`text-red-600 font-medium hover:scale-110 duration-150 `}
-                    onClick={() => {
-                      handleSignOut();
-                    }}
+                    className={`text-red-600 font-medium hover:scale-110 duration-150`}
+                    onClick={handleSignOut}
                   >
                     Logout
                   </button>
@@ -135,14 +160,9 @@ const Navbar = () => {
           )}
         </div>
 
+        {/* Mobile Menu */}
         {selectMenu && (
-          <div
-            className={
-              selectMenu
-                ? "absolute bottom-0 right-0 top-0 z-10 h-screen flex flex-col gap-4 text-black bg-white w-[250px] pr-4 pt-4 ease-in duration-200"
-                : "absolute bottom-0 right-0 hidden top-0 z-10 h-screen flex-col gap-4 text-black bg-white w-[250px] pr-4 pt-4 ease-in duration-200"
-            }
-          >
+          <div className="absolute bottom-0 right-0 top-0 z-10 h-screen flex flex-col gap-4 text-black bg-white w-[250px] pr-4 pt-4 ease-in duration-200">
             <div className="flex flex-col justify-end items-end gap-10 w-full">
               <Image
                 src="/assets/close.png"
@@ -150,7 +170,7 @@ const Navbar = () => {
                 height={30}
                 alt="close"
                 onClick={toggleSelectMenu}
-                className=" ml-8"
+                className="ml-8"
               />
               <div className="flex flex-col gap-8 items-end">
                 {menuLinks.map((link, index) => (
@@ -167,8 +187,6 @@ const Navbar = () => {
                     {link.text}
                   </Link>
                 ))}
-                {/* <button className="px-8 py-4 bg-[#F74541] text-center rounded-full font-medium text-2xl">Login / Sign up</button> */}
-
                 {loading ? null : !user ? (
                   <Link href="/login" onClick={handleSignIn}>
                     <h1 className="absolute font-medium text-2xl bottom-24 right-8">
@@ -176,7 +194,7 @@ const Navbar = () => {
                     </h1>
                   </Link>
                 ) : (
-                  <div className="">
+                  <div>
                     <Link
                       href={`/raise_funds?userId=${user.uid}`}
                       onClick={toggleSelectMenu}
