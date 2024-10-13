@@ -89,11 +89,11 @@ const Navbar = () => {
               <li
                 className="relative text-black font-medium hover:text-gray-500 hover:scale-110 duration-150"
                 onMouseEnter={() => setIsEmpanelledOpen(true)}
-                onMouseLeave={() => setIsEmpanelledOpen(false)}
               >
                 <span>Empanelled Associate</span>
                 {isEmpanelledOpen && (
-                  <ul className="absolute top-full left-0 mt-2 bg-white shadow-lg rounded-lg py-2 w-48">
+                  <ul className="absolute top-full left-0 mt-2 bg-white shadow-lg rounded-lg py-2 w-48"
+                  onMouseLeave={() => setIsEmpanelledOpen(false)}>
                     {empanelledLinks.map((subLink, index) => (
                       <li key={index}>
                         <Link
