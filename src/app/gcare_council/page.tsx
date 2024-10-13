@@ -52,9 +52,11 @@ const NGOCard: React.FC<{ ngo: NGO }> = ({ ngo }) => (
         <strong>District:</strong> {ngo.District || "Unknown District"}
       </p>
     </div>
-    <button className="mt-2 p-2 bg-blue-500 text-white rounded">
-      View More
-    </button>
+    <Link href={`/gcare_council/${ngo._id.toString()}`}>
+      <button className="mt-2 p-2 bg-blue-500 text-white rounded">
+        View More
+      </button>
+    </Link>
   </div>
 );
 
@@ -153,7 +155,7 @@ const NGOPage: React.FC = () => {
             Reset filters
           </button>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {filteredNGO.map((ngo) => (
+            {filteredNGO.map((ngo) => ( 
               <NGOCard key={ngo._id} ngo={ngo} />
             ))}
           </div>
