@@ -4,7 +4,7 @@ import Navbar from '@/app/components/Navbar';
 
 const getData = async () => {
     const res = await fetch(
-        '/api/labs',
+        'https://crowdshaki.vercel.app/api/labs',
         { cache: "no-store" }
     );
     if (!res.ok) {
