@@ -75,8 +75,8 @@ const Page = ({ params }: any) => {
       <Navbar />
       <div className="p-8">
         <h1 className="text-3xl mb-4 font-medium text-center my-6">{fund.reasonForFund}</h1>
-        <div className="flex flex-row gap-10">
-          <div className="w-3/5 flex flex-col gap-8">
+        <div className="flex flex-col lg:flex-row gap-10">
+          <div className="lg:w-3/5 flex flex-col order-2 lg:order-1 gap-8">
             <Image
               src="/assets/art2.jpg"
               width={1000}
@@ -102,7 +102,7 @@ const Page = ({ params }: any) => {
               <h1 className="text-2xl font-medium">
                 Organizer and Beneficiary
               </h1>
-              <div className="flex flex-row gap-40">
+              <div className="flex flex-col lg:flex-row gap-10 lg:gap-40">
                 <div className="flex flex-row gap-4 items-center">
                   <Image
                     src="/assets/art2.jpg"
@@ -156,7 +156,7 @@ const Page = ({ params }: any) => {
             </div>
 
           </div>
-          <div className="w-2/5 border-[3px] h-fit border-black rounded-[50px] p-10 flex flex-col gap-8 sticky top-10">
+          <div className="lg:w-2/5 order-1 lg:order-2 border-[3px] h-fit border-black rounded-[50px] p-10 flex flex-col gap-8 lg:sticky top-10">
             <p className="text-lg"><span className="text-3xl font-medium mr-2"> Rs.{formattedReceivedAmount}</span> raised out of <span className="text-3xl font-medium mx-2">Rs.{formattedNeededAmount}</span></p>
             <div>
 
