@@ -51,11 +51,11 @@ const Navbar = () => {
   ];
 
   const empanelledLinks = [
-    { text: "Labs", url: "/empanelled/labs" },
-    { text: "Pharmacies", url: "/empanelled/pharmacies" },
-    { text: "Doctors", url: "/empanelled/doctors" },
-    { text: "Hospitals", url: "/empanelled/hospitals" },
-    { text: "Medical Institutions", url: "/empanelled/medical_institutions" },
+    { text: "Labs", url: "/empanelled_associates/labs" },
+    { text: "Pharmacies", url: "/empanelled_associates/pharmacies" },
+    { text: "Doctors", url: "/empanelled_associates/doctors" },
+    { text: "Hospitals", url: "/empanelled_associates/hospitals" },
+    { text: "Medical Institutions", url: "/empanelled_associates/medical_institutions" },
   ];
 
   return (

@@ -4,7 +4,7 @@ import Navbar from '@/app/components/Navbar';
 
 const getData = async () => {
     const res = await fetch(
-        "http://localhost:3000/api/labs",
+        '/api/labs',
         { cache: "no-store" }
     );
     if (!res.ok) {
