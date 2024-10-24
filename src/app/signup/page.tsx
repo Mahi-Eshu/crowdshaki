@@ -87,18 +87,18 @@ const Page: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row min-h-screen p-4">
-      {/* Left side */}
+    <div className="flex flex-col justify-center items-center lg:flex-row min-h-screen p-4">
+      {/* Left side - Background and Quote */}
       <div className="lg:w-1/2 bg-purple-900 text-white flex flex-col justify-between relative overflow-hidden rounded-xl">
         <Image
-          src="/assets/art2.jpg"
+          src="/assets/login.jpg"
           width={5000}
           height={3000}
           alt=''
-          className='relative h-[300px] lg:h-[calc(100vh-32px)]'
+          className='relative h-[300px] object-cover lg:h-[calc(100vh-32px)]'
         />
-        <div className="z-10 absolute flex ml-10 justify-center items-center h-full">
-          <p className='text-[36px] lg:text-[100px] font-bold max-w-[300px] leading-tight'>Your Generosity Can Make Huge Impact</p>
+        <div className="z-10 absolute w-full flex justify-center items-center h-full">
+          <p className='text-[36px] lg:text-[80px] xl:text-[90px] font-medium leading-tight'>Crowdshaki.</p>
         </div>
       </div>
 
