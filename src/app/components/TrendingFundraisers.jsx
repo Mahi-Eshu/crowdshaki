@@ -10,7 +10,7 @@ const FundRaising = () => {
   var receivedPercentage = (receivedAmount / neededAmount) * 100;
   console.log(receivedPercentage);
   return (
-    <div className="p-4 my-20">
+    <div className="p-10 my-20">
       <div className="flex flex-col gap-4 mb-20">
         <h1 className="text-5xl font-medium text-red-400 text-center">
           Trending Fundraisers

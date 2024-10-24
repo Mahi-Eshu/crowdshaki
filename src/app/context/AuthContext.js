@@ -1,80 +1,100 @@
 "use client";
-
 import { useContext, createContext, useState, useEffect } from "react";
-import { signInWithPopup, signOut, onAuthStateChanged, GoogleAuthProvider } from "firebase/auth";
+import { 
+  signOut, 
+  onAuthStateChanged,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword 
+} from "firebase/auth";
 import { auth } from "../firebase/config";
 
 const AuthContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
-    const [user, setUser] = useState(null);
-    const [initialLoad, setInitialLoad] = useState(true);
+  const [user, setUser] = useState(null);
+  const [initialLoad, setInitialLoad] = useState(true);
 
-    const googleSignIn = () => {
-        const provider = new GoogleAuthProvider();
-        signInWithPopup(auth, provider);
-    };
+  // Email/Password Sign Up
+  const emailSignUp = async (email, password) => {
+    try {
+      return await createUserWithEmailAndPassword(auth, email, password);
+    } catch (error) {
+      throw error;
+    }
+  };
 
-    const logOut = () => {
-        signOut(auth);
-    };
+  // Email/Password Sign In
+  const emailSignIn = async (email, password) => {
+    try {
+      return await signInWithEmailAndPassword(auth, email, password);
+    } catch (error) {
+      throw error;
+    }
+  };
 
-    const addUserToMongoDB = async (userData) => {
-        try {
-            const response = await fetch('/api/addUserDetails', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(userData),
-            });
+  const logOut = () => {
+    signOut(auth);
+  };
 
-            if (!response.ok) {
-                throw new Error('Failed to add user to MongoDB');
-            }
-            console.log("User added to MongoDB successfully");
-        } catch (error) {
-            console.error(error);
-            throw error;
+  const addUserToMongoDB = async (userData) => {
+    try {
+      const response = await fetch('/api/addUserDetails', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(userData),
+      });
+      
+      if (!response.ok) {
+        throw new Error('Failed to add user to MongoDB');
+      }
+      console.log("User added to MongoDB successfully");
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  };
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      if (currentUser) {
+        if (!user) {
+          const userData = {
+            uid: currentUser.uid,
+            email: currentUser.email,
+            createdAt: new Date().toISOString(),
+            lastLogin: new Date().toISOString(),
+            authProvider: 'email',
+            isEmailVerified: currentUser.emailVerified,
+          };
+          await addUserToMongoDB(userData);
         }
-    };
+        setUser(currentUser);
+      } else {
+        setUser(null);
+      }
+      
+      if (initialLoad) {
+        setInitialLoad(false);
+      }
+    });
 
-    useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-            if (currentUser) {
-                // Only add user details to MongoDB if this is the first time the user is detected
-                if (!user) {
-                    const userData = {
-                        uid: currentUser.uid,
-                        email: currentUser.email,
-                        displayName: currentUser.displayName,
-                        photo: currentUser.photoURL,
-                        phone: currentUser.providerData[0]?.phoneNumber || null,
-                        // Add other user details you want to store
-                    };
-                    await addUserToMongoDB(userData);
-                }
-                setUser(currentUser);
-            } else {
-                setUser(null);
-            }
+    return () => unsubscribe();
+  }, [user]);
 
-            // Set initialLoad to false after the first authentication check
-            if (initialLoad) {
-                setInitialLoad(false);
-            }
-        });
-
-        return () => unsubscribe();
-    }, [user]);
-
-    return (
-        <AuthContext.Provider value={{ user, googleSignIn, logOut }}>
-            {children}
-        </AuthContext.Provider>
-    );
+  return (
+    <AuthContext.Provider value={{ 
+      user, 
+      emailSignUp, 
+      emailSignIn, 
+      logOut 
+    }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
 
 export const UserAuth = () => {
-    return useContext(AuthContext);
+  return useContext(AuthContext);
 };
