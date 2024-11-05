@@ -19,7 +19,7 @@ const page = async () => {
         <div>
             <Navbar></Navbar>
             <div className='p-4 lg:p-8 space-y-6'>
-            <h1 className='text-3xl font-semibold'>Labs</h1>
+            <h1 className='text-3xl font-semibold text-center'>Labs</h1>
             <Empanelled data={labs.labs} />
             </div>
         </div>
