@@ -107,21 +107,6 @@ const labForm = () => {
                   className="w-full p-2 rounded-xl lg:w-[400px] bg-gray-100"
                 />
               </div>
-              <div>
-                <label htmlFor="lastName" className="block font-medium mb-2">
-                  Last Name
-                </label>
-                <input
-                  type="text"
-                  name="lastName"
-                  id="lastName"
-                  placeholder="Enter your last name"
-                  value={formData.lastName}
-                  onChange={handleInputChange}
-                  required
-                  className="w-full p-2 rounded-xl lg:w-[400px] bg-gray-100"
-                />
-              </div>
             </div>
             <div className="flex flex-col gap-4 lg:flex-row lg:gap-40">
               <div>
