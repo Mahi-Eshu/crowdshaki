@@ -17,8 +17,9 @@ export const POST = async (req) => {
     const data = await req.json();
     const client = await connectToDatabase();
     const db = client.db("crowdshaki");
-    // Handle POST logic here
-    return NextResponse.json({ message: "POST method handled", data });
+    const labs = await db.collection("Labs").insertOne(data);
+    console.log("Mass entry");
+    return NextResponse.json({ message: "Labs added succesfully", data });
   } catch (error) {
     return NextResponse.json({ status: 500, error: "Internal Server Error" });
   }

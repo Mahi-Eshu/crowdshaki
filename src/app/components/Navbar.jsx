@@ -12,6 +12,7 @@ const Navbar = () => {
   const [loading, setLoading] = useState(true);
   const [selectMenu, setSelectMenu] = useState(false);
   const [isEmpanelledOpen, setIsEmpanelledOpen] = useState(false);
+  const [isBecomeMemberOpen, setIsBecomeMemberOpen] = useState(false);
   const router = useRouter();
 
   const toggleSelectMenu = () => {
@@ -55,7 +56,27 @@ const Navbar = () => {
     { text: "Pharmacies", url: "/empanelled_associates/pharmacies" },
     { text: "Doctors", url: "/empanelled_associates/doctors" },
     { text: "Hospitals", url: "/empanelled_associates/hospitals" },
-    { text: "Medical Institutions", url: "/empanelled_associates/medical_institutions" },
+    {
+      text: "Medical Institutions",
+      url: "/empanelled_associates/medical_institutions",
+    },
+  ];
+
+  const becomeMember = [
+    { text: "Labs", url: "/empanelled_associates/become_a_member/labs" },
+    {
+      text: "Pharmacies",
+      url: "/empanelled_associates/become_a_member/pharmacies",
+    },
+    { text: "Doctors", url: "/empanelled_associates/become_a_member/doctors" },
+    {
+      text: "Hospitals",
+      url: "/empanelled_associates/become_a_member/hospitals",
+    },
+    {
+      text: "Medical Institutions",
+      url: "/empanelled_associates/become_a_member/medical_institutions",
+    },
   ];
 
   return (
@@ -88,12 +109,20 @@ const Navbar = () => {
               {/* Empanelled Associates with dropdown */}
               <li
                 className="relative text-black font-medium hover:text-gray-500 hover:scale-110 duration-150"
-                onMouseEnter={() => setIsEmpanelledOpen(true)}
+                onMouseEnter={() => {
+                  setIsEmpanelledOpen(true);
+                  setIsBecomeMemberOpen(false);
+                }}
               >
                 <span>Empanelled Associate</span>
-                {isEmpanelledOpen && (
-                  <ul className="absolute top-full left-0 mt-2 bg-white shadow-lg rounded-lg py-2 w-48"
-                  onMouseLeave={() => setIsEmpanelledOpen(false)}>
+                {(isEmpanelledOpen || isBecomeMemberOpen) && (
+                  <ul
+                    className="absolute top-full left-0 bg-white shadow-lg rounded-lg py-2 w-48"
+                    onMouseLeave={() => {
+                      setIsEmpanelledOpen(false); 
+                      setIsBecomeMemberOpen(false);
+                    }}
+                  >
                     {empanelledLinks.map((subLink, index) => (
                       <li key={index}>
                         <Link
@@ -104,6 +133,29 @@ const Navbar = () => {
                         </Link>
                       </li>
                     ))}
+                    <li
+                      className="relative text-black font-medium hover:text-gray-500 hover:scale-110 duration-150"
+                      onMouseEnter={() => setIsBecomeMemberOpen(true)}
+                    >
+                      <span className="block px-4 py-2 text-sm text-green-600 hover:bg-green-600 hover:text-white">Become a member</span>
+                      {isBecomeMemberOpen && (
+                        <ul
+                          className="absolute top-full left-0 bg-white shadow-lg rounded-lg py-2 w-48"
+                          onMouseLeave={() => setIsBecomeMemberOpen(false)}
+                        >
+                          {becomeMember.map((subLink, index) => (
+                            <li key={index}>
+                              <Link
+                                href={subLink.url}
+                                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                              >
+                                {subLink.text}
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </li>
                   </ul>
                 )}
               </li>
