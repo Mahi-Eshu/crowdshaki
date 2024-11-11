@@ -26,7 +26,6 @@ export const POST = async (req, res) => {
         ifscCode,
         userId, // Assuming userId is passed in the request body
       } = data;
-
       // Check if any required field is null or undefined
       const requiredFields = {
         firstName,

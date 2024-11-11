@@ -22,7 +22,8 @@ export const raiseFundDetails = async(formdata: FormData, userId: string|null) =
     const accountType = formdata.get("accountType")
     const ifscCode = formdata.get("ifscCode")
 
-    const res = await fetch("/api/raiseFunds", {  
+    console.log(userId);
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/raiseFunds`, {  
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -47,8 +48,8 @@ export const raiseFundDetails = async(formdata: FormData, userId: string|null) =
             userId
         })
     })
-
-    // const data = await res.json()
-    // console.log(data)
-    // return data
+    
+    const data = await res.json()
+    console.log(data)
+    return data
 }

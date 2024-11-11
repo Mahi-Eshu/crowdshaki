@@ -20,7 +20,7 @@ export const labDetails = async(formdata: FormData) => {
     const technicianCount = formdata.get("technicianCount")
     const compliantOrnot = formdata.get("compliantOrnot")
 
-    const res = await fetch("https://crowdshaki.vercel.app/api/labs", {  
+    const res = await fetch("http://localhost:3000/api/labs", {  
         method: "POST",
         headers: {
             "Content-Type": "application/json"

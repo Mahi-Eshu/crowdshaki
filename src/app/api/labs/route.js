@@ -15,6 +15,7 @@ export const GET = async (req) => {
 export const POST = async (req) => {
   try {
     const data = await req.json();
+    console.log(data)
     const client = await connectToDatabase();
     const db = client.db("crowdshaki");
     const labs = await db.collection("Labs").insertOne(data);

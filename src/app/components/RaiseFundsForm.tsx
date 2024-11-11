@@ -3,8 +3,8 @@ import React, { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { raiseFundDetails } from "@/app/actions/raiseFundDetails";
 
-const RaiseFundsForm = ({ uid }: any) => {
-  
+const RaiseFundsForm = ({ user }: any) => {
+  const uid = user?.uid
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
