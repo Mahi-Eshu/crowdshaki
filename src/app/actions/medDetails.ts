@@ -2,7 +2,7 @@
 
 import { NextRequest } from "next/server"
 
-export const labDetails = async(formdata: FormData) => {
+export const medDetails = async(formdata: FormData) => {
     console.log("formdata:", formdata)
     
     const labName = formdata.get("labName")
