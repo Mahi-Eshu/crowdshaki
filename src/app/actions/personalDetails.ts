@@ -11,7 +11,7 @@ export const personalDetails = async(formdata: FormData, userId: string|null) =>
     const address = formdata.get("address")
     const pincode = formdata.get("pincode")
 
-    const res = await fetch("/api/personalDetails", {
+    const res = await fetch("https://crowdshaki.vercel.app/api/personalDetails", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"

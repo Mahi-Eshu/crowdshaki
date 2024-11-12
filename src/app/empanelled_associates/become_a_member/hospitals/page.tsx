@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
-import { labDetails } from "../../../actions/labDetails";
+import { hospitalDetails } from "../../../actions/hospitalDetails";
 import Navbar from "../../../components/Navbar";
 import Footer from "../../../components/Footer";
 
@@ -56,7 +56,7 @@ const labForm = () => {
       data.append(key, value);
     });
 
-    await labDetails(data);
+    await hospitalDetails(data);
   };
 
   return (
