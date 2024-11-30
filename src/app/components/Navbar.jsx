@@ -68,7 +68,7 @@ const Navbar = () => {
       text: "Pharmacies",
       url: "/empanelled_associates/become_a_member/pharmacies",
     },
-    { text: "Doctors", url: "/empanelled_associates/become_a_member/doctors" },
+    { text: "Doctors", url: "/empanelled_associates/become_a_member/gpa" },
     {
       text: "Hospitals",
       url: "/empanelled_associates/become_a_member/hospitals",
