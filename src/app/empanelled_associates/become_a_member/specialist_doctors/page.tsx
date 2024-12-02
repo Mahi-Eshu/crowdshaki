@@ -119,7 +119,7 @@ const DoctorForm = () => {
             <h1 className="font-semibold text-[24px] my-8 lg:text-[28px] xl:text-[34px] text-center">
                 Specialist Doctors Application Form
             </h1>
-            <form onSubmit={handleSubmit} className="p-4">
+            <form onSubmit={handleSubmit} className="p-4 lg:max-w-[1000px] xl:lg:max-w-[1200px] mx-auto">
                 {/* Section 1: Personal Information */}
                 <h2 className="text-2xl font-medium mb-4">1. Personal Information</h2>
                 <div className="flex flex-col gap-4">
