@@ -6,7 +6,7 @@ import Footer from "../../../components/Footer";
 const today = new Date().toISOString().split("T")[0]; // Generate today's date in YYYY-MM-DD format
 
 const HospitalForm = () => {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData]:any = useState({
     hospitalName: "",
     address: "",
     street: "",
@@ -108,7 +108,7 @@ const HospitalForm = () => {
   };
 
   const addNewSpecialist = () => {
-    setFormData((prevState) => ({
+    setFormData((prevState:any) => ({
       ...prevState,
       keySpecialists: [
         ...prevState.keySpecialists,
@@ -119,7 +119,7 @@ const HospitalForm = () => {
 
 
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e:any) => {
     e.preventDefault();
     console.log(formData); // Replace with actual submission logic
   };
@@ -159,7 +159,6 @@ const HospitalForm = () => {
             value={formData.street}
             onChange={handleInputChange}
             className="w-full p-2 rounded-lg mb-4 bg-gray-100"
-            rows="3"
             required
           />
 
@@ -171,7 +170,6 @@ const HospitalForm = () => {
             value={formData.city}
             onChange={handleInputChange}
             className="w-full p-2 rounded-lg mb-4 bg-gray-100"
-            rows="3"
             required
           />
 
@@ -183,7 +181,6 @@ const HospitalForm = () => {
             value={formData.state}
             onChange={handleInputChange}
             className="w-full p-2 rounded-lg mb-4 bg-gray-100"
-            rows="3"
             required
           />
 
@@ -195,7 +192,6 @@ const HospitalForm = () => {
             value={formData.pincode}
             onChange={handleInputChange}
             className="w-full p-2 rounded-lg mb-4 bg-gray-100"
-            rows="3"
             required
           />
 
@@ -561,7 +557,7 @@ const HospitalForm = () => {
           <h2 className="text-xl font-medium mt-6 mb-4">Key Specialists</h2>
           {/* Key Specialists Section */}
           <h2 className="text-xl font-medium mt-6 mb-4">Key Specialists</h2>
-          {formData.keySpecialists.map((specialist, index) => (
+          {formData.keySpecialists.map((specialist:any, index:any) => (
             <div key={index} className="space-y-4 mb-6">
               <div>
                 <label htmlFor={`specialty_${index}`} className="block font-medium text-cyan-600 mb-2">
@@ -666,7 +662,7 @@ const HospitalForm = () => {
                 onChange={(e) => {
                   handleInputChange(e);
                   if (e.target.value === "No") {
-                    setFormData((prev) => ({ ...prev, technologyDetails: "" })); // Clear the technology details if "No" is selected
+                    setFormData((prev:any) => ({ ...prev, technologyDetails: "" })); // Clear the technology details if "No" is selected
                   }
                 }}
                 required

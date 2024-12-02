@@ -77,6 +77,10 @@ const Navbar = () => {
       text: "Medical Institutions",
       url: "/empanelled_associates/become_a_member/medical_institutions",
     },
+    {
+      text: "Specialist Doctors",
+      url: "/empanelled_associates/become_a_member/specialist_doctors",
+    },
   ];
 
   return (

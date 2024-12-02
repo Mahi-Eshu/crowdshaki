@@ -5,9 +5,47 @@ import Footer from "../../../components/Footer";
 
 const today = new Date().toISOString().split("T")[0]; // Generate today's date in YYYY-MM-DD format
 
+interface FormData {
+  firstName: string;
+  lastName: string;
+  phoneNumber: string;
+  email: string;
+  residentialAddress: string;
+  clinicAddress: string;
+  dob: string;
+
+  medicalRegNumber: string;
+  medicalCouncil: string;
+  dateOfReg: string;
+  qualification: string;
+  institution: string;
+  yearOfPassing: string;
+  totalExperience: string;
+  gpExperience: string;
+
+  hospitalName: string;
+  designation: string;
+  affiliations: string;
+  teleconsultationExperience: boolean;
+  teleconsultationDetails: string;
+
+  preferredDays: string[];
+  preferredTimeSlots: string[];
+
+  hasComputer: boolean;
+  hasInternet: boolean;
+  platformUsed: string;
+
+  certifications: string;
+  compliantWithGuidelines: boolean;
+
+  signature: string;
+  date: string; // or Date depending on how you manage 'today'
+}
+
 
 const GeneralPhysicianForm = () => {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     // Personal Information
     firstName: "",
     lastName: "",
@@ -134,7 +172,7 @@ const GeneralPhysicianForm = () => {
                   value={formData.residentialAddress}
                   onChange={handleInputChange}
                   className="w-full p-2 rounded-lg bg-gray-100"
-                  rows="3"
+                  rows={3}
                   required
                 />
               </div>
@@ -146,7 +184,7 @@ const GeneralPhysicianForm = () => {
                   value={formData.clinicAddress}
                   onChange={handleInputChange}
                   className="w-full p-2 rounded-lg bg-gray-100"
-                  rows="3"
+                  rows={3}
                   required
                 />
               </div>
@@ -310,7 +348,7 @@ const GeneralPhysicianForm = () => {
                   value={formData.affiliations}
                   onChange={handleInputChange}
                   className="w-full p-2 rounded-lg bg-gray-100"
-                  rows="3"
+                  rows={3}
                 />
               </div>
               <div>
@@ -365,7 +403,7 @@ const GeneralPhysicianForm = () => {
                     value={formData.teleconsultationDetails}
                     onChange={handleInputChange}
                     className="w-full p-2 rounded-lg bg-gray-100"
-                    rows="3"
+                    rows={3}
                   />
                 </div>
               )}
@@ -381,7 +419,7 @@ const GeneralPhysicianForm = () => {
               <label className="block font-medium mb-2">Preferred Days</label>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].map(
-                  (day) => (
+                  (day:any) => (
                     <label key={day} className="flex items-center">
                       <input
                         type="checkbox"
@@ -544,7 +582,7 @@ const GeneralPhysicianForm = () => {
                   value={formData.certifications}
                   onChange={handleInputChange}
                   className="w-full p-2 rounded-lg bg-gray-100"
-                  rows="3"
+                  rows={3}
                   placeholder="List your certifications here"
                 />
               </div>
@@ -651,6 +689,7 @@ const GeneralPhysicianForm = () => {
                   <div key={index} className="flex items-center">
                     <input
                       type="file"
+                      id="files"
                       name={`document_${index}`}
                       onChange={(e) => {
                         const file = e.target.files?.[0];
@@ -661,7 +700,7 @@ const GeneralPhysicianForm = () => {
                       }}
                       className="mr-4"
                     />
-                    <label className="block font-medium">{doc}</label>
+                    <label htmlFor="files" className="block font-medium">{doc}</label>
                   </div>
                 ))}
               </div>

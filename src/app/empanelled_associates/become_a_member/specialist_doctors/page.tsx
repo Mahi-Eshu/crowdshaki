@@ -5,8 +5,49 @@ import Footer from "../../../components/Footer";
 
 const today = new Date().toISOString().split("T")[0]; // Generate today's date in YYYY-MM-DD format
 
+interface FormData {
+    firstName: string;
+    lastName: string;
+    phoneNumber: string;
+    email: string;
+    residentialAddress: string;
+    clinicAddress: string;
+    dateOfBirth: string;
+    primarySpecialty: string;
+    subSpecialties: string;
+    medicalRegistrationNumber: string;
+    medicalCouncil: string;
+    registrationDate: string;
+    degree: string;
+    institution: string;
+    yearOfPassing: string;
+    totalExperience: string;
+    specializationExperience: string;
+    clinicHospitalName: string;
+    designation: string;
+    medicalAssociations: string;
+    teleconsultationExperience: string; // Assuming this is a string for now, you can adjust if it should be boolean
+    teleconsultationDetails: string;
+    preferredDays: string[]; // Array of strings for days
+    preferredTimeSlots: string[]; // Array of strings for time slots
+    infrastructure: {
+      computerSmartphone: string;
+      internetConnection: string;
+      platformUsed: string;
+    };
+    additionalCertifications: string;
+    compliance: string;
+    signature: string;
+    declarationDate: string; // Assuming 'today' is a string (ISO format)
+    medicalRegistrationCertificate: File | null; // Assuming file upload
+    qualificationCertificates: File[]; // Array of files
+    proofOfExperience: File | null; // Assuming file upload
+    additionalCertificationsFile: File | null; // Assuming file upload
+    otherDocuments: File[]; // Array of files
+  }
+
 const DoctorForm = () => {
-    const [formData, setFormData] = useState({
+    const [formData, setFormData] = useState<FormData>({
         firstName: "",
         lastName: "",
         phoneNumber: "",
@@ -58,7 +99,7 @@ const DoctorForm = () => {
 
     const handleCheckboxChange = (e: any) => {
         const { name, value, checked } = e.target;
-        setFormData((prev) => {
+        setFormData((prev:any) => {
             const updatedValues = checked
                 ? [...prev[name], value]
                 : prev[name].filter((item: any) => item !== value);
@@ -486,7 +527,7 @@ const DoctorForm = () => {
                 <div className="flex flex-col gap-4">
                     {/* Computer/Smartphone Availability */}
                     <div>
-                        <label className="block font-medium mb-2">
+                        <label htmlFor="computerSmartphone" className="block font-medium mb-2">
                             Availability of Computer/Smartphone
                         </label>
                         <select
@@ -506,7 +547,7 @@ const DoctorForm = () => {
 
                     {/* Internet Connection Availability */}
                     <div>
-                        <label className="block font-medium mb-2">Reliable Internet Connection</label>
+                        <label htmlFor="internetConnection" className="block font-medium mb-2">Reliable Internet Connection</label>
                         <select
                             id="internetConnection"
                             name="infrastructure.internetConnection"
@@ -560,7 +601,7 @@ const DoctorForm = () => {
 
                     {/* Compliance with National Telemedicine Guidelines */}
                     <div>
-                        <label className="block font-medium mb-2">
+                        <label htmlFor="compliance" className="block font-medium mb-2">
                             Compliance with National Telemedicine Guidelines
                         </label>
                         <select
@@ -642,7 +683,7 @@ const DoctorForm = () => {
                             type="file"
                             id="medicalRegistrationCertificate"
                             name="medicalRegistrationCertificate"
-                            onChange={(e) => setFormData({
+                            onChange={(e:any) => setFormData({
                                 ...formData,
                                 medicalRegistrationCertificate: e.target.files[0]
                             })}
@@ -660,7 +701,7 @@ const DoctorForm = () => {
                             id="qualificationCertificates"
                             name="qualificationCertificates"
                             multiple
-                            onChange={(e) => setFormData({
+                            onChange={(e:any) => setFormData({
                                 ...formData,
                                 qualificationCertificates: Array.from(e.target.files)
                             })}
@@ -677,7 +718,7 @@ const DoctorForm = () => {
                             type="file"
                             id="proofOfExperience"
                             name="proofOfExperience"
-                            onChange={(e) => setFormData({
+                            onChange={(e:any) => setFormData({
                                 ...formData,
                                 proofOfExperience: e.target.files[0]
                             })}
@@ -694,7 +735,7 @@ const DoctorForm = () => {
                             type="file"
                             id="additionalCertificationsFile"
                             name="additionalCertificationsFile"
-                            onChange={(e) => setFormData({
+                            onChange={(e:any) => setFormData({
                                 ...formData,
                                 additionalCertificationsFile: e.target.files[0]
                             })}
@@ -712,7 +753,7 @@ const DoctorForm = () => {
                             id="otherDocuments"
                             name="otherDocuments"
                             multiple
-                            onChange={(e) => setFormData({
+                            onChange={(e:any) => setFormData({
                                 ...formData,
                                 otherDocuments: Array.from(e.target.files)
                             })}
