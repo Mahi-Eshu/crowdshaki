@@ -6,62 +6,8 @@ import { hospitalDetails } from "@/app/actions/hospitalDetails";
 
 const today = new Date().toISOString().split("T")[0]; // Generate today's date in YYYY-MM-DD format
 
-interface FormData{
-    hospitalName: string;
-    address: string;
-    street: string;
-    city: string;
-    state: string;
-    pincode: string;
-    country: string;
-    phoneNumber: string;
-    email: string;
-    website: string;
-    registrationNumber: string;
-    dateOfRegistration: string;
-    accreditationDetails: string;
-    medicalDirector: string;
-    directorContact: string;
-    directorEmail: string;
-    primaryContactName: string;
-    primaryContactDesignation: string;
-    primaryContactNumber: string;
-    primaryContactEmail: string;
-    totalBeds: string;
-    icuBeds: string;
-    emergencyBeds: string;
-    // specialties: string[];
-    // services: string[];
-    availability: string;
-    emergencyContactNumber: string;
-    doctors: string;
-    // specialists: string;
-    // nurses: string
-    residentDoctors: string,
-    // keySpecialists: {
-    //   specialty: string;
-    //   name: string;
-    //   qualification: string;
-    //   contact: string;
-    //   email: string;
-    // }[];
-    teleconsultationAvailable:  string,
-    technologyDetails:  string,
-    diagnosticEquipment:  string,
-    surgicalEquipment:  string,
-    isoCertified:  string,
-    nabhAccredited:  string,
-    otherCertifications:  string,
-    regulatoryCompliance:  string,
-    complianceDetails:  string,
-    declarerName:  string,
-    declarerDesignation:  string,
-    declarationDate: string,
-    additionalDocuments:  string
-}
-
-const HospitalForm = () => {
-  const [formData, setFormData]:any = useState<FormData>({
+const hospitalForm = () => {
+  const [formData, setFormData] = useState({
     hospitalName: "",
     address: "",
     street: "",
@@ -85,23 +31,23 @@ const HospitalForm = () => {
     totalBeds: "",
     icuBeds: "",
     emergencyBeds: "",
-    // specialties: [],
-    // services: [],
+    specialties: [],
+    services: [],
     availability: "",
     emergencyContactNumber: "",
     doctors: "",
-    // specialists: "",
+    specialists: "",
     residentDoctors: "",
-    // nurses: "",
-    // keySpecialists: [
-    //   {
-    //     specialty: "",
-    //     name: "",
-    //     qualification: "",
-    //     contact: "",
-    //     email: "",
-    //   },
-    // ],
+    nurses: "",
+    keySpecialists: [
+      {
+        specialty: "",
+        name: "",
+        qualification: "",
+        contact: "",
+        email: "",
+      },
+    ],
     teleconsultationAvailable: "",
     technologyDetails: "",
     diagnosticEquipment: "",
@@ -144,19 +90,25 @@ const HospitalForm = () => {
     "Other",
   ];
 
-  const handleInputChange = (e: any) => {
+  const handleInputChange = (e:  React.ChangeEvent<
+    HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+  > | any) => {
     const { name, value, type, checked } = e.target;
     if (type === "checkbox") {
       const updatedList = checked
-        ? [...formData[name], value]
-        : formData[name].filter((item: any) => item !== value);
+        ? [name, value]
+        : name.filter((item: any) => item !== value);
       setFormData({ ...formData, [name]: updatedList });
     } else {
       setFormData({ ...formData, [name]: value });
     }
   };
 
-  const handleSpecialistChange = (e: any, index: any, field: any) => {
+  const handleSpecialistChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    index: number,
+    field: 'specialty' | 'name' | 'qualification' | 'contact' | 'email'
+  ) => {
     const updatedSpecialists = [...formData.keySpecialists];
     updatedSpecialists[index][field] = e.target.value;
     setFormData({ ...formData, keySpecialists: updatedSpecialists });
@@ -178,13 +130,16 @@ const HospitalForm = () => {
     event.preventDefault(); // Prevent the form from submitting on load/reload
 
     const data = new FormData();
-    await hospitalDetails(formData);
+    Object.entries(formData).forEach(([key, value]) => {
+      data.append(key, value);
+    });
+    await hospitalDetails(data);
 };
 
 
   return (
     <main className="md:px-8 md:py-4 shadow-xl md:border-2 md:border-gray-200">
-      <Navbar />
+      <Navbar></Navbar>
       <h1 className="font-semibold text-[24px] my-8 lg:text-[28px] xl:text-[34px] leading-tight text-black text-center md:text-center">
         G Care Project Empanelment Application Form
       </h1>
@@ -477,7 +432,7 @@ const HospitalForm = () => {
 
 
           <h2 className="text-xl font-medium mt-6 mb-4">Specialties Available</h2>
-          {/* <div className="space-y-2">
+          <div className="space-y-2">
             {specialtiesList.map((specialty) => (
               <label key={specialty} className="block">
 
@@ -491,12 +446,12 @@ const HospitalForm = () => {
                 {specialty}
               </label>
             ))}
-          </div> */}
+          </div>
 
           {/* Services */}
           {/* Section 4: Services Provided */}
-          {/* <h2 className="text-2xl font-semibold mt-6 mb-4">Section 4: Services Provided</h2> */}
-          {/* <h2 className="text-xl font-medium mt-6 mb-4">Services Offered (Please check all that apply)</h2>
+          <h2 className="text-2xl font-semibold mt-6 mb-4">Section 4: Services Provided</h2>
+          <h2 className="text-xl font-medium mt-6 mb-4">Services Offered (Please check all that apply)</h2>
           <div className="space-y-4">
             {servicesList.map((service) => (
               <label key={service} className="flex items-center">
@@ -511,10 +466,10 @@ const HospitalForm = () => {
                 {service}
               </label>
             ))}
-          </div> */}
+          </div> 
           <div className="mt-4">
-            {/* <div className="mb-4"> */}
-              {/* <label htmlFor="availability" className="block font-medium mb-2">
+            <div className="mb-4">
+              <label htmlFor="availability" className="block font-medium mb-2">
                 Availability
               </label>
               <select
@@ -529,7 +484,7 @@ const HospitalForm = () => {
                 <option value="Yes">Yes</option>
                 <option value="No">No</option>
               </select>
-            </div> */}
+            </div>
 
             <label htmlFor="emergencyContactNumber" className="block font-medium mb-2">
               Emergency Contact Number
@@ -614,7 +569,7 @@ const HospitalForm = () => {
 
           <h2 className="text-xl font-medium mt-6 mb-4">Key Specialists</h2>
           {/* Key Specialists Section */}
-          {/* <h2 className="text-xl font-medium mt-6 mb-4">Key Specialists</h2>
+          <h2 className="text-xl font-medium mt-6 mb-4">Key Specialists</h2>
           {formData.keySpecialists.map((specialist:any, index:any) => (
             <div key={index} className="space-y-4 mb-6">
               <div>
@@ -693,7 +648,7 @@ const HospitalForm = () => {
                 />
               </div>
             </div>
-          ))} */}
+          ))}
 
           {/* Button to Add New Specialist */}
           <button
@@ -969,4 +924,4 @@ const HospitalForm = () => {
   );
 };
 
-export default HospitalForm;
+export default hospitalForm;
