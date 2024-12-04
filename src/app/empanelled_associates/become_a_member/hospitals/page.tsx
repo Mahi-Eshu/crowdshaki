@@ -2,11 +2,66 @@
 import React, { useState } from "react";
 import Navbar from "../../../components/Navbar";
 import Footer from "../../../components/Footer";
+import { hospitalDetails } from "@/app/actions/hospitalDetails";
 
 const today = new Date().toISOString().split("T")[0]; // Generate today's date in YYYY-MM-DD format
 
+interface FormData{
+    hospitalName: string;
+    address: string;
+    street: string;
+    city: string;
+    state: string;
+    pincode: string;
+    country: string;
+    phoneNumber: string;
+    email: string;
+    website: string;
+    registrationNumber: string;
+    dateOfRegistration: string;
+    accreditationDetails: string;
+    medicalDirector: string;
+    directorContact: string;
+    directorEmail: string;
+    primaryContactName: string;
+    primaryContactDesignation: string;
+    primaryContactNumber: string;
+    primaryContactEmail: string;
+    totalBeds: string;
+    icuBeds: string;
+    emergencyBeds: string;
+    specialties: string[];
+    services: string[];
+    availability: string;
+    emergencyContactNumber: string;
+    doctors: string;
+    specialists: string;
+    nurses: string
+    residentDoctors: string,
+    keySpecialists: {
+      specialty: string;
+      name: string;
+      qualification: string;
+      contact: string;
+      email: string;
+    }[];
+    teleconsultationAvailable:  string,
+    technologyDetails:  string,
+    diagnosticEquipment:  string,
+    surgicalEquipment:  string,
+    isoCertified:  string,
+    nabhAccredited:  string,
+    otherCertifications:  string,
+    regulatoryCompliance:  string,
+    complianceDetails:  string,
+    declarerName:  string,
+    declarerDesignation:  string,
+    declarationDate: string,
+    additionalDocuments:  string
+}
+
 const HospitalForm = () => {
-  const [formData, setFormData]:any = useState({
+  const [formData, setFormData]:any = useState<FormData>({
     hospitalName: "",
     address: "",
     street: "",
@@ -119,10 +174,17 @@ const HospitalForm = () => {
 
 
 
-  const handleSubmit = (e:any) => {
-    e.preventDefault();
-    console.log(formData); // Replace with actual submission logic
-  };
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault(); // Prevent the form from submitting on load/reload
+
+    const data = new FormData();
+    Object.entries(formData).forEach(([key, value]) => {
+        data.append(key, value);
+    });
+
+    await hospitalDetails(data);
+};
+
 
   return (
     <main className="md:px-8 md:py-4 shadow-xl md:border-2 md:border-gray-200">
@@ -246,7 +308,7 @@ const HospitalForm = () => {
             className="w-full p-2 rounded bg-gray-100 mb-4"
             value={formData.registrationNumber}
             onChange={handleInputChange}
-            required
+            // required
           />
 
           <label htmlFor="dateOfRegistration" className="block mb-2 font-medium">
@@ -864,8 +926,8 @@ const HospitalForm = () => {
 
 
           {/* Section 9: Checklist of Documents to be Attached */}
-          <h2 className="text-2xl font-semibold mt-6 mb-4">Section 9: Checklist of Documents to be Attached</h2>
-          <div className="space-y-4">
+          {/* <h2 className="text-2xl font-semibold mt-6 mb-4">Section 9: Checklist of Documents to be Attached</h2> */}
+          {/* <div className="space-y-4">
             {[
               "Copy of Registration Certificate",
               "Accreditation Certificates",
@@ -886,7 +948,7 @@ const HospitalForm = () => {
                 {doc}
               </label>
             ))}
-          </div>
+          </div> */}
           <div className="mt-4">
             <label htmlFor="additionalDocuments" className="block font-medium mb-2">
               Additional Document Notes (if any)

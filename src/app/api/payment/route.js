@@ -26,7 +26,7 @@ export async function POST(req) {
                 buyer_name,
                 email: buyer_email,
                 phone: buyer_phone,
-                redirect_url: "http://localhost:3000/success" // Replace with your success URL
+                redirect_url: "https://crowdshaki.vercel.app/success" // Replace with your success URL
             })
         });
 

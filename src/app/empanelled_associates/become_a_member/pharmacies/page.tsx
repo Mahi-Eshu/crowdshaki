@@ -5,24 +5,23 @@ import { pharmaciesDetails } from "../../../actions/pharmaciesDetails";
 import Navbar from "../../../components/Navbar";
 import Footer from "../../../components/Footer";
 
-const labForm = () => {
+const pharmacyForm = () => {
   const [formData, setFormData] = useState({
-    //labname
-    labName: "",
+    //pharmacyName
+    pharmacyName: "",
 
     //contact details
-    ownerName: "",
     email: "",
     mobile: "",
     address: "",
     pincode: "",
 
     //lab details
-    labType: "",
+    pharmacyType: "",
     yearsOfOperation: "",
 
     //lab license & accreditation
-    labLicenseNumber: "",
+    pharmacyLicenseNumber: "",
     dateOfIssue: "",
     issuingAuthority: "",
 
@@ -30,10 +29,6 @@ const labForm = () => {
     serviceTypes: "",
     specialTests: "",
     facilities: "",
-
-    //staffs
-    pathologistCount: "",
-    technicianCount: "",
 
     //compliance
     compliantOrnot: "",
@@ -67,20 +62,20 @@ const labForm = () => {
       </h1>
       <div className="p-4 md:flex md:flex-row md:justify-center md:items-center">
         <form onSubmit={handleSubmit}>
-          {/* labname */}
-          <h1 className="m-2 my-12 text-2xl font-medium">1. Lab Details</h1>
+          {/* pharmacyName */}
+          <h1 className="m-2 my-12 text-2xl font-medium">1. Pharmacy Details</h1>
           <div className="m-2 flex flex-col gap-4">
             <div className="flex flex-col gap-4 lg:flex-row lg:gap-40">
               <div>
-                <label htmlFor="labName" className="block font-medium mb-2">
-                  Lab Name
+                <label htmlFor="pharmacyName" className="block font-medium mb-2">
+                  Pharmacy Name
                 </label>
                 <input
                   type="text"
-                  name="labName"
-                  id="labName"
-                  placeholder="Enter your Lab name"
-                  value={formData.labName}
+                  name="pharmacyName"
+                  id="pharmacyName"
+                  placeholder="Enter your pharmacy name"
+                  value={formData.pharmacyName}
                   onChange={handleInputChange}
                   required
                   className="w-full p-2 rounded-xl lg:w-[400px] bg-gray-100"
@@ -91,23 +86,6 @@ const labForm = () => {
           {/* contact details */}
           <h1 className="m-2 my-12 text-2xl font-medium">2. Contact Details</h1>
           <div className="m-2 flex flex-col gap-4">
-            <div className="flex flex-col gap-4 lg:flex-row lg:gap-40">
-              <div>
-                <label htmlFor="ownerName" className="block font-medium mb-2">
-                  Owner Name
-                </label>
-                <input
-                  type="text"
-                  name="ownerName"
-                  id="ownerName"
-                  placeholder="Enter your first name"
-                  value={formData.ownerName}
-                  onChange={handleInputChange}
-                  required
-                  className="w-full p-2 rounded-xl lg:w-[400px] bg-gray-100"
-                />
-              </div>
-            </div>
             <div className="flex flex-col gap-4 lg:flex-row lg:gap-40">
               <div>
                 <label htmlFor="email" className="block font-medium mb-2">
@@ -177,17 +155,17 @@ const labForm = () => {
               </div>
             </div>
             {/* lab details */}
-            <h1 className="my-12 text-2xl font-medium">3. Lab Details</h1>
+            <h1 className="my-12 text-2xl font-medium">3. Business Details</h1>
             <div className=" flex flex-col gap-4">
               <div className="flex flex-col gap-4 lg:flex-row lg:gap-40">
                 <div>
-                  <label htmlFor="labType" className="block font-medium mb-2">
+                  <label htmlFor="pharmacyType" className="block font-medium mb-2">
                     Lab type
                   </label>
                   <select
-                    name="labType"
-                    id="labType"
-                    value={formData.labType}
+                    name="pharmacyType"
+                    id="pharmacyType"
+                    value={formData.pharmacyType}
                     onChange={handleInputChange}
                     required
                     className="w-full p-2 rounded-xl lg:w-[400px] bg-gray-100"
@@ -195,16 +173,9 @@ const labForm = () => {
                     <option value="" disabled>
                       Select your choice
                     </option>
-                    <option value="clinical_pathology">
-                      Clinical Pathology
-                    </option>
-                    <option value="bicroBiology">MicroBiology</option>
-                    <option value="biochemistry">Biochemistry</option>
-                    <option value="hematology">Hematology</option>
-                    <option value="immunology">Immunology</option>
-                    <option value="dermatology">Dermatology</option>
-                    <option value="genetics">Genetics</option>
-                    <option value="others">Others</option>
+                    <option value="independent">Independent</option>
+                    <option value="franchise">Franchise</option>
+                    {/* <option value="others">Others</option> */}
                   </select>
                 </div>
                 <div>
@@ -228,22 +199,22 @@ const labForm = () => {
               </div>
             </div>
             <h1 className="m-2 my-12 text-2xl font-medium">
-              4. Lab License & Accreditation
+              4. Pharmacy License & Accreditation
             </h1>
             <div className="flex flex-col gap-4 lg:flex-row lg:gap-40">
               <div>
                 <label
-                  htmlFor="labLicenseNumber"
+                  htmlFor="pharmacyLicenseNumber"
                   className="block font-medium mb-2"
                 >
-                  Lab License Number
+                  Pharmacy License Number
                 </label>
                 <input
                   type="number"
-                  name="labLicenseNumber"
-                  id="labLicenseNumber"
+                  name="pharmacyLicenseNumber"
+                  id="pharmacyLicenseNumber"
                   placeholder="Enter the license number"
-                  value={formData.labLicenseNumber}
+                  value={formData.pharmacyLicenseNumber}
                   onChange={handleInputChange}
                   required
                   className="w-full p-2 rounded-xl lg:w-[400px] bg-gray-100"
@@ -262,7 +233,7 @@ const labForm = () => {
                   onChange={handleInputChange}
                   required
                   pattern="\d{2}/\d{2}/\d{4}"
-                  title="Enter the License Issue date"
+                  title="Enter the Pharmacy Issue date"
                   className="w-full p-2 rounded-xl lg:w-[400px] bg-gray-100"
                 />
               </div>
@@ -304,60 +275,40 @@ const labForm = () => {
                     <input
                       type="checkbox"
                       name="serviceTypes"
-                      value="Routine Blood Tests"
+                      value="Retail Pharmacy Services"
                       className="mr-2"
                     />
-                    Routine Blood Tests
+                    Retail Pharmacy Services
                   </label>
 
                   <label className="flex items-center">
                     <input
                       type="checkbox"
                       name="serviceTypes"
-                      value="Urine Analysis"
+                      value="Over-the-Counter (OTC) Medicine Sales"
                       className="mr-2"
                     />
-                    Urine Analysis
+                    Over-the-Counter (OTC) Medicine Sales
                   </label>
 
                   <label className="flex items-center">
                     <input
                       type="checkbox"
                       name="serviceTypes"
-                      value="Pathogen Identification"
+                      value="Prescription Medicine Sales"
                       className="mr-2"
                     />
-                    Pathogen Identification
+                    Prescription Medicine Sales
                   </label>
 
                   <label className="flex items-center">
                     <input
                       type="checkbox"
                       name="serviceTypes"
-                      value="Genetic Testing"
+                      value="Medical Equipment Sales"
                       className="mr-2"
                     />
-                    Genetic Testing
-                  </label>
-
-                  <label className="flex items-center">
-                    <input
-                      type="checkbox"
-                      name="serviceTypes"
-                      value="Histopathology"
-                      className="mr-2"
-                    />
-                    Histopathology
-                  </label>
-
-                  <label className="flex items-center">
-                    <input
-                      type="checkbox"
-                      name="serviceTypes"
-                      value="Cytology"
-                      className="mr-2"
-                    />
-                    Cytology
+                    Medical Equipment Sales
                   </label>
                 </div>
               </div>
@@ -376,50 +327,30 @@ const labForm = () => {
                     <input
                       type="checkbox"
                       name="specialTests"
-                      value="Allergy Testing"
+                      value="Compounding Services"
                       className="mr-2"
                     />
-                    Allergy Testing
+                    Compounding Services
                   </label>
 
                   <label className="flex items-center">
                     <input
                       type="checkbox"
                       name="specialTests"
-                      value="Cancer Marker Testing"
+                      value="Home Delivery Services"
                       className="mr-2"
                     />
-                    Cancer Marker Testing
+                    Home Delivery Services
                   </label>
 
                   <label className="flex items-center">
                     <input
                       type="checkbox"
                       name="specialTests"
-                      value="Infectious Disease Testing"
+                      value="Medical Consultation Services"
                       className="mr-2"
                     />
-                    Infectious Disease Testing
-                  </label>
-
-                  <label className="flex items-center">
-                    <input
-                      type="checkbox"
-                      name="specialTests"
-                      value="Hormone Testing"
-                      className="mr-2"
-                    />
-                    Hormone Testing
-                  </label>
-
-                  <label className="flex items-center">
-                    <input
-                      type="checkbox"
-                      name="specialTests"
-                      value="Toxicology Testing"
-                      className="mr-2"
-                    />
-                    Toxicology Testing
+                    Medical Consultation Services
                   </label>
                 </div>
               </div>
@@ -436,10 +367,10 @@ const labForm = () => {
                     <input
                       type="checkbox"
                       name="serviceTypes"
-                      value="Automated Testing Equipment"
+                      value="Air-conditioned Storage"
                       className="mr-2"
                     />
-                    Automated Testing Equipment
+                    Air-conditioned Storage
                   </label>
 
                   <label className="flex items-center">
@@ -456,64 +387,16 @@ const labForm = () => {
                     <input
                       type="checkbox"
                       name="serviceTypes"
-                      value="Biohazardous Waste Disposal System"
+                      value="Automated Dispensing Systems"
                       className="mr-2"
                     />
-                    Biohazardous Waste Disposal System
-                  </label>
-
-                  <label className="flex items-center">
-                    <input
-                      type="checkbox"
-                      name="serviceTypes"
-                      value="Dedicated Waiting Area for Patients"
-                      className="mr-2"
-                    />
-                    Dedicated Waiting Area for Patients
+                    Automated Dispensing Systems
                   </label>
                 </div>
               </div>
             </div>
-            <h1 className="my-12 text-2xl font-medium">6. Man Power</h1>
+            <h1 className="my-12 text-2xl font-medium">6. Compliance and Quality Assurance</h1>
             <div className=" flex flex-col gap-4">
-              <div className="flex flex-col gap-4 lg:flex-row lg:gap-40">
-                <div>
-                  <label
-                    htmlFor="pathologistCount"
-                    className="block font-medium mb-2"
-                  >
-                    Pathologist Count
-                  </label>
-                  <input
-                    type="number"
-                    name="pathologistCount"
-                    id="pathologistCount"
-                    placeholder="Enter Patholoogist Count"
-                    value={formData.pathologistCount}
-                    onChange={handleInputChange}
-                    required
-                    className="w-full p-2 rounded-xl lg:w-[400px] bg-gray-100"
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="accountNumber"
-                    className="block font-medium mb-2"
-                  >
-                    Account Number
-                  </label>
-                  <input
-                    type="number"
-                    name="technicianCount"
-                    id="technicianCount"
-                    placeholder="Enter Technician Count"
-                    value={formData.technicianCount}
-                    onChange={handleInputChange}
-                    required
-                    className="w-full p-2 rounded-xl lg:w-[400px] bg-gray-100"
-                  />
-                </div>
-              </div>
               <div className="flex flex-col gap-4 lg:flex-row lg:gap-40">
                 <div>
                   <label
@@ -554,4 +437,4 @@ const labForm = () => {
   );
 };
 
-export default labForm;
+export default pharmacyForm;

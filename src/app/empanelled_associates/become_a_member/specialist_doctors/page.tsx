@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import Navbar from "../../../components/Navbar";
 import Footer from "../../../components/Footer";
+import { doctorDetails } from "@/app/actions/doctorDetails";
 
 const today = new Date().toISOString().split("T")[0]; // Generate today's date in YYYY-MM-DD format
 
@@ -107,10 +108,15 @@ const DoctorForm = () => {
         });
     };
 
-    const handleSubmit = (event: any) => {
-        event.preventDefault();
-        console.log("Form submitted:", formData);
-        // Call your action or API here
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault(); // Prevent the form from submitting on load/reload
+
+        const data = new FormData();
+        Object.entries(formData).forEach(([key, value]) => {
+            data.append(key, value);
+        });
+
+        await doctorDetails(data);
     };
 
     return (

@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import Navbar from "../../../components/Navbar";
 import Footer from "../../../components/Footer";
+import { gpaDetails } from "@/app/actions/gpaDetails";
 
 const today = new Date().toISOString().split("T")[0]; // Generate today's date in YYYY-MM-DD format
 
@@ -98,10 +99,16 @@ const GeneralPhysicianForm = () => {
     }));
   };
 
-  const handleSubmit = (event: any) => {
-    event.preventDefault();
-    console.log(formData); // Submit logic here
-  };
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault(); // Prevent the form from submitting on load/reload
+
+    const data = new FormData();
+    Object.entries(formData).forEach(([key, value]) => {
+        data.append(key, value);
+    });
+
+    await gpaDetails(data);
+};
 
   return (
     <main className="md:px-8 md:py-4 shadow-xl md:border-2 md:border-gray-200">

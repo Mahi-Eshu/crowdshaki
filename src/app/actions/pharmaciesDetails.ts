@@ -5,19 +5,16 @@ import { NextRequest } from "next/server"
 export const pharmaciesDetails = async(formdata: FormData) => {
     console.log("formdata:", formdata)
     
-    const labName = formdata.get("labName")
-    const ownerName = formdata.get("ownerName")
+    const pharmacyName = formdata.get("pharmacyName")
     const email = formdata.get("email")
     const mobile = formdata.get("mobile")
     const address = formdata.get("address")
     const pincode = formdata.get("pincode")
-    const labType = formdata.get("labType")
+    const pharmacyType = formdata.get("pharmacyType")
     const yearsOfOperation = formdata.get("yearsOfOperation")
     const labLicenseNumber = formdata.get("labLicenseNumber")
     const dateOfIssue = formdata.get("dateOfIssue")
     const issuingAuthority = formdata.get("issuingAuthority")
-    const pathologistCount = formdata.get("pathologistCount")
-    const technicianCount = formdata.get("technicianCount")
     const compliantOrnot = formdata.get("compliantOrnot")
 
     const res = await fetch("https://crowdshaki.vercel.app/api/pharmacies", {  
@@ -26,19 +23,16 @@ export const pharmaciesDetails = async(formdata: FormData) => {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
-            labName,
-            ownerName,
+            pharmacyName,
             email,
             mobile,
             address,
             pincode,
-            labType,
+            pharmacyType,
             yearsOfOperation,
             labLicenseNumber,
             dateOfIssue,
             issuingAuthority,
-            pathologistCount,
-            technicianCount,
             compliantOrnot,
         })
     })
