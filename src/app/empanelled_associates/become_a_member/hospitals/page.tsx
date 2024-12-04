@@ -35,8 +35,8 @@ interface FormData{
     availability: string;
     emergencyContactNumber: string;
     doctors: string;
-    specialists: string;
-    nurses: string
+    // specialists: string;
+    // nurses: string
     residentDoctors: string,
     // keySpecialists: {
     //   specialty: string;
@@ -90,9 +90,9 @@ const HospitalForm = () => {
     availability: "",
     emergencyContactNumber: "",
     doctors: "",
-    specialists: "",
+    // specialists: "",
     residentDoctors: "",
-    nurses: "",
+    // nurses: "",
     // keySpecialists: [
     //   {
     //     specialty: "",
@@ -477,7 +477,7 @@ const HospitalForm = () => {
 
 
           <h2 className="text-xl font-medium mt-6 mb-4">Specialties Available</h2>
-          <div className="space-y-2">
+          {/* <div className="space-y-2">
             {specialtiesList.map((specialty) => (
               <label key={specialty} className="block">
 
@@ -491,12 +491,12 @@ const HospitalForm = () => {
                 {specialty}
               </label>
             ))}
-          </div>
+          </div> */}
 
           {/* Services */}
           {/* Section 4: Services Provided */}
-          <h2 className="text-2xl font-semibold mt-6 mb-4">Section 4: Services Provided</h2>
-          <h2 className="text-xl font-medium mt-6 mb-4">Services Offered (Please check all that apply)</h2>
+          {/* <h2 className="text-2xl font-semibold mt-6 mb-4">Section 4: Services Provided</h2> */}
+          {/* <h2 className="text-xl font-medium mt-6 mb-4">Services Offered (Please check all that apply)</h2>
           <div className="space-y-4">
             {servicesList.map((service) => (
               <label key={service} className="flex items-center">
@@ -511,10 +511,10 @@ const HospitalForm = () => {
                 {service}
               </label>
             ))}
-          </div>
+          </div> */}
           <div className="mt-4">
-            <div className="mb-4">
-              <label htmlFor="availability" className="block font-medium mb-2">
+            {/* <div className="mb-4"> */}
+              {/* <label htmlFor="availability" className="block font-medium mb-2">
                 Availability
               </label>
               <select
@@ -529,7 +529,7 @@ const HospitalForm = () => {
                 <option value="Yes">Yes</option>
                 <option value="No">No</option>
               </select>
-            </div>
+            </div> */}
 
             <label htmlFor="emergencyContactNumber" className="block font-medium mb-2">
               Emergency Contact Number
@@ -614,7 +614,7 @@ const HospitalForm = () => {
 
           <h2 className="text-xl font-medium mt-6 mb-4">Key Specialists</h2>
           {/* Key Specialists Section */}
-          <h2 className="text-xl font-medium mt-6 mb-4">Key Specialists</h2>
+          {/* <h2 className="text-xl font-medium mt-6 mb-4">Key Specialists</h2>
           {formData.keySpecialists.map((specialist:any, index:any) => (
             <div key={index} className="space-y-4 mb-6">
               <div>
@@ -693,7 +693,7 @@ const HospitalForm = () => {
                 />
               </div>
             </div>
-          ))}
+          ))} */}
 
           {/* Button to Add New Specialist */}
           <button
