@@ -30,21 +30,21 @@ interface FormData{
     totalBeds: string;
     icuBeds: string;
     emergencyBeds: string;
-    specialties: string[];
-    services: string[];
+    // specialties: string[];
+    // services: string[];
     availability: string;
     emergencyContactNumber: string;
     doctors: string;
     specialists: string;
     nurses: string
     residentDoctors: string,
-    keySpecialists: {
-      specialty: string;
-      name: string;
-      qualification: string;
-      contact: string;
-      email: string;
-    }[];
+    // keySpecialists: {
+    //   specialty: string;
+    //   name: string;
+    //   qualification: string;
+    //   contact: string;
+    //   email: string;
+    // }[];
     teleconsultationAvailable:  string,
     technologyDetails:  string,
     diagnosticEquipment:  string,
@@ -85,23 +85,23 @@ const HospitalForm = () => {
     totalBeds: "",
     icuBeds: "",
     emergencyBeds: "",
-    specialties: [],
-    services: [],
+    // specialties: [],
+    // services: [],
     availability: "",
     emergencyContactNumber: "",
     doctors: "",
     specialists: "",
     residentDoctors: "",
     nurses: "",
-    keySpecialists: [
-      {
-        specialty: "",
-        name: "",
-        qualification: "",
-        contact: "",
-        email: "",
-      },
-    ],
+    // keySpecialists: [
+    //   {
+    //     specialty: "",
+    //     name: "",
+    //     qualification: "",
+    //     contact: "",
+    //     email: "",
+    //   },
+    // ],
     teleconsultationAvailable: "",
     technologyDetails: "",
     diagnosticEquipment: "",
@@ -178,10 +178,6 @@ const HospitalForm = () => {
     event.preventDefault(); // Prevent the form from submitting on load/reload
 
     const data = new FormData();
-    Object.entries(formData).forEach(([key, value]) => {
-        data.append(key, value);
-    });
-
     await hospitalDetails(data);
 };
 
