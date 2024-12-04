@@ -126,12 +126,16 @@ const hospitalForm = () => {
 
 
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement> | any) => {
     event.preventDefault(); // Prevent the form from submitting on load/reload
 
     const data = new FormData();
     Object.entries(formData).forEach(([key, value]) => {
-      data.append(key, value);
+      if (typeof value === "object" || typeof value === "boolean") {
+        data.append(key, JSON.stringify(value));
+      } else {
+        data.append(key, value as string);
+      }
     });
     await hospitalDetails(data);
 };
