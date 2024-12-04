@@ -178,7 +178,7 @@ const HospitalForm = () => {
     event.preventDefault(); // Prevent the form from submitting on load/reload
 
     const data = new FormData();
-    await hospitalDetails(data);
+    await hospitalDetails(formData);
 };
 
 
