@@ -54,12 +54,10 @@ const Navbar = () => {
   const empanelledLinks = [
     { text: "Labs", url: "/empanelled_associates/labs" },
     { text: "Pharmacies", url: "/empanelled_associates/pharmacies" },
-    { text: "Doctors", url: "/empanelled_associates/doctors" },
+    { text: "General Physicians", url: "/empanelled_associates/gpa" },
     { text: "Hospitals", url: "/empanelled_associates/hospitals" },
-    {
-      text: "Medical Institutions",
-      url: "/empanelled_associates/medical_institutions",
-    },
+    { text: "Medical Institutions", url: "/empanelled_associates/medical_institutions",},
+    { text: "Specialist Doctors", url: "/empanelled_associates/specialist_doctors" },
   ];
 
   const becomeMember = [
