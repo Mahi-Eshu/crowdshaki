@@ -24,11 +24,11 @@ const page = async () => {
                 <h1 className='text-3xl font-semibold text-center'>Hospitals</h1>
                 <div className='grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3'>
                     {
-                        hospitals.hospitals.map((doctor: any, index: any) => (
+                        hospitals.hospitals.map((hospital: any, index: any) => (
                             <div className='text-black p-2 lg:p-8' key={index}>
                                 <div className='p-6 shadow-lg rounded-lg space-y-2'>
-                                    <h1><span className='font-semibold'>Doctor Name: </span>{doctor['hospitalName']}</h1>
-                                    <p><span className='font-semibold'>Contact: </span>{doctor.primaryContactNumber}</p>
+                                    <h1><span className='font-semibold'>Hospital Name: </span>{hospital['hospitalName']}</h1>
+                                    <p><span className='font-semibold'>Contact: </span>{hospital.primaryContactNumber}</p>
                                 </div>
                             </div>
                         ))
