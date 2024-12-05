@@ -5,8 +5,8 @@ export const GET = async (req) => {
   try {
     const client = await connectToDatabase();
     const db = client.db("crowdshaki");
-    const labs = await db.collection("Labs").find().toArray();
-    return NextResponse.json({ labs });
+    const hospitals = await db.collection("hospitals").find().toArray();
+    return NextResponse.json({ hospitals });
   } catch (error) {
     return NextResponse.json({ status: 500, error: "Internal Server Error" });
   }

@@ -4,7 +4,8 @@ import Navbar from '@/app/components/Navbar';
 
 const getData = async () => {
     const res = await fetch(
-        'https://crowdshaki.vercel.app/api/doctors',
+        // 'https://crowdshaki.vercel.com/api/hospitals',
+        'https://crowdshaki.vercel.app/api/hospitals',
         { cache: "no-store" }
     );
     if (!res.ok) {
@@ -14,19 +15,20 @@ const getData = async () => {
 };
 
 const page = async () => {
-    const doctors = await getData();
+    const hospitals = await getData();
+    console.log("Hospitals", hospitals);
     return (
         <div>
             <Navbar></Navbar>
             <div className='p-4 lg:p-8 space-y-6'>
-                <h1 className='text-3xl font-semibold text-center'>Doctors</h1>
+                <h1 className='text-3xl font-semibold text-center'>Hospitals</h1>
                 <div className='grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3'>
                     {
-                        doctors.doctors.map((doctor: any, index: any) => (
+                        hospitals.hospitals.map((doctor: any, index: any) => (
                             <div className='text-black p-2 lg:p-8' key={index}>
                                 <div className='p-6 shadow-lg rounded-lg space-y-2'>
-                                    <h1><span className='font-semibold'>Doctor Name: </span>{doctor['doctorName']}</h1>
-                                    <p><span className='font-semibold'>Contact: </span>{doctor.phoneNumber}</p>
+                                    <h1><span className='font-semibold'>Doctor Name: </span>{doctor['hospitalName']}</h1>
+                                    <p><span className='font-semibold'>Contact: </span>{doctor.primaryContactNumber}</p>
                                 </div>
                             </div>
                         ))

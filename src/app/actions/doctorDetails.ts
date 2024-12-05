@@ -6,8 +6,8 @@ export const doctorDetails = async (formData: FormData) => {
     console.log("Form Data:", formData);
 
     const data = {
-        firstName: formData.get("firstName") as string,
-        lastName: formData.get("lastName") as string,
+        // firstName: formData.get("firstName") as string,
+        doctorName: formData.get("doctorName") as string,
         phoneNumber: formData.get("phoneNumber") as string,
         email: formData.get("email") as string,
         residentialAddress: formData.get("residentialAddress") as string,

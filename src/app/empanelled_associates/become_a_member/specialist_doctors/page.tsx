@@ -7,8 +7,8 @@ import { doctorDetails } from "@/app/actions/doctorDetails";
 const today = new Date().toISOString().split("T")[0]; // Generate today's date in YYYY-MM-DD format
 
 interface FormData {
-    firstName: string;
-    lastName: string;
+    // firstName: string;
+    doctorName: string;
     phoneNumber: string;
     email: string;
     residentialAddress: string;
@@ -49,8 +49,8 @@ interface FormData {
 
 const DoctorForm = () => {
     const [formData, setFormData] = useState<FormData>({
-        firstName: "",
-        lastName: "",
+        // firstName: "",
+        doctorName: "",
         phoneNumber: "",
         email: "",
         residentialAddress: "",
@@ -129,8 +129,8 @@ const DoctorForm = () => {
                 {/* Section 1: Personal Information */}
                 <h2 className="text-2xl font-medium mb-4">1. Personal Information</h2>
                 <div className="flex flex-col gap-4">
-                    <div>
-                        <label htmlFor="firstName" className="block font-medium mb-2">
+                    {/* <div> */}
+                        {/* <label htmlFor="firstName" className="block font-medium mb-2">
                             First Name
                         </label>
                         <input
@@ -141,17 +141,17 @@ const DoctorForm = () => {
                             onChange={handleInputChange}
                             className="w-full p-2 rounded bg-gray-100"
                             placeholder="Enter First Name"
-                        />
-                    </div>
+                        /> */}
+                    {/* </div> */}
                     <div>
-                        <label htmlFor="lastName" className="block font-medium mb-2">
-                            Last Name
+                        <label htmlFor="doctorName" className="block font-medium mb-2">
+                            Doctor Name
                         </label>
                         <input
                             type="text"
-                            id="lastName"
-                            name="lastName"
-                            value={formData.lastName}
+                            id="doctorName"
+                            name="doctorName"
+                            value={formData.doctorName}
                             onChange={handleInputChange}
                             className="w-full p-2 rounded bg-gray-100"
                             placeholder="Enter Last Name"
