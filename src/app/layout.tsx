@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import { DM_Sans, Red_Hat_Display, Plus_Jakarta_Sans } from "next/font/google";
 import { AuthContextProvider } from "./context/AuthContext";
 import "./globals.css";
-import { ToastContainer } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css'; // Add this line
+import { ToastContainer } from "./toast";
 
 const inter = Plus_Jakarta_Sans({ subsets: ["latin"] });
 

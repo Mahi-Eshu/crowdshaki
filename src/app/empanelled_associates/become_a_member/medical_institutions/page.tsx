@@ -1,51 +1,99 @@
 "use client";
-import React, { useState, useEffect } from "react";
-import { useSearchParams } from "next/navigation";
-import { medDetails } from "../../../actions/medDetails";
+import React, { useState } from "react";
 import Navbar from "../../../components/Navbar";
 import Footer from "../../../components/Footer";
+import { doctorDetails } from "@/app/actions/doctorDetails";
 
-const labForm = () => {
-  const [formData, setFormData] = useState({
-    //labname
-    labName: "",
+const today = new Date().toISOString().split("T")[0]; // Generate today's date in YYYY-MM-DD format
 
-    //contact details
-    ownerName: "",
+interface FormData {
+  // firstName: string;
+  institutionName: string;
+  address: string;
+  phoneNumber: string;
+  landlineNumber: string;
+  email: string;
+  website: string;
+  registrationNumber: string;
+  registrationDate: string;
+  accreditationDetails: string;
+  principalName: string;
+  principalMobile: string;
+  principalEmail: string;
+  primaryContact: string;
+  primaryContactDesignation: string;
+  primaryContactMobile: string;
+  primaryContactEmail: string;
+  noOfBeds: string;
+  icuBeds: string;
+  emergencyBeds: string;
+  services: string[]; // Array of strings for days
+  availability: string[]; // Array of strings for time slots
+
+  infrastructure: {
+    computerSmartphone: string;
+    internetConnection: string;
+    platformUsed: string;
+  };
+  additionalCertifications: string;
+  compliance: string;
+  signature: string;
+  declarationDate: string; // Assuming 'today' is a string (ISO format)
+  medicalRegistrationCertificate: File | null; // Assuming file upload
+  qualificationCertificates: File[]; // Array of files
+  proofOfExperience: File | null; // Assuming file upload
+  additionalCertificationsFile: File | null; // Assuming file upload
+  otherDocuments: File[]; // Array of files
+}
+
+const DoctorForm = () => {
+  const [formData, setFormData] = useState<FormData>({
+    // firstName: "",
+    doctorName: "",
+    phoneNumber: "",
     email: "",
-    mobile: "",
-    address: "",
-    pincode: "",
-
-    //lab details
-    labType: "",
-    yearsOfOperation: "",
-
-    //lab license & accreditation
-    labLicenseNumber: "",
-    dateOfIssue: "",
-    issuingAuthority: "",
-
-    //services provided
-    serviceTypes: "",
-    specialTests: "",
-    facilities: "",
-
-    //staffs
-    pathologistCount: "",
-    technicianCount: "",
-
-    //compliance
-    compliantOrnot: "",
+    residentialAddress: "",
+    clinicAddress: "",
+    dateOfBirth: "",
+    primarySpecialty: "",
+    subSpecialties: "",
+    medicalRegistrationNumber: "",
+    medicalCouncil: "",
+    registrationDate: "",
+    degree: "",
+    institution: "",
+    yearOfPassing: "",
+    totalExperience: "",
+    specializationExperience: "",
+    clinicHospitalName: "",
+    designation: "",
+    medicalAssociations: "",
+    teleconsultationExperience: "",
+    teleconsultationDetails: "",
+    preferredDays: [],
+    preferredTimeSlots: [],
+    infrastructure: {
+      computerSmartphone: "",
+      internetConnection: "",
+      platformUsed: "",
+    },
+    additionalCertifications: "",
+    compliance: "",
+    signature: "",
+    declarationDate: today,
+    medicalRegistrationCertificate: null,
+    qualificationCertificates: [],
+    proofOfExperience: null,
+    additionalCertificationsFile: null,
+    otherDocuments: [],
   });
 
-  const handleInputChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prevValues) => ({ ...prevValues, [name]: value }));
+  const handleInputChange = (e: any) => {
+    const { name, value, type, checked } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value,
+    }));
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -56,502 +104,691 @@ const labForm = () => {
       data.append(key, value);
     });
 
-    await medDetails(data);
+    await doctorDetails(data);
   };
 
   return (
     <main className="md:px-8 md:py-4 shadow-xl md:border-2 md:border-gray-200">
-      <Navbar></Navbar>
-      <h1 className="font-semibold text-[24px] my-8 lg:text-[28px] xl:text-[34px] leading-tight text-black text-center md:text-center">
-        Fill the form! Become a Member!
+      <Navbar />
+      <h1 className="font-semibold text-[24px] my-8 lg:text-[28px] xl:text-[34px] text-center">
+        Specialist Doctors Application Form
       </h1>
-      <div className="p-4 md:flex md:flex-row md:justify-center md:items-center">
-        <form onSubmit={handleSubmit}>
-          {/* labname */}
-          <h1 className="m-2 my-12 text-2xl font-medium">1. Lab Details</h1>
-          <div className="m-2 flex flex-col gap-4">
-            <div className="flex flex-col gap-4 lg:flex-row lg:gap-40">
-              <div>
-                <label htmlFor="labName" className="block font-medium mb-2">
-                  Lab Name
-                </label>
-                <input
-                  type="text"
-                  name="labName"
-                  id="labName"
-                  placeholder="Enter your Lab name"
-                  value={formData.labName}
-                  onChange={handleInputChange}
-                  required
-                  className="w-full p-2 rounded-xl lg:w-[400px] bg-gray-100"
-                />
-              </div>
-            </div>
+      <form
+        onSubmit={handleSubmit}
+        className="p-4 lg:max-w-[1000px] xl:lg:max-w-[1200px] mx-auto"
+      >
+        {/* Section 1: Personal Information */}
+        <h2 className="text-2xl font-medium mb-4">Section 1. General Information</h2>
+        <div className="flex flex-col gap-4">
+          <div>
+            <label htmlFor="institutionName" className="block font-medium mb-2">
+              Institution Name
+            </label>
+            <input
+              type="text"
+              id="institutionName"
+              name="institutionName"
+              value={formData.institutionName}
+              onChange={handleInputChange}
+              className="w-full p-2 rounded bg-gray-100"
+              placeholder="Enter Institution Name"
+            />
           </div>
-          {/* contact details */}
-          <h1 className="m-2 my-12 text-2xl font-medium">2. Contact Details</h1>
-          <div className="m-2 flex flex-col gap-4">
-            <div className="flex flex-col gap-4 lg:flex-row lg:gap-40">
-              <div>
-                <label htmlFor="ownerName" className="block font-medium mb-2">
-                  Owner Name
-                </label>
-                <input
-                  type="text"
-                  name="ownerName"
-                  id="ownerName"
-                  placeholder="Enter your first name"
-                  value={formData.ownerName}
-                  onChange={handleInputChange}
-                  required
-                  className="w-full p-2 rounded-xl lg:w-[400px] bg-gray-100"
-                />
-              </div>
-            </div>
-            <div className="flex flex-col gap-4 lg:flex-row lg:gap-40">
-              <div>
-                <label htmlFor="email" className="block font-medium mb-2">
-                  Email ID
-                </label>
-                <input
-                  type="email"
-                  name="email"
-                  id="email"
-                  placeholder="Enter your email ID"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  required
-                  className="w-full p-2 rounded-xl lg:w-[400px] bg-gray-100"
-                />
-              </div>
-              <div>
-                <label htmlFor="mobile" className="block font-medium mb-2">
-                  Mobile Number
-                </label>
-                <input
-                  type="number"
-                  name="mobile"
-                  id="mobile"
-                  placeholder="Enter your mobile number"
-                  value={formData.mobile}
-                  onChange={handleInputChange}
-                  required
-                  maxLength={10}
-                  className="w-full p-2 rounded-xl lg:w-[400px] bg-gray-100"
-                />
-              </div>
-            </div>
+        </div>
+
+        <div>
+          <label htmlFor="address" className="block font-medium mb-2">
+            Address
+          </label>
+          <input
+            type="text"
+            id="address"
+            name="address"
+            value={formData.address}
+            onChange={handleInputChange}
+            className="w-full p-2 rounded bg-gray-100"
+            placeholder="Enter Residential Address"
+          />
+        </div>
+
+        <div className="flex flex-col gap-4">
+          <div>
+            <label htmlFor="phoneNumber" className="block font-medium mb-2">
+              Phone Number
+            </label>
+            <input
+              type="text"
+              id="phoneNumber"
+              name="phoneNumber"
+              value={formData.phoneNumber}
+              onChange={handleInputChange}
+              className="w-full p-2 rounded bg-gray-100"
+              placeholder="Enter Phone Number"
+            />
           </div>
-          <div className="m-2 flex flex-col gap-4">
-            <div>
-              <label htmlFor="address" className="block font-medium mb-2">
-                Address
-              </label>
-              <input
-                type="text"
-                name="address"
-                id="address"
-                placeholder="Enter your address"
-                value={formData.address}
-                onChange={handleInputChange}
-                required
-                className="w-full p-2 rounded-xl lg:w-[400px] bg-gray-100"
-              />
-            </div>
-            <div className="flex flex-col gap-4 lg:flex-row lg:gap-40">
-              <div>
-                <label htmlFor="pincode" className="block font-medium mb-2">
-                  Pincode
-                </label>
-                <input
-                  type="number"
-                  name="pincode"
-                  id="pincode"
-                  placeholder="Enter your pincode"
-                  value={formData.pincode}
-                  onChange={handleInputChange}
-                  required
-                  maxLength={6}
-                  className="w-full p-2 rounded-xl lg:w-[400px] bg-gray-100"
-                />
-              </div>
-            </div>
-            {/* lab details */}
-            <h1 className="my-12 text-2xl font-medium">3. Lab Details</h1>
-            <div className=" flex flex-col gap-4">
-              <div className="flex flex-col gap-4 lg:flex-row lg:gap-40">
-                <div>
-                  <label htmlFor="labType" className="block font-medium mb-2">
-                    Lab type
-                  </label>
-                  <select
-                    name="labType"
-                    id="labType"
-                    value={formData.labType}
-                    onChange={handleInputChange}
-                    required
-                    className="w-full p-2 rounded-xl lg:w-[400px] bg-gray-100"
-                  >
-                    <option value="" disabled>
-                      Select your choice
-                    </option>
-                    <option value="clinical_pathology">
-                      Clinical Pathology
-                    </option>
-                    <option value="bicroBiology">MicroBiology</option>
-                    <option value="biochemistry">Biochemistry</option>
-                    <option value="hematology">Hematology</option>
-                    <option value="immunology">Immunology</option>
-                    <option value="dermatology">Dermatology</option>
-                    <option value="genetics">Genetics</option>
-                    <option value="others">Others</option>
-                  </select>
-                </div>
-                <div>
-                  <label
-                    htmlFor="yearsOfOperation"
-                    className="block font-medium mb-2"
-                  >
-                    Years of Operation
-                  </label>
-                  <input
-                    type="number"
-                    name="yearsOfOperation"
-                    id="yearsOfOperation"
-                    placeholder="Enter the years of operation"
-                    value={formData.yearsOfOperation}
-                    onChange={handleInputChange}
-                    required
-                    className="w-full p-2 rounded-xl lg:w-[400px] bg-gray-100"
-                  />
-                </div>
-              </div>
-            </div>
-            <h1 className="m-2 my-12 text-2xl font-medium">
-              4. Lab License & Accreditation
-            </h1>
-            <div className="flex flex-col gap-4 lg:flex-row lg:gap-40">
-              <div>
-                <label
-                  htmlFor="labLicenseNumber"
-                  className="block font-medium mb-2"
-                >
-                  Lab License Number
-                </label>
-                <input
-                  type="number"
-                  name="labLicenseNumber"
-                  id="labLicenseNumber"
-                  placeholder="Enter the license number"
-                  value={formData.labLicenseNumber}
-                  onChange={handleInputChange}
-                  required
-                  className="w-full p-2 rounded-xl lg:w-[400px] bg-gray-100"
-                />
-              </div>
-              <div>
-                <label htmlFor="dateOfIssue" className="block font-medium mb-2">
-                  Date of Issue
-                </label>
-                <input
-                  type="text"
-                  name="dateOfIssue"
-                  id="dateOfIssue"
-                  placeholder="dd/mm/yyyy"
-                  value={formData.dateOfIssue}
-                  onChange={handleInputChange}
-                  required
-                  pattern="\d{2}/\d{2}/\d{4}"
-                  title="Enter the License Issue date"
-                  className="w-full p-2 rounded-xl lg:w-[400px] bg-gray-100"
-                />
-              </div>
-            </div>
-            <div className="flex flex-col gap-4 lg:flex-row lg:gap-40">
-              <div>
-                <label
-                  htmlFor="issuingAuthority"
-                  className="block font-medium mb-2"
-                >
-                  Issuing Authority
-                </label>
-                <input
-                  type="text"
-                  name="issuingAuthority"
-                  id="issuingAuthority"
-                  placeholder="Enter the Issuing Authority Name"
-                  value={formData.issuingAuthority}
-                  onChange={handleInputChange}
-                  required
-                  className="w-full p-2 rounded-xl lg:w-[400px] bg-gray-100"
-                />
-              </div>
-            </div>
-            {/* 3 dropdowns - services provided */}
-            <h1 className="my-12 text-2xl font-medium">5. Services Provided</h1>
-            <div className="flex flex-col gap-4 lg:flex-row lg:gap-40 mb-8">
-              {/* serviceTypes */}
-              <div>
-                <label
-                  htmlFor="serviceTypes"
-                  className="block font-medium mb-2"
-                >
-                  Service Type
-                </label>
+          <div>
+            <label htmlFor="landlineNumber" className="block font-medium mb-2">
+              Landline Number
+            </label>
+            <input
+              type="text"
+              id="landlineNumber"
+              name="landlineNumber"
+              value={formData.landlineNumber}
+              onChange={handleInputChange}
+              className="w-full p-2 rounded bg-gray-100"
+              placeholder="Enter Phone Number"
+            />
+          </div>
+          <div>
+            <label htmlFor="email" className="block font-medium mb-2">
+              Email
+            </label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              value={formData.email}
+              onChange={handleInputChange}
+              className="w-full p-2 rounded bg-gray-100"
+              placeholder="Enter Email Address"
+            />
+          </div>
+        </div>
 
-                <div className="space-y-2">
-                  <label className="flex items-center">
-                    <input
-                      type="checkbox"
-                      name="serviceTypes"
-                      value="Routine Blood Tests"
-                      className="mr-2"
-                    />
-                    Routine Blood Tests
-                  </label>
+        <div>
+          <label htmlFor="website" className="block font-medium mb-2">
+            Website (if available)
+          </label>
+          <input
+            type="text"
+            id="website"
+            name="website"
+            value={formData.website}
+            onChange={handleInputChange}
+            className="w-full p-2 rounded bg-gray-100"
+            placeholder="Enter Clinic Address"
+          />
+        </div>
 
-                  <label className="flex items-center">
-                    <input
-                      type="checkbox"
-                      name="serviceTypes"
-                      value="Urine Analysis"
-                      className="mr-2"
-                    />
-                    Urine Analysis
-                  </label>
+        <div>
+          <label
+            htmlFor="registrationNumber"
+            className="block font-medium mb-2"
+          >
+            Registration Number
+          </label>
+          <input
+            type="text"
+            id="registrationNumber"
+            name="registrationNumber"
+            value={formData.registrationNumber}
+            onChange={handleInputChange}
+            className="w-full p-2 rounded bg-gray-100"
+          />
+        </div>
 
-                  <label className="flex items-center">
-                    <input
-                      type="checkbox"
-                      name="serviceTypes"
-                      value="Pathogen Identification"
-                      className="mr-2"
-                    />
-                    Pathogen Identification
-                  </label>
+        <div>
+          <label htmlFor="registrationDate" className="block font-medium mb-2">
+            Date of Registration
+          </label>
+          <input
+            type="text"
+            id="registrationDate"
+            name="registrationDate"
+            value={formData.registrationDate}
+            onChange={handleInputChange}
+            className="w-full p-2 rounded bg-gray-100"
+          />
+        </div>
 
-                  <label className="flex items-center">
-                    <input
-                      type="checkbox"
-                      name="serviceTypes"
-                      value="Genetic Testing"
-                      className="mr-2"
-                    />
-                    Genetic Testing
-                  </label>
+        <div>
+          <label
+            htmlFor="accreditationDetails"
+            className="block font-medium mb-2"
+          >
+            Accreditation Details
+          </label>
+          <input
+            type="text"
+            id="accreditationDetails"
+            name="accreditationDetails"
+            value={formData.accreditationDetails}
+            onChange={handleInputChange}
+            className="w-full p-2 rounded bg-gray-100"
+          />
+        </div>
 
-                  <label className="flex items-center">
-                    <input
-                      type="checkbox"
-                      name="serviceTypes"
-                      value="Histopathology"
-                      className="mr-2"
-                    />
-                    Histopathology
-                  </label>
+        <h2 className="text-2xl font-medium mb-4">
+        Section 2. Administrative Information
+        </h2>
+        <div className="flex flex-col gap-4">
+          <div>
+            <label htmlFor="principalName" className="block font-medium mb-2">
+              Principal/Dean Name
+            </label>
+            <input
+              type="text"
+              id="principalName"
+              name="principalName"
+              value={formData.principalName}
+              onChange={handleInputChange}
+              className="w-full p-2 rounded bg-gray-100"
+              placeholder="Enter Medical Council"
+            />
+          </div>
+        </div>
 
-                  <label className="flex items-center">
-                    <input
-                      type="checkbox"
-                      name="serviceTypes"
-                      value="Cytology"
-                      className="mr-2"
-                    />
-                    Cytology
-                  </label>
-                </div>
-              </div>
+        <div className="flex flex-col gap-4">
+          <div>
+            <label htmlFor="principalMobile" className="block font-medium mb-2">
+              Principal/Dean Mobile
+            </label>
+            <input
+              type="text"
+              id="principalMobile"
+              name="principalMobile"
+              value={formData.principalMobile}
+              onChange={handleInputChange}
+              className="w-full p-2 rounded bg-gray-100"
+            />
+          </div>
+        </div>
 
-              {/* specialTests */}
-              <div>
-                <label
-                  htmlFor="serviceTypes"
-                  className="block font-medium mb-2"
-                >
-                  Special Tests
-                </label>
+        <div className="flex flex-col gap-4">
+          <div>
+            <label htmlFor="principalEmail" className="block font-medium mb-2">
+              Principal/Dean Email
+            </label>
+            <input
+              type="text"
+              id="principalEmail"
+              name="principalEmail"
+              value={formData.principalEmail}
+              onChange={handleInputChange}
+              className="w-full p-2 rounded bg-gray-100"
+            />
+          </div>
+        </div>
 
-                <div className="space-y-2">
-                  <label className="flex items-center">
-                    <input
-                      type="checkbox"
-                      name="specialTests"
-                      value="Allergy Testing"
-                      className="mr-2"
-                    />
-                    Allergy Testing
-                  </label>
+        <div className="flex flex-col gap-4">
+          <div>
+            <label htmlFor="primaryContact" className="block font-medium mb-2">
+              Primary Contact person Name for GCare project
+            </label>
+            <input
+              type="text"
+              id="primaryContact"
+              name="primaryContact"
+              value={formData.primaryContact}
+              onChange={handleInputChange}
+              className="w-full p-2 rounded bg-gray-100"
+            />
+          </div>
+        </div>
 
-                  <label className="flex items-center">
-                    <input
-                      type="checkbox"
-                      name="specialTests"
-                      value="Cancer Marker Testing"
-                      className="mr-2"
-                    />
-                    Cancer Marker Testing
-                  </label>
-
-                  <label className="flex items-center">
-                    <input
-                      type="checkbox"
-                      name="specialTests"
-                      value="Infectious Disease Testing"
-                      className="mr-2"
-                    />
-                    Infectious Disease Testing
-                  </label>
-
-                  <label className="flex items-center">
-                    <input
-                      type="checkbox"
-                      name="specialTests"
-                      value="Hormone Testing"
-                      className="mr-2"
-                    />
-                    Hormone Testing
-                  </label>
-
-                  <label className="flex items-center">
-                    <input
-                      type="checkbox"
-                      name="specialTests"
-                      value="Toxicology Testing"
-                      className="mr-2"
-                    />
-                    Toxicology Testing
-                  </label>
-                </div>
-              </div>
-            </div>
-            {/* facilities */}
-            <div className="flex flex-col gap-4 lg:flex-row lg:gap-40">
-              <div>
-                <label htmlFor="facilities" className="block font-medium mb-2">
-                  Facilities
-                </label>
-
-                <div className="space-y-2">
-                  <label className="flex items-center">
-                    <input
-                      type="checkbox"
-                      name="serviceTypes"
-                      value="Automated Testing Equipment"
-                      className="mr-2"
-                    />
-                    Automated Testing Equipment
-                  </label>
-
-                  <label className="flex items-center">
-                    <input
-                      type="checkbox"
-                      name="serviceTypes"
-                      value="Refrigerated Storage for Samples"
-                      className="mr-2"
-                    />
-                    Refrigerated Storage for Samples
-                  </label>
-
-                  <label className="flex items-center">
-                    <input
-                      type="checkbox"
-                      name="serviceTypes"
-                      value="Biohazardous Waste Disposal System"
-                      className="mr-2"
-                    />
-                    Biohazardous Waste Disposal System
-                  </label>
-
-                  <label className="flex items-center">
-                    <input
-                      type="checkbox"
-                      name="serviceTypes"
-                      value="Dedicated Waiting Area for Patients"
-                      className="mr-2"
-                    />
-                    Dedicated Waiting Area for Patients
-                  </label>
-                </div>
-              </div>
-            </div>
-            <h1 className="my-12 text-2xl font-medium">6. Man Power</h1>
-            <div className=" flex flex-col gap-4">
-              <div className="flex flex-col gap-4 lg:flex-row lg:gap-40">
-                <div>
-                  <label
-                    htmlFor="pathologistCount"
-                    className="block font-medium mb-2"
-                  >
-                    Pathologist Count
-                  </label>
-                  <input
-                    type="number"
-                    name="pathologistCount"
-                    id="pathologistCount"
-                    placeholder="Enter Patholoogist Count"
-                    value={formData.pathologistCount}
-                    onChange={handleInputChange}
-                    required
-                    className="w-full p-2 rounded-xl lg:w-[400px] bg-gray-100"
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="accountNumber"
-                    className="block font-medium mb-2"
-                  >
-                    Account Number
-                  </label>
-                  <input
-                    type="number"
-                    name="technicianCount"
-                    id="technicianCount"
-                    placeholder="Enter Technician Count"
-                    value={formData.technicianCount}
-                    onChange={handleInputChange}
-                    required
-                    className="w-full p-2 rounded-xl lg:w-[400px] bg-gray-100"
-                  />
-                </div>
-              </div>
-              <div className="flex flex-col gap-4 lg:flex-row lg:gap-40">
-                <div>
-                  <label
-                    htmlFor="compliantOrnot"
-                    className="block font-medium mb-2"
-                  >
-                    Are you Compliant to Government Regulations or not?
-                  </label>
-                  <select
-                    name="compliantOrnot"
-                    id="compliantOrnot"
-                    value={formData.compliantOrnot}
-                    onChange={handleInputChange}
-                    required
-                    className="w-full p-2 rounded-xl lg:w-[400px] bg-gray-100"
-                  >
-                    <option value="" disabled>
-                      Select your choice
-                    </option>
-                    <option value="Yes">Yes</option>
-                    <option value="No">No</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-            <button
-              type="submit"
-              className="w-[200px] p-4 bg-black text-white rounded-sm my-10 lg:w-[400px]"
+        <div className="flex flex-col gap-4">
+          <div>
+            <label
+              htmlFor="primaryContactDesignation"
+              className="block font-medium mb-2"
             >
-              Submit
-            </button>
-             
+              Primary Contact person designation
+            </label>
+            <input
+              type="text"
+              id="primaryContactDesignation"
+              name="primaryContactDesignation"
+              value={formData.primaryContactDesignation}
+              onChange={handleInputChange}
+              className="w-full p-2 rounded bg-gray-100"
+            />
           </div>
-        </form>
-      </div>
-      <Footer></Footer>
+        </div>
+
+        <div className="flex flex-col gap-4">
+          <div>
+            <label
+              htmlFor="primaryContactMobile"
+              className="block font-medium mb-2"
+            >
+              Primary Contact person mobile
+            </label>
+            <input
+              type="text"
+              id="primaryContactMobile"
+              name="primaryContactMobile"
+              value={formData.primaryContactMobile}
+              onChange={handleInputChange}
+              className="w-full p-2 rounded bg-gray-100"
+            />
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-4">
+          <div>
+            <label
+              htmlFor="primaryContactEmail"
+              className="block font-medium mb-2"
+            >
+              Primary Contact person email
+            </label>
+            <input
+              type="text"
+              id="primaryContactEmail"
+              name="primaryContactEmail"
+              value={formData.primaryContactEmail}
+              onChange={handleInputChange}
+              className="w-full p-2 rounded bg-gray-100"
+            />
+          </div>
+        </div>
+
+        <h2 className="text-2xl font-medium mb-4">Section 3. Hospital Information</h2>
+        <div className="flex flex-col gap-4">
+          <div>
+            <label htmlFor="noOfBeds" className="block font-medium mb-2">
+              Total Number of beds
+            </label>
+            <input
+              type="text"
+              id="noOfBeds"
+              name="noOfBeds"
+              value={formData.noOfBeds}
+              onChange={handleInputChange}
+              className="w-full p-2 rounded bg-gray-100"
+            />
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-4">
+          <div>
+            <label htmlFor="icuBeds" className="block font-medium mb-2">
+              ICU beds
+            </label>
+            <input
+              type="number"
+              id="icuBeds"
+              name="icuBeds"
+              value={formData.icuBeds}
+              onChange={handleInputChange}
+              className="w-full p-2 rounded bg-gray-100"
+            />
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-4">
+          <div>
+            <label htmlFor="emergencyBeds" className="block font-medium mb-2">
+              Emergency Beds
+            </label>
+            <input
+              type="number"
+              id="emergencyBeds"
+              name="emergencyBeds"
+              value={formData.emergencyBeds}
+              onChange={handleInputChange}
+              className="w-full p-2 rounded bg-gray-100"
+              placeholder="Enter Degree"
+            />
+          </div>
+        </div>
+
+
+        {/* Section 4: Availability for Teleconsultation */}
+        <h2 className="text-2xl font-medium mt-8 mb-4">
+          Section 4. Availability for Teleconsultation
+        </h2>
+        <section>
+          <hr className="mb-4" />
+          <div>
+            <label className="block font-medium mb-2">Services Offered</label>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {[
+                "Teleconsultation Services",
+                "Surgeries",
+                "Impatient Services",
+                "Emergency Care",
+                "Trauma Care",
+                "Diagnostics",
+                "Follow-up Care",
+              ].map((serviceType: any) => (
+                <label key={serviceType} className="flex items-center">
+                  <input
+                    type="checkbox"
+                    name="services"
+                    value={serviceType}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setFormData((prev: any) => ({
+                        ...prev,
+                        services: prev.services.includes(value)
+                          ? prev.services.filter((d: any) => d !== value)
+                          : [...prev.services, value],
+                      }));
+                    }}
+                    checked={formData.services.includes(serviceType)}
+                    className="mr-2"
+                  />
+                  {serviceType}
+                </label>
+              ))}
+            </div>
+          </div>
+          <div>
+            <label
+              htmlFor="availability"
+              className="block font-medium mb-2"
+            >
+              Emergency Care Availability
+            </label>
+            <select
+              id="availability"
+              name="availability"
+              value={formData.availability}
+              onChange={handleInputChange}
+              className="w-full p-2 rounded bg-gray-100"
+            >
+              <option value="" disabled>
+                Select your choice
+              </option>
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
+            </select>
+          </div>
+        </section>
+
+        {/* Section 5: Infrastructure and Technology */}
+        <h2 className="text-2xl font-medium mt-8 mb-4">
+          5. Infrastructure and Technology
+        </h2>
+        <div className="flex flex-col gap-4">
+          {/* Computer/Smartphone Availability */}
+          <div>
+            <label
+              htmlFor="computerSmartphone"
+              className="block font-medium mb-2"
+            >
+              Availability of Computer/Smartphone
+            </label>
+            <select
+              id="computerSmartphone"
+              name="infrastructure.computerSmartphone"
+              value={formData.infrastructure.computerSmartphone}
+              onChange={handleInputChange}
+              className="w-full p-2 rounded bg-gray-100"
+            >
+              <option value="" disabled>
+                Select your choice
+              </option>
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
+            </select>
+          </div>
+
+          {/* Internet Connection Availability */}
+          <div>
+            <label
+              htmlFor="internetConnection"
+              className="block font-medium mb-2"
+            >
+              Reliable Internet Connection
+            </label>
+            <select
+              id="internetConnection"
+              name="infrastructure.internetConnection"
+              value={formData.infrastructure.internetConnection}
+              onChange={handleInputChange}
+              className="w-full p-2 rounded bg-gray-100"
+            >
+              <option value="" disabled>
+                Select your choice
+              </option>
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
+            </select>
+          </div>
+
+          {/* Teleconsultation Platform */}
+          <div>
+            <label htmlFor="platformUsed" className="block font-medium mb-2">
+              Teleconsultation Platform Used (if any)
+            </label>
+            <input
+              type="text"
+              id="platformUsed"
+              name="infrastructure.platformUsed"
+              value={formData.infrastructure.platformUsed || ""}
+              onChange={handleInputChange}
+              className="w-full p-2 rounded bg-gray-100"
+              placeholder="Enter platform name (e.g., Zoom, Google Meet)"
+            />
+          </div>
+        </div>
+
+        {/* Section 6: Compliance and Certifications */}
+        <h2 className="text-2xl font-medium mt-8 mb-4">
+          6. Compliance and Certifications
+        </h2>
+        <div className="flex flex-col gap-4">
+          {/* Additional Certifications */}
+          <div>
+            <label
+              htmlFor="additionalCertifications"
+              className="block font-medium mb-2"
+            >
+              Any Additional Certifications (Telemedicine, etc.)
+            </label>
+            <textarea
+              id="additionalCertifications"
+              name="additionalCertifications"
+              value={formData.additionalCertifications}
+              onChange={handleInputChange}
+              className="w-full p-2 rounded bg-gray-100"
+              placeholder="List additional certifications (if any)"
+            />
+          </div>
+
+          {/* Compliance with National Telemedicine Guidelines */}
+          <div>
+            <label htmlFor="compliance" className="block font-medium mb-2">
+              Compliance with National Telemedicine Guidelines
+            </label>
+            <select
+              id="compliance"
+              name="compliance"
+              value={formData.compliance}
+              onChange={handleInputChange}
+              className="w-full p-2 rounded bg-gray-100"
+            >
+              <option value="" disabled>
+                Select your choice
+              </option>
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
+            </select>
+          </div>
+        </div>
+
+        {/* Section 7: Declaration and Undertaking */}
+        <h2 className="text-2xl font-medium mt-8 mb-4">
+          7. Declaration and Undertaking
+        </h2>
+        <div className="flex flex-col gap-4">
+          <div>
+            <p className="text-gray-700">
+              I, the undersigned, hereby declare that the information provided
+              in this application is true and correct to the best of my
+              knowledge. I understand that any false information may lead to
+              disqualification from the empanelment process. I agree to comply
+              with all the terms and conditions set forth by the G Care Project.
+            </p>
+          </div>
+
+          {/* Signature */}
+          <div>
+            <label htmlFor="signature" className="block font-medium mb-2">
+              Signature (Full Name)
+            </label>
+            <input
+              type="text"
+              id="signature"
+              name="signature"
+              value={formData.signature || ""}
+              onChange={handleInputChange}
+              className="w-full p-2 rounded bg-gray-100"
+              placeholder="Enter your full name as a signature"
+            />
+          </div>
+
+          {/* Date */}
+          <div>
+            <label htmlFor="declarationDate" className="block font-medium mb-2">
+              Date
+            </label>
+            <input
+              type="date"
+              id="declarationDate"
+              name="declarationDate"
+              value={formData.declarationDate || ""}
+              onChange={handleInputChange}
+              className="w-full p-2 rounded bg-gray-100"
+            />
+          </div>
+        </div>
+
+        {/* Section 8: Checklist of Documents to be Attached */}
+        <h2 className="text-2xl font-medium mt-8 mb-4">
+          8. Checklist of Documents to be Attached
+        </h2>
+        <div className="flex flex-col gap-4">
+          <div>
+            <p className="text-gray-700">
+              Please upload the required documents as listed below. Ensure all
+              files are in the correct format (e.g., PDF, JPG, PNG).
+            </p>
+          </div>
+
+          {/* Medical Registration Certificate */}
+          <div>
+            <label
+              htmlFor="medicalRegistrationCertificate"
+              className="block font-medium mb-2"
+            >
+              Copy of Medical Registration Certificate
+            </label>
+            <input
+              type="file"
+              id="medicalRegistrationCertificate"
+              name="medicalRegistrationCertificate"
+              onChange={(e: any) =>
+                setFormData({
+                  ...formData,
+                  medicalRegistrationCertificate: e.target.files[0],
+                })
+              }
+              className="w-full p-2 rounded bg-gray-100"
+            />
+          </div>
+
+          {/* Qualification Certificates */}
+          <div>
+            <label
+              htmlFor="qualificationCertificates"
+              className="block font-medium mb-2"
+            >
+              Copies of Qualification Certificates
+            </label>
+            <input
+              type="file"
+              id="qualificationCertificates"
+              name="qualificationCertificates"
+              multiple
+              onChange={(e: any) =>
+                setFormData({
+                  ...formData,
+                  qualificationCertificates: Array.from(e.target.files),
+                })
+              }
+              className="w-full p-2 rounded bg-gray-100"
+            />
+          </div>
+
+          {/* Proof of Experience */}
+          <div>
+            <label
+              htmlFor="proofOfExperience"
+              className="block font-medium mb-2"
+            >
+              Proof of Experience (Letter of Employment, Practice License, etc.)
+            </label>
+            <input
+              type="file"
+              id="proofOfExperience"
+              name="proofOfExperience"
+              onChange={(e: any) =>
+                setFormData({
+                  ...formData,
+                  proofOfExperience: e.target.files[0],
+                })
+              }
+              className="w-full p-2 rounded bg-gray-100"
+            />
+          </div>
+
+          {/* Additional Certifications */}
+          <div>
+            <label
+              htmlFor="additionalCertificationsFile"
+              className="block font-medium mb-2"
+            >
+              Any Additional Certifications (Telemedicine, etc.)
+            </label>
+            <input
+              type="file"
+              id="additionalCertificationsFile"
+              name="additionalCertificationsFile"
+              onChange={(e: any) =>
+                setFormData({
+                  ...formData,
+                  additionalCertificationsFile: e.target.files[0],
+                })
+              }
+              className="w-full p-2 rounded bg-gray-100"
+            />
+          </div>
+
+          {/* Other Relevant Documents */}
+          <div>
+            <label htmlFor="otherDocuments" className="block font-medium mb-2">
+              Any Other Relevant Documents
+            </label>
+            <input
+              type="file"
+              id="otherDocuments"
+              name="otherDocuments"
+              multiple
+              onChange={(e: any) =>
+                setFormData({
+                  ...formData,
+                  otherDocuments: Array.from(e.target.files),
+                })
+              }
+              className="w-full p-2 rounded bg-gray-100"
+            />
+          </div>
+        </div>
+
+        <button
+          type="submit"
+          className="mt-8 p-4 bg-black text-white rounded w-full"
+        >
+          Submit Application
+        </button>
+      </form>
+      <Footer />
     </main>
   );
 };
 
-export default labForm;
+export default DoctorForm;

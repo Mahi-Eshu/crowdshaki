@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import Navbar from "../../../components/Navbar";
 import Footer from "../../../components/Footer";
+import { toast } from "react-toastify";
 import { gpaDetails } from "@/app/actions/gpaDetails";
 
 const today = new Date().toISOString().split("T")[0]; // Generate today's date in YYYY-MM-DD format
@@ -107,7 +108,33 @@ const GeneralPhysicianForm = () => {
         data.append(key, value);
     });
 
-    await gpaDetails(data);
+    const res = await gpaDetails(data);
+    if (
+      (res.status === 200 || res.status === 409)
+    ) {
+      toast.success("Updated Successfully", {
+        position: "bottom-right",
+        autoClose: 4000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+    }
+    else {
+      toast.error("Something went wrong", {
+        position: "bottom-right",
+        autoClose: 4000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+    }
 };
 
   return (
