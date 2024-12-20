@@ -1,6 +1,7 @@
 "use server"
 
 import { NextRequest } from "next/server"
+import nodemailer from "nodemailer";
 
 export const personalDetails = async(formdata: FormData, userId: string|null) => {
     

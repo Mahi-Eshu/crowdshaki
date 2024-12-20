@@ -1,6 +1,7 @@
 "use server";
 
 import { NextRequest } from "next/server";
+import nodemailer from "nodemailer";
 
 export const gpaDetails = async (formData: FormData) => {
     console.log("Form Data:", formData);
@@ -45,7 +46,37 @@ export const gpaDetails = async (formData: FormData) => {
         body: JSON.stringify(data),
     });
 
-    const result = await response.json();
-    console.log(result);
-    return result;
+    const apiResult = await response.json();
+
+    // Configure Nodemailer transporter
+    const transporter = nodemailer.createTransport({
+        host: "smtp.gmail.com", // Replace with your email provider's SMTP host
+        port: 587, // Port for TLS
+        secure: false, // Set true for 465, false for other ports
+        auth: {
+            user: "theweekendcodershq@gmail.com", // Your email
+            pass: "dxcu wldi esra ejgd", // Your email password
+        },
+    });
+
+    // Email content
+    const mailOptions = {
+        from: '"Amar" theweekendcodershq@gmail.com', // Sender address
+        to: "theweekendcodershq@gmail.com", // List of recipients
+        subject: "New GPA Details Submitted", // Subject line
+        text: `A new GPA form has been submitted. Here are the details:\n\n${JSON.stringify(data, null, 2)}`, // Plain text body
+        html: `<p>A new GPA form has been submitted. Here are the details:</p><pre>${JSON.stringify(data, null, 2)}</pre>`, // HTML body
+    };
+
+    // Send email
+    try {
+        const emailResult = await transporter.sendMail(mailOptions);
+        console.log("Email sent:", emailResult);
+    } catch (error) {
+        console.error("Error sending email:", error);
+        throw error; // Rethrow error if email sending fails
+    }
+
+    console.log(apiResult);
+    return { apiResult, emailSent: true };
 };
