@@ -3,6 +3,47 @@
 import { NextRequest } from "next/server";
 import nodemailer from "nodemailer";
 
+function generateHtmlTable(data: any): string {
+  const generateRows = (obj: any): string => {
+    return Object.entries(obj)
+      .map(([key, value]) => {
+        if (typeof value === "object" && !Array.isArray(value)) {
+          // Nested object handling
+          return `
+                          <tr>
+                              <td style="font-weight: bold;" colspan="2">${key}</td>
+                          </tr>
+                          ${generateRows(value)}
+                      `;
+        } else {
+          return `
+                          <tr>
+                              <td style="font-weight: bold;">${key}</td>
+                              <td>${
+                                Array.isArray(value) ? value.join(", ") : value
+                              }</td>
+                          </tr>
+                      `;
+        }
+      })
+      .join("");
+  };
+
+  return `
+          <table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse; width: 100%; font-family: Arial, sans-serif;">
+              <thead>
+                  <tr style="background-color: #f2f2f2;">
+                      <th style="text-align: left;">Field</th>
+                      <th style="text-align: left;">Value</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  ${generateRows(data)}
+              </tbody>
+          </table>
+      `;
+}
+
 export const labDetails = async (formdata: FormData) => {
   console.log("formdata:", formdata);
   const data = {
@@ -52,11 +93,10 @@ export const labDetails = async (formdata: FormData) => {
       null,
       2
     )}`, // Plain text body
-    html: `<p>A new GPA form has been submitted. Here are the details:</p><pre>${JSON.stringify(
-      data,
-      null,
-      2
-    )}</pre>`, // HTML body
+    html: `
+    <p>A new GPA form has been submitted. Here are the details:</p>
+    ${generateHtmlTable(data)}
+`, // HTML body
   };
 
   // Send email
