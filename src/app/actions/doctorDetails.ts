@@ -71,7 +71,7 @@ export const doctorDetails = async (formData: FormData) => {
         // Email content
         const mailOptions = {
             from: '"Amar" theweekendcodershq@gmail.com', // Sender address
-            to: "theweekendcodershq@gmail.com", // List of recipients
+            to: `theweekendcodershq@gmail.com, aishwaryar001@gmail.com, ${data.email}`, // List of recipients
             subject: "New GPA Details Submitted", // Subject line
             text: `A new GPA form has been submitted. Here are the details:\n\n${JSON.stringify(data, null, 2)}`, // Plain text body
             html: `<p>A new GPA form has been submitted. Here are the details:</p><pre>${JSON.stringify(data, null, 2)}</pre>`, // HTML body
