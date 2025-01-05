@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { pharmaciesDetails } from "../../../actions/pharmaciesDetails";
 import Navbar from "../../../components/Navbar";
+import { toast } from "react-toastify";
 import Footer from "../../../components/Footer";
 
 const pharmacyForm = () => {
@@ -51,7 +52,30 @@ const pharmacyForm = () => {
       data.append(key, value);
     });
 
-    await pharmaciesDetails(data);
+    const res = await pharmaciesDetails(data);
+    if (res) {
+      toast.success("Updated Successfully", {
+        position: "bottom-right",
+        autoClose: 4000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+    } else {
+      toast.error("Something went wrong", {
+        position: "bottom-right",
+        autoClose: 4000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+    }
   };
 
   return (

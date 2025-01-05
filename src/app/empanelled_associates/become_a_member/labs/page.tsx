@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { labDetails } from "../../../actions/labDetails";
 import Navbar from "../../../components/Navbar";
+import { toast } from "react-toastify";
 import Footer from "../../../components/Footer";
 
 const labForm = () => {
@@ -56,7 +57,33 @@ const labForm = () => {
       data.append(key, value);
     });
 
-    await labDetails(data);
+    const res = await labDetails(data);
+    if (
+      (res)
+    ) {
+      toast.success("Updated Successfully", {
+        position: "bottom-right",
+        autoClose: 4000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+    }
+    else { 
+      toast.error("Something went wrong", {
+        position: "bottom-right",
+        autoClose: 4000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+    }
   };
 
   return (

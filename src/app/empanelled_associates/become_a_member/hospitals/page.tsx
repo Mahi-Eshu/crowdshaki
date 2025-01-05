@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import Navbar from "../../../components/Navbar";
 import Footer from "../../../components/Footer";
+import { toast } from "react-toastify";
 import { hospitalDetails } from "@/app/actions/hospitalDetails";
 
 const today = new Date().toISOString().split("T")[0]; // Generate today's date in YYYY-MM-DD format
@@ -60,7 +61,7 @@ const hospitalForm = () => {
     declarerName: "",
     declarerDesignation: "",
     declarationDate: today,
-    additionalDocuments: ""
+    additionalDocuments: "",
   });
 
   const specialtiesList = [
@@ -90,9 +91,13 @@ const hospitalForm = () => {
     "Other",
   ];
 
-  const handleInputChange = (e:  React.ChangeEvent<
-    HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-  > | any) => {
+  const handleInputChange = (
+    e:
+      | React.ChangeEvent<
+          HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+        >
+      | any
+  ) => {
     const { name, value, type, checked } = e.target;
     if (type === "checkbox") {
       const updatedList = checked
@@ -107,7 +112,7 @@ const hospitalForm = () => {
   const handleSpecialistChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     index: number,
-    field: 'specialty' | 'name' | 'qualification' | 'contact' | 'email'
+    field: "specialty" | "name" | "qualification" | "contact" | "email"
   ) => {
     const updatedSpecialists = [...formData.keySpecialists];
     updatedSpecialists[index][field] = e.target.value;
@@ -115,7 +120,7 @@ const hospitalForm = () => {
   };
 
   const addNewSpecialist = () => {
-    setFormData((prevState:any) => ({
+    setFormData((prevState: any) => ({
       ...prevState,
       keySpecialists: [
         ...prevState.keySpecialists,
@@ -124,9 +129,9 @@ const hospitalForm = () => {
     }));
   };
 
-
-
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement> | any) => {
+  const handleSubmit = async (
+    event: React.FormEvent<HTMLFormElement> | any
+  ) => {
     event.preventDefault(); // Prevent the form from submitting on load/reload
 
     const data = new FormData();
@@ -137,9 +142,31 @@ const hospitalForm = () => {
         data.append(key, value as string);
       }
     });
-    await hospitalDetails(data);
-};
-
+    const res = await hospitalDetails(data);
+    if (res) {
+      toast.success("Updated Successfully", {
+        position: "bottom-right",
+        autoClose: 4000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+    } else {
+      toast.error("Something went wrong", {
+        position: "bottom-right",
+        autoClose: 4000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+    }
+  };
 
   return (
     <main className="md:px-8 md:py-4 shadow-xl md:border-2 md:border-gray-200">
@@ -150,7 +177,9 @@ const hospitalForm = () => {
       <div className="p-4 lg:max-w-[1000px] xl:lg:max-w-[1200px] mx-auto">
         <form onSubmit={handleSubmit}>
           {/* General Information */}
-          <h2 className="text-2xl font-semibold mb-4">Section 1: General Information</h2>
+          <h2 className="text-2xl font-semibold mb-4">
+            Section 1: General Information
+          </h2>
           <label htmlFor="hospitalName" className="block mb-2 font-medium">
             Hospital's Full Name
           </label>
@@ -167,8 +196,9 @@ const hospitalForm = () => {
           {/* Contact Information */}
           <h2 className="text-xl font-medium mt-6 mb-4">Contact Information</h2>
 
-
-          <label htmlFor="street" className="block font-medium mb-2">Street</label>
+          <label htmlFor="street" className="block font-medium mb-2">
+            Street
+          </label>
           <input
             type="text"
             name="street"
@@ -179,7 +209,9 @@ const hospitalForm = () => {
             required
           />
 
-          <label htmlFor="city" className="block font-medium mb-2">City</label>
+          <label htmlFor="city" className="block font-medium mb-2">
+            City
+          </label>
           <input
             type="text"
             name="city"
@@ -190,7 +222,9 @@ const hospitalForm = () => {
             required
           />
 
-          <label htmlFor="state" className="block font-medium mb-2">State</label>
+          <label htmlFor="state" className="block font-medium mb-2">
+            State
+          </label>
           <input
             type="text"
             name="state"
@@ -201,7 +235,9 @@ const hospitalForm = () => {
             required
           />
 
-          <label htmlFor="pincode" className="block font-medium mb-2">Pincode</label>
+          <label htmlFor="pincode" className="block font-medium mb-2">
+            Pincode
+          </label>
           <input
             type="text"
             name="pincode"
@@ -251,9 +287,14 @@ const hospitalForm = () => {
             required
           />
 
-          <h2 className="text-xl font-medium mt-6 mb-4">Registration and Accreditation</h2>
+          <h2 className="text-xl font-medium mt-6 mb-4">
+            Registration and Accreditation
+          </h2>
 
-          <label htmlFor="registerationNumber" className="block mb-2 font-medium">
+          <label
+            htmlFor="registerationNumber"
+            className="block mb-2 font-medium"
+          >
             Registeration Number
           </label>
           <input
@@ -266,7 +307,10 @@ const hospitalForm = () => {
             // required
           />
 
-          <label htmlFor="dateOfRegistration" className="block mb-2 font-medium">
+          <label
+            htmlFor="dateOfRegistration"
+            className="block mb-2 font-medium"
+          >
             Date of Registeration
           </label>
           <input
@@ -279,7 +323,10 @@ const hospitalForm = () => {
             required
           />
 
-          <label htmlFor="accreditationDetails" className="block mb-2 font-medium">
+          <label
+            htmlFor="accreditationDetails"
+            className="block mb-2 font-medium"
+          >
             Accreditation Details
           </label>
           <input
@@ -292,9 +339,13 @@ const hospitalForm = () => {
             required
           />
 
-          <h2 className="text-2xl font-semibold mb-4">Section 2: Administrative Information</h2>
+          <h2 className="text-2xl font-semibold mb-4">
+            Section 2: Administrative Information
+          </h2>
 
-          <h2 className="text-xl font-medium mt-6 mb-4">Medical Director/Administrator Information</h2>
+          <h2 className="text-xl font-medium mt-6 mb-4">
+            Medical Director/Administrator Information
+          </h2>
           <label htmlFor="medicalDirector" className="block mb-2 font-medium">
             Full Name
           </label>
@@ -334,10 +385,14 @@ const hospitalForm = () => {
             required
           />
 
+          <h2 className="text-xl font-medium mt-6 mb-4">
+            Primary Contact Person for G Care Project
+          </h2>
 
-          <h2 className="text-xl font-medium mt-6 mb-4">Primary Contact Person for G Care Project</h2>
-
-          <label htmlFor="primaryContactName" className="block mb-2 font-medium">
+          <label
+            htmlFor="primaryContactName"
+            className="block mb-2 font-medium"
+          >
             Full Name
           </label>
           <input
@@ -350,7 +405,10 @@ const hospitalForm = () => {
             required
           />
 
-          <label htmlFor="primaryContactDesignation" className="block mb-2 font-medium">
+          <label
+            htmlFor="primaryContactDesignation"
+            className="block mb-2 font-medium"
+          >
             Designation
           </label>
           <input
@@ -363,7 +421,10 @@ const hospitalForm = () => {
             required
           />
 
-          <label htmlFor="primaryContactNumber" className="block mb-2 font-medium">
+          <label
+            htmlFor="primaryContactNumber"
+            className="block mb-2 font-medium"
+          >
             Phone Number
           </label>
           <input
@@ -376,7 +437,10 @@ const hospitalForm = () => {
             required
           />
 
-          <label htmlFor="primaryContactEmail" className="block mb-2 font-medium">
+          <label
+            htmlFor="primaryContactEmail"
+            className="block mb-2 font-medium"
+          >
             Email Address
           </label>
           <input
@@ -389,9 +453,10 @@ const hospitalForm = () => {
             required
           />
 
-
           {/* Specialties */}
-          <h2 className="text-2xl font-semibold mb-4">Section 3: Hospital Information</h2>
+          <h2 className="text-2xl font-semibold mb-4">
+            Section 3: Hospital Information
+          </h2>
           <h2 className="text-xl font-medium mt-6 mb-4">Number of Beds</h2>
 
           <label htmlFor="totalBeds" className="block mb-2 font-medium">
@@ -433,13 +498,12 @@ const hospitalForm = () => {
             required
           />
 
-
-
-          <h2 className="text-xl font-medium mt-6 mb-4">Specialties Available</h2>
+          <h2 className="text-xl font-medium mt-6 mb-4">
+            Specialties Available
+          </h2>
           <div className="space-y-2">
             {specialtiesList.map((specialty) => (
               <label key={specialty} className="block">
-
                 <input
                   type="checkbox"
                   name="specialties"
@@ -454,8 +518,12 @@ const hospitalForm = () => {
 
           {/* Services */}
           {/* Section 4: Services Provided */}
-          <h2 className="text-2xl font-semibold mt-6 mb-4">Section 4: Services Provided</h2>
-          <h2 className="text-xl font-medium mt-6 mb-4">Services Offered (Please check all that apply)</h2>
+          <h2 className="text-2xl font-semibold mt-6 mb-4">
+            Section 4: Services Provided
+          </h2>
+          <h2 className="text-xl font-medium mt-6 mb-4">
+            Services Offered (Please check all that apply)
+          </h2>
           <div className="space-y-4">
             {servicesList.map((service) => (
               <label key={service} className="flex items-center">
@@ -470,7 +538,7 @@ const hospitalForm = () => {
                 {service}
               </label>
             ))}
-          </div> 
+          </div>
           <div className="mt-4">
             <div className="mb-4">
               <label htmlFor="availability" className="block font-medium mb-2">
@@ -484,13 +552,18 @@ const hospitalForm = () => {
                 onChange={handleInputChange}
                 required
               >
-                <option value="" disabled>Select an option</option>
+                <option value="" disabled>
+                  Select an option
+                </option>
                 <option value="Yes">Yes</option>
                 <option value="No">No</option>
               </select>
             </div>
 
-            <label htmlFor="emergencyContactNumber" className="block font-medium mb-2">
+            <label
+              htmlFor="emergencyContactNumber"
+              className="block font-medium mb-2"
+            >
               Emergency Contact Number
             </label>
             <input
@@ -506,8 +579,12 @@ const hospitalForm = () => {
           </div>
 
           {/* Section 5: Staff Information */}
-          <h2 className="text-2xl font-semibold mt-6 mb-4">Section 5: Staff Information</h2>
-          <h2 className="text-xl font-medium mt-6 mb-4">Medical Staff Details</h2>
+          <h2 className="text-2xl font-semibold mt-6 mb-4">
+            Section 5: Staff Information
+          </h2>
+          <h2 className="text-xl font-medium mt-6 mb-4">
+            Medical Staff Details
+          </h2>
           <div className="space-y-4">
             <div>
               <label htmlFor="doctors" className="block font-medium mb-2">
@@ -540,7 +617,10 @@ const hospitalForm = () => {
               />
             </div>
             <div>
-              <label htmlFor="residentDoctors" className="block font-medium mb-2">
+              <label
+                htmlFor="residentDoctors"
+                className="block font-medium mb-2"
+              >
                 Number of Resident Doctors
               </label>
               <input
@@ -574,10 +654,13 @@ const hospitalForm = () => {
           <h2 className="text-xl font-medium mt-6 mb-4">Key Specialists</h2>
           {/* Key Specialists Section */}
           <h2 className="text-xl font-medium mt-6 mb-4">Key Specialists</h2>
-          {formData.keySpecialists.map((specialist:any, index:any) => (
+          {formData.keySpecialists.map((specialist: any, index: any) => (
             <div key={index} className="space-y-4 mb-6">
               <div>
-                <label htmlFor={`specialty_${index}`} className="block font-medium text-cyan-600 mb-2">
+                <label
+                  htmlFor={`specialty_${index}`}
+                  className="block font-medium text-cyan-600 mb-2"
+                >
                   Specialist {index + 1}
                 </label>
                 <input
@@ -587,12 +670,17 @@ const hospitalForm = () => {
                   placeholder="Enter specialty"
                   className="w-full p-2 rounded bg-gray-100"
                   value={specialist.specialty}
-                  onChange={(e) => handleSpecialistChange(e, index, "specialty")}
+                  onChange={(e) =>
+                    handleSpecialistChange(e, index, "specialty")
+                  }
                   required
                 />
               </div>
               <div>
-                <label htmlFor={`name_${index}`} className="block font-medium mb-2">
+                <label
+                  htmlFor={`name_${index}`}
+                  className="block font-medium mb-2"
+                >
                   Name
                 </label>
                 <input
@@ -607,7 +695,10 @@ const hospitalForm = () => {
                 />
               </div>
               <div>
-                <label htmlFor={`qualification_${index}`} className="block font-medium mb-2">
+                <label
+                  htmlFor={`qualification_${index}`}
+                  className="block font-medium mb-2"
+                >
                   Qualification
                 </label>
                 <input
@@ -617,12 +708,17 @@ const hospitalForm = () => {
                   placeholder="Enter qualification"
                   className="w-full p-2 rounded bg-gray-100"
                   value={specialist.qualification}
-                  onChange={(e) => handleSpecialistChange(e, index, "qualification")}
+                  onChange={(e) =>
+                    handleSpecialistChange(e, index, "qualification")
+                  }
                   required
                 />
               </div>
               <div>
-                <label htmlFor={`contact_${index}`} className="block font-medium mb-2">
+                <label
+                  htmlFor={`contact_${index}`}
+                  className="block font-medium mb-2"
+                >
                   Contact Number
                 </label>
                 <input
@@ -637,7 +733,10 @@ const hospitalForm = () => {
                 />
               </div>
               <div>
-                <label htmlFor={`email_${index}`} className="block font-medium mb-2">
+                <label
+                  htmlFor={`email_${index}`}
+                  className="block font-medium mb-2"
+                >
                   Email Address
                 </label>
                 <input
@@ -663,12 +762,16 @@ const hospitalForm = () => {
             Add Specialist
           </button>
 
-
           {/* Section 6: Infrastructure and Technology */}
-          <h2 className="text-2xl font-semibold mt-6 mb-4">Section 6: Infrastructure and Technology</h2>
+          <h2 className="text-2xl font-semibold mt-6 mb-4">
+            Section 6: Infrastructure and Technology
+          </h2>
           <div className="space-y-4">
             <div>
-              <label htmlFor="teleconsultationAvailable" className="block font-medium mb-2">
+              <label
+                htmlFor="teleconsultationAvailable"
+                className="block font-medium mb-2"
+              >
                 Teleconsultation Infrastructure Available
               </label>
               <select
@@ -679,12 +782,17 @@ const hospitalForm = () => {
                 onChange={(e) => {
                   handleInputChange(e);
                   if (e.target.value === "No") {
-                    setFormData((prev:any) => ({ ...prev, technologyDetails: "" })); // Clear the technology details if "No" is selected
+                    setFormData((prev: any) => ({
+                      ...prev,
+                      technologyDetails: "",
+                    })); // Clear the technology details if "No" is selected
                   }
                 }}
                 required
               >
-                <option value="" disabled>Select an option</option>
+                <option value="" disabled>
+                  Select an option
+                </option>
                 <option value="Yes">Yes</option>
                 <option value="No">No</option>
               </select>
@@ -693,7 +801,10 @@ const hospitalForm = () => {
             {/* Conditionally render details of technology used */}
             {formData.teleconsultationAvailable === "Yes" && (
               <div className="mt-4">
-                <label htmlFor="technologyDetails" className="block font-medium mb-2">
+                <label
+                  htmlFor="technologyDetails"
+                  className="block font-medium mb-2"
+                >
                   Details of Technology Used
                 </label>
                 <textarea
@@ -708,9 +819,14 @@ const hospitalForm = () => {
               </div>
             )}
 
-            <h2 className="text-xl font-medium mt-6 mb-4">Diagnostic and Surgical Facilities</h2>
+            <h2 className="text-xl font-medium mt-6 mb-4">
+              Diagnostic and Surgical Facilities
+            </h2>
             <div>
-              <label htmlFor="diagnosticEquipment" className="block font-medium mb-2">
+              <label
+                htmlFor="diagnosticEquipment"
+                className="block font-medium mb-2"
+              >
                 Major Diagnostic Equipment
               </label>
               <textarea
@@ -724,7 +840,10 @@ const hospitalForm = () => {
               />
             </div>
             <div>
-              <label htmlFor="surgicalEquipment" className="block font-medium mb-2">
+              <label
+                htmlFor="surgicalEquipment"
+                className="block font-medium mb-2"
+              >
                 Major Surgical Equipment
               </label>
               <textarea
@@ -739,10 +858,10 @@ const hospitalForm = () => {
             </div>
           </div>
 
-
-
           {/* Section 7: Compliance and Quality Assurance */}
-          <h2 className="text-2xl font-semibold mt-6 mb-4">Section 7: Compliance and Quality Assurance</h2>
+          <h2 className="text-2xl font-semibold mt-6 mb-4">
+            Section 7: Compliance and Quality Assurance
+          </h2>
           <div className="space-y-4">
             <div>
               <label htmlFor="isoCertified" className="block font-medium mb-2">
@@ -756,13 +875,18 @@ const hospitalForm = () => {
                 onChange={handleInputChange}
                 required
               >
-                <option value="" disabled>Select an option</option>
+                <option value="" disabled>
+                  Select an option
+                </option>
                 <option value="Yes">Yes</option>
                 <option value="No">No</option>
               </select>
             </div>
             <div>
-              <label htmlFor="nabhAccredited" className="block font-medium mb-2">
+              <label
+                htmlFor="nabhAccredited"
+                className="block font-medium mb-2"
+              >
                 NABH Accreditation
               </label>
               <select
@@ -773,13 +897,18 @@ const hospitalForm = () => {
                 onChange={handleInputChange}
                 required
               >
-                <option value="" disabled>Select an option</option>
+                <option value="" disabled>
+                  Select an option
+                </option>
                 <option value="Yes">Yes</option>
                 <option value="No">No</option>
               </select>
             </div>
             <div>
-              <label htmlFor="otherCertifications" className="block font-medium mb-2">
+              <label
+                htmlFor="otherCertifications"
+                className="block font-medium mb-2"
+              >
                 Other Certifications
               </label>
               <textarea
@@ -792,7 +921,10 @@ const hospitalForm = () => {
               />
             </div>
             <div>
-              <label htmlFor="regulatoryCompliance" className="block font-medium mb-2">
+              <label
+                htmlFor="regulatoryCompliance"
+                className="block font-medium mb-2"
+              >
                 Compliance with National/Regional Healthcare Standards
               </label>
               <select
@@ -803,13 +935,18 @@ const hospitalForm = () => {
                 onChange={handleInputChange}
                 required
               >
-                <option value="" disabled>Select an option</option>
+                <option value="" disabled>
+                  Select an option
+                </option>
                 <option value="Yes">Yes</option>
                 <option value="No">No</option>
               </select>
             </div>
             <div>
-              <label htmlFor="complianceDetails" className="block font-medium mb-2">
+              <label
+                htmlFor="complianceDetails"
+                className="block font-medium mb-2"
+              >
                 Details of Compliance
               </label>
               <textarea
@@ -823,15 +960,17 @@ const hospitalForm = () => {
             </div>
           </div>
 
-
           {/* Section 8: Declaration and Undertaking */}
-          <h2 className="text-2xl font-semibold mt-6 mb-4">Section 8: Declaration and Undertaking</h2>
+          <h2 className="text-2xl font-semibold mt-6 mb-4">
+            Section 8: Declaration and Undertaking
+          </h2>
           <div className="space-y-4">
             <p className="text-gray-700">
-              I, the undersigned, hereby declare that the information provided in this application
-              is true and correct to the best of my knowledge. I understand that any false information
-              may lead to disqualification from the empanelment process. I agree to comply with all the
-              terms and conditions set forth by the G Care Project.
+              I, the undersigned, hereby declare that the information provided
+              in this application is true and correct to the best of my
+              knowledge. I understand that any false information may lead to
+              disqualification from the empanelment process. I agree to comply
+              with all the terms and conditions set forth by the G Care Project.
             </p>
             <div>
               <label htmlFor="declarerName" className="block font-medium mb-2">
@@ -849,7 +988,10 @@ const hospitalForm = () => {
               />
             </div>
             <div>
-              <label htmlFor="declarerDesignation" className="block font-medium mb-2">
+              <label
+                htmlFor="declarerDesignation"
+                className="block font-medium mb-2"
+              >
                 Designation
               </label>
               <input
@@ -864,7 +1006,10 @@ const hospitalForm = () => {
               />
             </div>
             <div>
-              <label htmlFor="declarationDate" className="block font-medium mb-2">
+              <label
+                htmlFor="declarationDate"
+                className="block font-medium mb-2"
+              >
                 Date
               </label>
               <input
@@ -878,7 +1023,6 @@ const hospitalForm = () => {
               />
             </div>
           </div>
-
 
           {/* Section 9: Checklist of Documents to be Attached */}
           {/* <h2 className="text-2xl font-semibold mt-6 mb-4">Section 9: Checklist of Documents to be Attached</h2> */}
@@ -905,7 +1049,10 @@ const hospitalForm = () => {
             ))}
           </div> */}
           <div className="mt-4">
-            <label htmlFor="additionalDocuments" className="block font-medium mb-2">
+            <label
+              htmlFor="additionalDocuments"
+              className="block font-medium mb-2"
+            >
               Additional Document Notes (if any)
             </label>
             <textarea
@@ -918,7 +1065,10 @@ const hospitalForm = () => {
             />
           </div>
 
-          <button type="submit" className="mt-8 w-full p-4 bg-black text-white rounded">
+          <button
+            type="submit"
+            className="mt-8 w-full p-4 bg-black text-white rounded"
+          >
             Submit
           </button>
         </form>

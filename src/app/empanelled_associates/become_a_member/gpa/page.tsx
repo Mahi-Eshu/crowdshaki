@@ -110,7 +110,7 @@ const GeneralPhysicianForm = () => {
 
     const res = await gpaDetails(data);
     if (
-      (res.status === 200 || res.status === 409)
+      (res)
     ) {
       toast.success("Updated Successfully", {
         position: "bottom-right",
