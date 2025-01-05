@@ -54,7 +54,7 @@ export const pharmaciesDetails = async(formdata: FormData) => {
         pincode: formdata.get("pincode"),
         pharmacyType: formdata.get("pharmacyType"),
         yearsOfOperation: formdata.get("yearsOfOperation"),
-        labLicenseNumber: formdata.get("labLicenseNumber"),
+        pharmacyLicenseNumber: formdata.get("pharmacyLicenseNumber"),
         dateOfIssue: formdata.get("dateOfIssue"),
         issuingAuthority: formdata.get("issuingAuthority"),
         compliantOrnot: formdata.get("compliantOrnot")
