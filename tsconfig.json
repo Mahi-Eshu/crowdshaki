@@ -21,6 +21,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/components/FundRaising.jsx", "src/app/api/empanelled_associates/labs/route.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/components/FundRaising.jsx", "src/app/api/empanelled_associates/labs/route.js", "src/app/email/ApproveRejectEmail.js"],
   "exclude": ["node_modules"]
 }

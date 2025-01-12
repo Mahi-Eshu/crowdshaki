@@ -1,12 +1,7 @@
 "use client";
 import { useContext, createContext, useState, useEffect } from "react";
-import { 
-  signOut, 
-  onAuthStateChanged,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword 
-} from "firebase/auth";
-import { auth } from "../firebase/config";
+
+
 
 const AuthContext = createContext();
 
@@ -56,32 +51,32 @@ export const AuthContextProvider = ({ children }) => {
     }
   };
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-      if (currentUser) {
-        if (!user) {
-          const userData = {
-            uid: currentUser.uid,
-            email: currentUser.email,
-            createdAt: new Date().toISOString(),
-            lastLogin: new Date().toISOString(),
-            authProvider: 'email',
-            isEmailVerified: currentUser.emailVerified,
-          };
-          await addUserToMongoDB(userData);
-        }
-        setUser(currentUser);
-      } else {
-        setUser(null);
-      }
+  // useEffect(() => {
+  //   const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+  //     if (currentUser) {
+  //       if (!user) {
+  //         const userData = {
+  //           uid: currentUser.uid,
+  //           email: currentUser.email,
+  //           createdAt: new Date().toISOString(),
+  //           lastLogin: new Date().toISOString(),
+  //           authProvider: 'email',
+  //           isEmailVerified: currentUser.emailVerified,
+  //         };
+  //         await addUserToMongoDB(userData);
+  //       }
+  //       setUser(currentUser);
+  //     } else {
+  //       setUser(null);
+  //     }
       
-      if (initialLoad) {
-        setInitialLoad(false);
-      }
-    });
+  //     if (initialLoad) {
+  //       setInitialLoad(false);
+  //     }
+  //   });
 
-    return () => unsubscribe();
-  }, [user]);
+  //   return () => unsubscribe();
+  // }, [user]);
 
   return (
     <AuthContext.Provider value={{ 

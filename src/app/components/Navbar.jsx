@@ -1,49 +1,30 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { UserAuth } from "../context/AuthContext";
-import { usePathname } from "next/navigation";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import useAuthStore from '../store/authStore';
 
 const Navbar = () => {
   const pathname = usePathname();
-  const { user, googleSignIn, logOut } = UserAuth();
-  const [loading, setLoading] = useState(true);
+  const router = useRouter();
+  const { isAuthenticated, user, logout } = useAuthStore();
   const [selectMenu, setSelectMenu] = useState(false);
   const [isEmpanelledOpen, setIsEmpanelledOpen] = useState(false);
   const [isBecomeMemberOpen, setIsBecomeMemberOpen] = useState(false);
-  const router = useRouter();
 
   const toggleSelectMenu = () => {
     setSelectMenu(!selectMenu);
   };
 
-  const handleSignIn = async () => {
-    try {
-      await googleSignIn();
-      router.push("/");
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   const handleSignOut = async () => {
     try {
-      await logOut();
+      logout();
+      router.push('/');
     } catch (error) {
       console.log(error);
     }
   };
-
-  useEffect(() => {
-    const isAuthenticated = !!user;
-    console.log("User is authenticated:", isAuthenticated);
-
-    if (loading) {
-      setLoading(false);
-    }
-  }, [user, loading]);
 
   const menuLinks = [
     { text: "Browse Fundraisers", url: "/browse_fundraisers" },
@@ -56,29 +37,17 @@ const Navbar = () => {
     { text: "Pharmacies", url: "/empanelled_associates/pharmacies" },
     { text: "General Physicians", url: "/empanelled_associates/gpa" },
     { text: "Hospitals", url: "/empanelled_associates/hospitals" },
-    { text: "Medical Institutions", url: "/empanelled_associates/medical_institutions",},
+    { text: "Medical Institutions", url: "/empanelled_associates/medical_institutions" },
     { text: "Specialist Doctors", url: "/empanelled_associates/specialist_doctors" },
   ];
 
   const becomeMember = [
     { text: "Labs", url: "/empanelled_associates/become_a_member/labs" },
-    {
-      text: "Pharmacies",
-      url: "/empanelled_associates/become_a_member/pharmacies",
-    },
+    { text: "Pharmacies", url: "/empanelled_associates/become_a_member/pharmacies" },
     { text: "General Physicians", url: "/empanelled_associates/become_a_member/gpa" },
-    {
-      text: "Hospitals",
-      url: "/empanelled_associates/become_a_member/hospitals",
-    },
-    {
-      text: "Medical Institutions",
-      url: "/empanelled_associates/become_a_member/medical_institutions",
-    },
-    {
-      text: "Specialist Doctors",
-      url: "/empanelled_associates/become_a_member/specialist_doctors",
-    },
+    { text: "Hospitals", url: "/empanelled_associates/become_a_member/hospitals" },
+    { text: "Medical Institutions", url: "/empanelled_associates/become_a_member/medical_institutions" },
+    { text: "Specialist Doctors", url: "/empanelled_associates/become_a_member/specialist_doctors" },
   ];
 
   return (
@@ -97,7 +66,7 @@ const Navbar = () => {
                     pathname === link.url ? "underline underline-offset-4" : ""
                   }`}
                   onClick={() => {
-                    if (link.text === "Raise Funds" && !user) {
+                    if (link.text === "Raise Funds" && !isAuthenticated) {
                       alert("Please login to raise funds");
                       return;
                     }
@@ -121,7 +90,7 @@ const Navbar = () => {
                   <ul
                     className="absolute top-full left-0 bg-white shadow-lg rounded-lg py-2 w-48"
                     onMouseLeave={() => {
-                      setIsEmpanelledOpen(false); 
+                      setIsEmpanelledOpen(false);
                       setIsBecomeMemberOpen(false);
                     }}
                   >
@@ -139,10 +108,12 @@ const Navbar = () => {
                       className="relative text-black font-medium hover:text-gray-500 hover:scale-110 duration-150"
                       onMouseEnter={() => setIsBecomeMemberOpen(true)}
                     >
-                      <span className="block px-4 py-2 text-sm text-green-600 hover:bg-green-600 hover:text-white">Become a member</span>
+                      <span className="block px-4 py-2 text-sm text-green-600 hover:bg-green-600 hover:text-white">
+                        Become a member
+                      </span>
                       {isBecomeMemberOpen && (
                         <ul
-                          className="absolute top-full left-0 bg-white shadow-lg rounded-lg py-2 w-48"
+                          className="absolute top-0 left-full bg-white shadow-lg rounded-lg py-2 w-48"
                           onMouseLeave={() => setIsBecomeMemberOpen(false)}
                         >
                           {becomeMember.map((subLink, index) => (
@@ -162,38 +133,35 @@ const Navbar = () => {
                 )}
               </li>
 
-              {loading ? null : !user ? (
-                <Link href="/login" onClick={handleSignIn}>
+              {/* Auth Section */}
+              {!isAuthenticated ? (
+                <Link href="/login">
                   <h1 className="text-black font-medium hover:text-gray-500 hover:scale-110 duration-150">
                     Login!
                   </h1>
                 </Link>
               ) : (
                 <div className="flex flex-row gap-10">
-                  <Link href={`/raise_funds?userId=${user.uid}`}>
+                  <Link href="/raise_funds">
                     <h1
                       className={`text-black font-medium hover:text-gray-500 hover:scale-110 duration-150 ${
-                        pathname === "/raise_funds"
-                          ? "underline underline-offset-4"
-                          : ""
+                        pathname === "/raise_funds" ? "underline underline-offset-4" : ""
                       }`}
                     >
                       Raise Funds
                     </h1>
                   </Link>
-                  <Link href={`/personal_details?userId=${user.uid}`}>
+                  <Link href="/personal_details">
                     <h1
                       className={`text-black font-medium hover:text-gray-500 hover:scale-110 duration-150 ${
-                        pathname === "/personal_details"
-                          ? "underline underline-offset-4"
-                          : ""
+                        pathname === "/personal_details" ? "underline underline-offset-4" : ""
                       }`}
                     >
                       Profile
                     </h1>
                   </Link>
                   <button
-                    className={`text-red-600 font-medium hover:scale-110 duration-150`}
+                    className="text-red-600 font-medium hover:scale-110 duration-150"
                     onClick={handleSignOut}
                   >
                     Logout
@@ -241,26 +209,20 @@ const Navbar = () => {
                     {link.text}
                   </Link>
                 ))}
-                {loading ? null : !user ? (
-                  <Link href="/login" onClick={handleSignIn}>
+                {!isAuthenticated ? (
+                  <Link href="/login">
                     <h1 className="absolute font-medium text-2xl bottom-24 right-8">
                       Login
                     </h1>
                   </Link>
                 ) : (
                   <div>
-                    <Link
-                      href={`/raise_funds?userId=${user.uid}`}
-                      onClick={toggleSelectMenu}
-                    >
+                    <Link href="/raise_funds" onClick={toggleSelectMenu}>
                       <h1 className="font-medium text-2xl bottom-28 right-8">
                         Raise Funds
                       </h1>
                     </Link>
-                    <Link
-                      href={`/personal_details?userId=${user.uid}`}
-                      onClick={toggleSelectMenu}
-                    >
+                    <Link href="/personal_details" onClick={toggleSelectMenu}>
                       <h1 className="absolute font-medium text-2xl bottom-28 right-8">
                         Profile
                       </h1>
