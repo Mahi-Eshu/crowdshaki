@@ -27,7 +27,7 @@ const UserDetailsForm = ({ user }: any) => {
     <div className="border-2 border-gray-300 shadow-lg rounded-xl my-20 px-14">
       <form
         action={async (formData) => {
-          const data: any = await personalDetails(formData, token);
+          const data: any = await personalDetails(formData, uid);
           // try {
           //   const data: any = await personalDetails(formData, token);
 
