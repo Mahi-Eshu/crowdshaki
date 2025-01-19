@@ -37,7 +37,7 @@ const LoginPage: React.FC = () => {
   })
 
   const [otpForm, otpFields] = useForm({
-    lastResult: lastOTPVerifyResult,
+    lastResult: lastOTPVerifyResult as any,
     onValidate({ formData }) {
       return parseWithZod(formData, { schema: loginWithOTPSchema })
     },
