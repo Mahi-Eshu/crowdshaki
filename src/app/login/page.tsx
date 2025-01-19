@@ -83,6 +83,38 @@ const LoginPage: React.FC = () => {
     await otpSendAction(formData)
   }
 
+  const handleOTPVerify = async (event: React.FormEvent) => {
+    event.preventDefault();
+    setError(null);
+  
+    const formData = new FormData();
+    formData.append("email", email);
+    formData.append("otp", otp);
+  
+    try {
+      const response: any = await verifyOTP(null, formData);
+  
+      if (response && typeof response === 'object' && 'success' in response) {
+        if (response.success) {
+          // Store token and email in the auth store
+          login({
+            email: response.data.email,
+            token: response.data.token,
+          });
+          router.push('/');
+        } else {
+          setError(response.error || 'OTP verification failed');
+        }
+      } else {
+        setError('Received invalid response format from server');
+      }
+    } catch (error) {
+      console.error("OTP verification error:", error);
+      setError('An error occurred during OTP verification');
+    }
+  };
+  
+
   // const handleOTPVerify = async (event: React.FormEvent) => {
   //   event.preventDefault()
   //   const formData = new FormData()
@@ -200,7 +232,7 @@ const LoginPage: React.FC = () => {
 
           {/* OTP Form */}
           {loginMethod === 'otp' && (
-            <form id={otpForm.id} onSubmit={otpForm.onSubmit} action={otpVerifyAction}>
+            <form id={otpForm.id} onSubmit={handleOTPVerify} action={otpVerifyAction}>
               <div className="mb-6">
                 <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
                   Email

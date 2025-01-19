@@ -8,7 +8,6 @@ import 'react-toastify/dist/ReactToastify.css';
 const UserDetailsForm = ({ user }: any) => {
   const searchParams = useSearchParams();
   const uid = searchParams.get('userId');
-  console.log("fucker", user);
 
   const [formValues, setFormValues] = useState({
     firstName: user?.firstName || "",
@@ -28,9 +27,9 @@ const UserDetailsForm = ({ user }: any) => {
     <div className="border-2 border-gray-300 shadow-lg rounded-xl my-20 px-14">
       <form
         action={async (formData) => {
-          const data: any = await personalDetails(formData, uid);
+          const data: any = await personalDetails(formData, token);
           // try {
-          //   const data: any = await personalDetails(formData, uid);
+          //   const data: any = await personalDetails(formData, token);
 
           //   // Check if data is defined and has the expected structure
           //   if (data && data[0].acknowledged) {

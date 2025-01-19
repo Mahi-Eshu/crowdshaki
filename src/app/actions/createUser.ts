@@ -27,7 +27,7 @@ export async function CreateUser(prevState: unknown, formData: FormData) {
   }
 
   // Send the form data to the API route
-  const response = await fetch("http://localhost:3000/api/createUser", {
+  const response = await fetch("https://crowdshaki.vercel.app/api/createUser", {
     method: "POST",
     body: JSON.stringify({
       data,

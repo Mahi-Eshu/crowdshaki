@@ -169,8 +169,8 @@ export const POST = async (req) => {
         <p><strong>Phone:</strong> ${data.phone}</p>
       </div>
       <div class="buttons">
-        <a href="http://localhost:3000/api/approveUser/approve/${token}" class="button approve-button">Approve</a>
-        <a href="http://localhost:3000/api/approveUser/reject/${token}" class="button reject-button">Reject</a>
+        <a href="https://crowdshaki.vercel.app/api/approveUser/approve/${token}" class="button approve-button">Approve</a>
+        <a href="https://crowdshaki.vercel.app/api/approveUser/reject/${token}" class="button reject-button">Reject</a>
       </div>
     </div>
     <div class="footer">
