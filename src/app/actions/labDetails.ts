@@ -95,8 +95,8 @@ function generateHtmlTable(data: any, token: any): string {
       
       </table>
       <div class="buttons">
-      <a href="http://localhost:3000/api/approveForm/approve/${token}" class="button approve-button">Approve</a>
-      <a href="http://localhost:3000/api/approveForm/reject/${token}" class="button reject-button">Reject</a>
+      <a href="https://crowdshaki.vercel.app/api/approveForm/approve/${token}" class="button approve-button">Approve</a>
+      <a href="https://crowdshaki.vercel.app/api/approveForm/reject/${token}" class="button reject-button">Reject</a>
       </div>
       </body>
       </html>
