@@ -62,6 +62,7 @@ const LoginPage: React.FC = () => {
           login({
             email: response.data.email,
             token: response.data.token,
+            phone: response.data.phone
           });
           router.push('/');
         } else {
@@ -100,6 +101,7 @@ const LoginPage: React.FC = () => {
           login({
             email: response.data.email,
             token: response.data.token,
+            phone: response.data.phoneNumber
           });
           router.push('/');
         } else {

@@ -107,13 +107,15 @@ const Navbar = () => {
                     <li
                       className="relative text-black font-medium hover:text-gray-500 hover:scale-110 duration-150"
                       onMouseEnter={() => setIsBecomeMemberOpen(true)}
-                    >
+                    >{isAuthenticated &&(
+
                       <span className="block px-4 py-2 text-sm text-green-600 hover:bg-green-600 hover:text-white">
                         Become a member
-                      </span>
-                      {isBecomeMemberOpen && (
+                      </span>)
+                      }
+                      {isBecomeMemberOpen &&  (
                         <ul
-                          className="absolute top-0 left-full bg-white shadow-lg rounded-lg py-2 w-48"
+                          className="absolute top-8 bg-white shadow-lg rounded-lg py-2 w-48"
                           onMouseLeave={() => setIsBecomeMemberOpen(false)}
                         >
                           {becomeMember.map((subLink, index) => (

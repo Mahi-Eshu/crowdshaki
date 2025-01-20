@@ -1,12 +1,18 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
-import { labDetails } from "../../../actions/labDetails";
+import { labDetails, sendOTP, verifyOTP } from "../../../actions/labDetails";
 import Navbar from "../../../components/Navbar";
 import { toast } from "react-toastify";
 import Footer from "../../../components/Footer";
+import useAuthStore from "../../../store/authStore"
+import { send } from "process";
 
 const labForm = () => {
+  const [otp, setOtp] = useState("");
+  const [otpSent, setOtpSent] = useState(false);
+  const [formPending, setFormPending] = useState(false);
+
   const [formData, setFormData] = useState({
     //labname
     labName: "",
@@ -40,6 +46,8 @@ const labForm = () => {
     compliantOrnot: "",
   });
 
+  const { isAuthenticated, user, logout } = useAuthStore();
+
   const handleInputChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
@@ -49,6 +57,8 @@ const labForm = () => {
     setFormData((prevValues) => ({ ...prevValues, [name]: value }));
   };
 
+
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // Prevent the form from submitting on load/reload
 
@@ -57,32 +67,76 @@ const labForm = () => {
       data.append(key, value);
     });
 
-    const res = await labDetails(data);
-    if (
-      (res)
-    ) {
-      toast.success("Updated Successfully", {
-        position: "bottom-right",
-        autoClose: 4000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-      });
-    }
-    else { 
-      toast.error("Something went wrong", {
-        position: "bottom-right",
-        autoClose: 4000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-      });
+    if (!otpSent) {
+      const otpHasSent = await sendOTP(user?.email, user?.phone)
+      if (otpHasSent.success == true) {
+        setOtpSent(true)
+      }
+    } else {
+      const verifyingOTP = await verifyOTP(user?.email, otp)
+      if (verifyingOTP.success == true) {
+
+        const res = await labDetails(data);
+        if (
+          (res)
+        ) {
+          toast.success("Updated Successfully", {
+            position: "bottom-right",
+            autoClose: 4000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          });
+          
+          setFormData({
+            //labname
+            labName: "",
+        
+            //contact details
+            ownerName: "",
+            email: "",
+            mobile: "",
+            address: "",
+            pincode: "",
+        
+            //lab details
+            labType: "",
+            yearsOfOperation: "",
+        
+            //lab license & accreditation
+            labLicenseNumber: "",
+            dateOfIssue: "",
+            issuingAuthority: "",
+        
+            //services provided
+            serviceTypes: "",
+            specialTests: "",
+            facilities: "",
+        
+            //staffs
+            pathologistCount: "",
+            technicianCount: "",
+        
+            //compliance
+            compliantOrnot: "",
+          })
+        }
+        else {
+          toast.error("Something went wrong", {
+            position: "bottom-right",
+            autoClose: 4000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          });
+        }
+      }
     }
   };
 
@@ -566,13 +620,31 @@ const labForm = () => {
                 </div>
               </div>
             </div>
-            <button
-              type="submit"
-              className="w-[200px] p-4 bg-black text-white rounded-sm my-10 lg:w-[400px]"
-            >
-              Submit
-            </button>
-             
+            {!otpSent ? (
+              <button
+                type="submit"
+                className="w-[200px] p-4 bg-black text-white rounded-sm my-10 lg:w-[400px]"
+              >
+                Submit
+              </button>
+            ) : (
+              <div className="flex flex-col">
+                <input
+                  type="text"
+                  name="otp"
+                  placeholder="Enter OTP"
+                  value={otp}
+                  onChange={(e) => setOtp(e.target.value)}
+                  className="w-[200px] p-4 border rounded-sm my-4 lg:w-[400px]"
+                />
+                <button
+                  type="submit"
+                  className="w-[200px] p-4 bg-black text-white rounded-sm my-10 lg:w-[400px]"
+                >
+                  Verify OTP and Submit
+                </button>
+              </div>
+            )}
           </div>
         </form>
       </div>

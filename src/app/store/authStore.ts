@@ -7,8 +7,9 @@ interface AuthState {
   user: {
     email: string;
     token: string;
+    phone: string;
   } | null;
-  login: (user: { email: string; token: string }) => void;
+  login: (user: { email: string; token: string; phone: string; }) => void;
   logout: () => void;
 }
 

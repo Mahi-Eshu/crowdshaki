@@ -80,7 +80,8 @@ export async function loginWithPassword(
       success: true,
       data: {
         email: user.email,
-        token: token
+        token: token,
+        phone: user.phone
       }
     };
 
@@ -218,7 +219,10 @@ export async function verifyOTP(prevState: unknown, formData: FormData) {
 
   const email = formData.get("email") as string;
   const otp = formData.get("otp") as string;
-
+  const client = await connectToDatabase();
+  const db = client.db("crowdshaki");
+  const user = await db.collection("users").findOne({ email });
+  const phoneNumber = user.phone
   try {
     const isValid = await validateOTP(email, otp);
 
@@ -246,7 +250,7 @@ export async function verifyOTP(prevState: unknown, formData: FormData) {
 
     return {
       success: true,
-      data: { email, token },
+      data: { email, token, phoneNumber },
     };
   } catch (error) {
     console.error("OTP verification error:", error);
