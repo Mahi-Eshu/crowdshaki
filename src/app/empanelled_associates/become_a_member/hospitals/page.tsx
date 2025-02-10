@@ -3,11 +3,14 @@ import React, { useState } from "react";
 import Navbar from "../../../components/Navbar";
 import Footer from "../../../components/Footer";
 import { toast } from "react-toastify";
-import { hospitalDetails } from "@/app/actions/hospitalDetails";
+import { hospitalDetails, verifyOTP, sendOTP } from "@/app/actions/hospitalDetails";
+import useAuthStore from "../../../store/authStore"
 
 const today = new Date().toISOString().split("T")[0]; // Generate today's date in YYYY-MM-DD format
 
 const hospitalForm = () => {
+  const [otp, setOtp] = useState("");
+  const [otpSent, setOtpSent] = useState(false);
   const [formData, setFormData] = useState({
     hospitalName: "",
     address: "",
@@ -91,11 +94,13 @@ const hospitalForm = () => {
     "Other",
   ];
 
+  const { isAuthenticated, user, logout } = useAuthStore();
+
   const handleInputChange = (
     e:
       | React.ChangeEvent<
-          HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-        >
+        HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+      >
       | any
   ) => {
     const { name, value, type, checked } = e.target;
@@ -142,29 +147,99 @@ const hospitalForm = () => {
         data.append(key, value as string);
       }
     });
-    const res = await hospitalDetails(data);
-    if (res) {
-      toast.success("Updated Successfully", {
-        position: "bottom-right",
-        autoClose: 4000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-      });
+    if (!otpSent) {
+      const otpHasSent = await sendOTP(user?.email, user?.phone)
+      if (otpHasSent.success == true) {
+        setOtpSent(true)
+      }
     } else {
-      toast.error("Something went wrong", {
-        position: "bottom-right",
-        autoClose: 4000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-      });
+      const verifyingOTP = await verifyOTP(user?.email, otp)
+      if (verifyingOTP.success == true) {
+
+        const res = await hospitalDetails(data);
+        if (
+          (res)
+        ) {
+          toast.success("Updated Successfully", {
+            position: "bottom-right",
+            autoClose: 4000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          });
+
+          setFormData({
+            hospitalName: "",
+            address: "",
+            street: "",
+            city: "",
+            state: "",
+            pincode: "",
+            country: "",
+            phoneNumber: "",
+            email: "",
+            website: "",
+            registrationNumber: "",
+            dateOfRegistration: "",
+            accreditationDetails: "",
+            medicalDirector: "",
+            directorContact: "",
+            directorEmail: "",
+            primaryContactName: "",
+            primaryContactDesignation: "",
+            primaryContactNumber: "",
+            primaryContactEmail: "",
+            totalBeds: "",
+            icuBeds: "",
+            emergencyBeds: "",
+            specialties: [],
+            services: [],
+            availability: "",
+            emergencyContactNumber: "",
+            doctors: "",
+            specialists: "",
+            residentDoctors: "",
+            nurses: "",
+            keySpecialists: [
+              {
+                specialty: "",
+                name: "",
+                qualification: "",
+                contact: "",
+                email: "",
+              },
+            ],
+            teleconsultationAvailable: "",
+            technologyDetails: "",
+            diagnosticEquipment: "",
+            surgicalEquipment: "",
+            isoCertified: "",
+            nabhAccredited: "",
+            otherCertifications: "",
+            regulatoryCompliance: "",
+            complianceDetails: "",
+            declarerName: "",
+            declarerDesignation: "",
+            declarationDate: today,
+            additionalDocuments: "",
+          })
+        }
+        else {
+          toast.error("Something went wrong", {
+            position: "bottom-right",
+            autoClose: 4000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          });
+        }
+      }
     }
   };
 
@@ -304,7 +379,7 @@ const hospitalForm = () => {
             className="w-full p-2 rounded bg-gray-100 mb-4"
             value={formData.registrationNumber}
             onChange={handleInputChange}
-            // required
+          // required
           />
 
           <label
@@ -1065,12 +1140,31 @@ const hospitalForm = () => {
             />
           </div>
 
-          <button
-            type="submit"
-            className="mt-8 w-full p-4 bg-black text-white rounded"
-          >
-            Submit
-          </button>
+          {!otpSent ? (
+            <button
+              type="submit"
+              className="w-[200px] p-4 bg-black text-white rounded-sm my-10 lg:w-[400px]"
+            >
+              Submit
+            </button>
+          ) : (
+            <div className="flex flex-col">
+              <input
+                type="text"
+                name="otp"
+                placeholder="Enter OTP"
+                value={otp}
+                onChange={(e) => setOtp(e.target.value)}
+                className="w-[200px] p-4 border rounded-sm my-4 lg:w-[400px]"
+              />
+              <button
+                type="submit"
+                className="w-[200px] p-4 bg-black text-white rounded-sm my-10 lg:w-[400px]"
+              >
+                Verify OTP and Submit
+              </button>
+            </div>
+          )}
         </form>
       </div>
       <Footer />

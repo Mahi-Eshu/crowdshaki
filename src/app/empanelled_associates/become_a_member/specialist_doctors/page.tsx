@@ -3,7 +3,8 @@ import React, { useState } from "react";
 import Navbar from "../../../components/Navbar";
 import Footer from "../../../components/Footer";
 import { toast } from "react-toastify";
-import { doctorDetails } from "@/app/actions/doctorDetails";
+import { doctorDetails, verifyOTP, sendOTP } from "@/app/actions/doctorDetails";
+import useAuthStore from "../../../store/authStore"
 
 const today = new Date().toISOString().split("T")[0]; // Generate today's date in YYYY-MM-DD format
 
@@ -33,9 +34,9 @@ interface FormData {
     preferredDays: string[]; // Array of strings for days
     preferredTimeSlots: string[]; // Array of strings for time slots
     infrastructure: {
-      computerSmartphone: string;
-      internetConnection: string;
-      platformUsed: string;
+        computerSmartphone: string;
+        internetConnection: string;
+        platformUsed: string;
     };
     additionalCertifications: string;
     compliance: string;
@@ -46,9 +47,11 @@ interface FormData {
     proofOfExperience: File | null; // Assuming file upload
     additionalCertificationsFile: File | null; // Assuming file upload
     otherDocuments: File[]; // Array of files
-  }
+}
 
 const DoctorForm = () => {
+    const [otp, setOtp] = useState("");
+    const [otpSent, setOtpSent] = useState(false);
     const [formData, setFormData] = useState<FormData>({
         // firstName: "",
         doctorName: "",
@@ -90,6 +93,8 @@ const DoctorForm = () => {
         otherDocuments: [],
     });
 
+    const { isAuthenticated, user, logout } = useAuthStore();
+
     const handleInputChange = (
         e: React.ChangeEvent<
             HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
@@ -101,7 +106,7 @@ const DoctorForm = () => {
 
     const handleCheckboxChange = (e: any) => {
         const { name, value, checked } = e.target;
-        setFormData((prev:any) => {
+        setFormData((prev: any) => {
             const updatedValues = checked
                 ? [...prev[name], value]
                 : prev[name].filter((item: any) => item !== value);
@@ -117,31 +122,87 @@ const DoctorForm = () => {
             data.append(key, value);
         });
 
-        const res = await doctorDetails(data);
-        if (res) {
-            toast.success("Updated Successfully", {
-            position: "bottom-right",
-            autoClose: 4000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "dark",
-            });
+        if (!otpSent) {
+            const otpHasSent = await sendOTP(user?.email, user?.phone)
+            if (otpHasSent.success == true) {
+                setOtpSent(true)
+            }
         } else {
-            toast.error("Something went wrong", {
-            position: "bottom-right",
-            autoClose: 4000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "dark",
-            });
+            const verifyingOTP = await verifyOTP(user?.email, otp)
+            if (verifyingOTP.success == true) {
+
+                const res = await doctorDetails(data);
+                if (
+                    (res)
+                ) {
+                    toast.success("Updated Successfully", {
+                        position: "bottom-right",
+                        autoClose: 4000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "dark",
+                    });
+
+                    setFormData({
+                        // firstName: "",
+                        doctorName: "",
+                        phoneNumber: "",
+                        email: "",
+                        residentialAddress: "",
+                        clinicAddress: "",
+                        dateOfBirth: "",
+                        primarySpecialty: "",
+                        subSpecialties: "",
+                        medicalRegistrationNumber: "",
+                        medicalCouncil: "",
+                        registrationDate: "",
+                        degree: "",
+                        institution: "",
+                        yearOfPassing: "",
+                        totalExperience: "",
+                        specializationExperience: "",
+                        clinicHospitalName: "",
+                        designation: "",
+                        medicalAssociations: "",
+                        teleconsultationExperience: "",
+                        teleconsultationDetails: "",
+                        preferredDays: [],
+                        preferredTimeSlots: [],
+                        infrastructure: {
+                            computerSmartphone: "",
+                            internetConnection: "",
+                            platformUsed: "",
+                        },
+                        additionalCertifications: "",
+                        compliance: "",
+                        signature: "",
+                        declarationDate: today,
+                        medicalRegistrationCertificate: null,
+                        qualificationCertificates: [],
+                        proofOfExperience: null,
+                        additionalCertificationsFile: null,
+                        otherDocuments: [],
+                    })
+                }
+                else {
+                    toast.error("Something went wrong", {
+                        position: "bottom-right",
+                        autoClose: 4000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "dark",
+                    });
+                }
+            }
         }
     };
+
 
     return (
         <main className="md:px-8 md:py-4 shadow-xl md:border-2 md:border-gray-200">
@@ -154,7 +215,7 @@ const DoctorForm = () => {
                 <h2 className="text-2xl font-medium mb-4">1. Personal Information</h2>
                 <div className="flex flex-col gap-4">
                     {/* <div> */}
-                        {/* <label htmlFor="firstName" className="block font-medium mb-2">
+                    {/* <label htmlFor="firstName" className="block font-medium mb-2">
                             First Name
                         </label>
                         <input
@@ -713,7 +774,7 @@ const DoctorForm = () => {
                             type="file"
                             id="medicalRegistrationCertificate"
                             name="medicalRegistrationCertificate"
-                            onChange={(e:any) => setFormData({
+                            onChange={(e: any) => setFormData({
                                 ...formData,
                                 medicalRegistrationCertificate: e.target.files[0]
                             })}
@@ -731,7 +792,7 @@ const DoctorForm = () => {
                             id="qualificationCertificates"
                             name="qualificationCertificates"
                             multiple
-                            onChange={(e:any) => setFormData({
+                            onChange={(e: any) => setFormData({
                                 ...formData,
                                 qualificationCertificates: Array.from(e.target.files)
                             })}
@@ -748,7 +809,7 @@ const DoctorForm = () => {
                             type="file"
                             id="proofOfExperience"
                             name="proofOfExperience"
-                            onChange={(e:any) => setFormData({
+                            onChange={(e: any) => setFormData({
                                 ...formData,
                                 proofOfExperience: e.target.files[0]
                             })}
@@ -765,7 +826,7 @@ const DoctorForm = () => {
                             type="file"
                             id="additionalCertificationsFile"
                             name="additionalCertificationsFile"
-                            onChange={(e:any) => setFormData({
+                            onChange={(e: any) => setFormData({
                                 ...formData,
                                 additionalCertificationsFile: e.target.files[0]
                             })}
@@ -783,7 +844,7 @@ const DoctorForm = () => {
                             id="otherDocuments"
                             name="otherDocuments"
                             multiple
-                            onChange={(e:any) => setFormData({
+                            onChange={(e: any) => setFormData({
                                 ...formData,
                                 otherDocuments: Array.from(e.target.files)
                             })}
@@ -794,12 +855,31 @@ const DoctorForm = () => {
 
 
 
-                <button
-                    type="submit"
-                    className="mt-8 p-4 bg-black text-white rounded w-full"
-                >
-                    Submit Application
-                </button>
+                {!otpSent ? (
+                    <button
+                        type="submit"
+                        className="w-[200px] p-4 bg-black text-white rounded-sm my-10 lg:w-[400px]"
+                    >
+                        Submit
+                    </button>
+                ) : (
+                    <div className="flex flex-col">
+                        <input
+                            type="text"
+                            name="otp"
+                            placeholder="Enter OTP"
+                            value={otp}
+                            onChange={(e) => setOtp(e.target.value)}
+                            className="w-[200px] p-4 border rounded-sm my-4 lg:w-[400px]"
+                        />
+                        <button
+                            type="submit"
+                            className="w-[200px] p-4 bg-black text-white rounded-sm my-10 lg:w-[400px]"
+                        >
+                            Verify OTP and Submit
+                        </button>
+                    </div>
+                )}
             </form>
             <Footer />
         </main>

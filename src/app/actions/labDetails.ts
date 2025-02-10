@@ -95,8 +95,8 @@ function generateHtmlTable(data: any, token: any): string {
       
       </table>
       <div class="buttons">
-      <a href="https://crowdshaki.vercel.app/api/approveForm/approve/${token}" class="button approve-button">Approve</a>
-      <a href="https://crowdshaki.vercel.app/api/approveForm/reject/${token}" class="button reject-button">Reject</a>
+      <a href="https://crowdshaki.vercel.app/api/approveForm/approve/${token}/Labs" class="button approve-button">Approve</a>
+      <a href="https://crowdshaki.vercel.app/api/approveForm/reject/${token}/Labs" class="button reject-button">Reject</a>
       </div>
       </body>
       </html>
@@ -168,14 +168,12 @@ function generateOTP(): string {
 async function storeOTP(email: string, otp: string, expiresAt: Date) {
   const client = await connectToDatabase();
   const db = client.db("crowdshaki");
-  await db.collection("otps").updateOne(
-    { email },
-    { $set: { otp, expiresAt } },
-    { upsert: true }
-  );
+  await db
+    .collection("otps")
+    .updateOne({ email }, { $set: { otp, expiresAt } }, { upsert: true });
 }
 
-async function sendOTPSMS(email: string, otp: string, phone:string) {
+async function sendOTPSMS(email: string, otp: string, phone: string) {
   const sourceEmail = process.env.ADMIN_EMAIL;
 
   if (!sourceEmail) {
@@ -186,7 +184,7 @@ async function sendOTPSMS(email: string, otp: string, phone:string) {
     throw new Error("Recipient email is not defined");
   }
 
-  const params:any = {
+  const params: any = {
     Message: `Your OTP is: ${otp}`,
     PhoneNumber: phone, // Ensure the mobile number is in E.164 format
   };
@@ -194,15 +192,13 @@ async function sendOTPSMS(email: string, otp: string, phone:string) {
   try {
     await sns.publish(params).promise();
     return { otpSent: true };
-  } catch (error:any) {
+  } catch (error: any) {
     console.error("Error sending OTP:", error);
     return { otpSent: false, error: error.message };
   }
 }
 
-
-export async function sendOTP(email:any, phone:any) {
-
+export async function sendOTP(email: any, phone: any) {
   const phoneNumber = "+91" + phone;
   try {
     const otp = generateOTP();
@@ -246,13 +242,12 @@ async function removeOTP(email: string) {
   await db.collection("otps").deleteOne({ email });
 }
 
-export async function verifyOTP(email:any, otp:any) {
-
+export async function verifyOTP(email: any, otp: any) {
   try {
     const isValid = await validateOTP(email, otp);
 
     if (!isValid) {
-      console.log("Incorrect OTP")
+      console.log("Incorrect OTP");
       return {
         success: false,
         error: "Invalid or expired OTP",
@@ -263,7 +258,7 @@ export async function verifyOTP(email:any, otp:any) {
 
     return {
       success: true,
-      message: "OTP verification successful"
+      message: "OTP verification successful",
     };
   } catch (error) {
     console.error("OTP verification error:", error);

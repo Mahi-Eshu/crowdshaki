@@ -12,6 +12,7 @@ const ses = new AWS.SES({
 export const GET = async (req, { params }) => {
 const action = params.action
 const token = params.token
+const collection = params.form
   try {
 
     console.log("This is " + action)
@@ -31,7 +32,7 @@ const token = params.token
     const db = client.db("crowdshaki");
 
     // Find the user by token
-    const user = await db.collection("Labs").findOne({ token });
+    const user = await db.collection(collection).findOne({ token });
 
     if (!user) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
@@ -41,7 +42,7 @@ const token = params.token
     const newStatus = action === "approve" ? "approved" : "rejected";
 
     // Update the user's status in the database
-    await db.collection("Labs").updateOne({ token }, { $set: { status: newStatus } });
+    await db.collection(collection).updateOne({ token }, { $set: { status: newStatus } });
 
     // Send an email to the user notifying them of the status change
     const emailSubject = action === "approve" ? "Your Account has been Approved" : "Your Account has been Rejected";

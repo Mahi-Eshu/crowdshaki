@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import Navbar from "../../../components/Navbar";
 import Footer from "../../../components/Footer";
 import { toast } from "react-toastify";
+import useAuthStore from "../../../store/authStore"
+import { medDetails, sendOTP, verifyOTP } from "@/app/actions/medDetails";
 
 interface FormData {
     // General Information
@@ -73,7 +75,8 @@ interface FormData {
 
 const medInstForm = () => {
     const today = new Date().toISOString().split("T")[0];
-
+    const [otp, setOtp] = useState("");
+    const [otpSent, setOtpSent] = useState(false);
     const [formData, setFormData] = useState<FormData>({
         // Initialize all form fields
         collegeName: "",
@@ -127,6 +130,8 @@ const medInstForm = () => {
         date: today,
     });
 
+    const { isAuthenticated, user, logout } = useAuthStore();
+
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value, type } = e.target;
         setFormData((prev) => ({
@@ -148,32 +153,103 @@ const medInstForm = () => {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        try {
-            // Replace with your actual API call
-            // const response = await submitMedicalCollegeForm(formData);
-            toast.success("Form submitted successfully!", {
-                position: "bottom-right",
-                autoClose: 4000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "dark",
-            });
-        } catch (error) {
-            toast.error("Error submitting form", {
-                position: "bottom-right",
-                autoClose: 4000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "dark",
-            });
+        const data = new FormData();
+        Object.entries(formData).forEach(([key, value]) => {
+            data.append(key, value);
+        });
+
+        if (!otpSent) {
+            const otpHasSent = await sendOTP(user?.email, user?.phone)
+            if (otpHasSent.success == true) {
+                setOtpSent(true)
+            }
+        } else {
+            const verifyingOTP = await verifyOTP(user?.email, otp)
+            if (verifyingOTP.success == true) {
+
+                const res = await medDetails(data);
+                if (
+                    (res)
+                ) {
+                    toast.success("Updated Successfully", {
+                        position: "bottom-right",
+                        autoClose: 4000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "dark",
+                    });
+
+                    setFormData({
+                        collegeName: "",
+                        abbreviation: "",
+                        street: "",
+                        city: "",
+                        state: "",
+                        postalCode: "",
+                        country: "",
+                        phoneNumber: "",
+                        email: "",
+                        website: "",
+                        registrationNumber: "",
+                        dateOfRegistration: "",
+                        accreditationDetails: "",
+                        principalName: "",
+                        principalContact: "",
+                        principalEmail: "",
+                        primaryContactName: "",
+                        primaryContactDesignation: "",
+                        primaryContactNumber: "",
+                        primaryContactEmail: "",
+                        totalBeds: "",
+                        icuBeds: "",
+                        emergencyBeds: "",
+                        specialties: [],
+                        otherSpecialties: "",
+                        services: [],
+                        otherServices: "",
+                        emergencyAvailable: false,
+                        emergencyContact: "",
+                        totalDoctors: "",
+                        specialists: "",
+                        residentDoctors: "",
+                        nurses: "",
+                        keySpecialistSpecialty: "",
+                        keySpecialistName: "",
+                        keySpecialistQualification: "",
+                        keySpecialistContact: "",
+                        keySpecialistEmail: "",
+                        hasTeleconsultation: false,
+                        teleconsultationDetails: "",
+                        diagnosticEquipment: "",
+                        surgicalEquipment: "",
+                        isoCertified: false,
+                        nabhAccredited: false,
+                        otherCertifications: "",
+                        compliantWithStandards: false,
+                        complianceDetails: "",
+                        signature: "",
+                        date: today,
+                    })
+                }
+                else {
+                    toast.error("Something went wrong", {
+                        position: "bottom-right",
+                        autoClose: 4000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "dark",
+                    });
+                }
+            }
         }
     };
+
 
     return (
         <main className="md:px-8 md:py-4 shadow-xl md:border-2 md:border-gray-200">
@@ -569,6 +645,7 @@ const medInstForm = () => {
                                     <label key={specialty} className="flex items-center">
                                         <input
                                             type="checkbox"
+                                            name="speciality"
                                             value={specialty}
                                             checked={formData.specialties.includes(specialty)}
                                             onChange={(e) => handleCheckboxChange(e, 'specialties')}
@@ -615,6 +692,7 @@ const medInstForm = () => {
                                         <label key={service} className="flex items-center">
                                             <input
                                                 type="checkbox"
+                                                name="services"
                                                 value={service}
                                                 checked={formData.services.includes(service)}
                                                 onChange={(e) => handleCheckboxChange(e, 'services')}
@@ -1126,6 +1204,31 @@ const medInstForm = () => {
                     </section>
 
                     {/* Section 9: Document Checklist */}
+                    {!otpSent ? (
+                        <button
+                            type="submit"
+                            className="w-[200px] p-4 bg-black text-white rounded-sm my-10 lg:w-[400px]"
+                        >
+                            Submit
+                        </button>
+                    ) : (
+                        <div className="flex flex-col">
+                            <input
+                                type="text"
+                                name="otp"
+                                placeholder="Enter OTP"
+                                value={otp}
+                                onChange={(e) => setOtp(e.target.value)}
+                                className="w-[200px] p-4 border rounded-sm my-4 lg:w-[400px]"
+                            />
+                            <button
+                                type="submit"
+                                className="w-[200px] p-4 bg-black text-white rounded-sm my-10 lg:w-[400px]"
+                            >
+                                Verify OTP and Submit
+                            </button>
+                        </div>
+                    )}
                 </form>
             </div>
             <Footer></Footer>

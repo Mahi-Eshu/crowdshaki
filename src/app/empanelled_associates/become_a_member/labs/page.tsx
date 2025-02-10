@@ -90,36 +90,36 @@ const labForm = () => {
             progress: undefined,
             theme: "dark",
           });
-          
+
           setFormData({
             //labname
             labName: "",
-        
+
             //contact details
             ownerName: "",
             email: "",
             mobile: "",
             address: "",
             pincode: "",
-        
+
             //lab details
             labType: "",
             yearsOfOperation: "",
-        
+
             //lab license & accreditation
             labLicenseNumber: "",
             dateOfIssue: "",
             issuingAuthority: "",
-        
+
             //services provided
             serviceTypes: "",
             specialTests: "",
             facilities: "",
-        
+
             //staffs
             pathologistCount: "",
             technicianCount: "",
-        
+
             //compliance
             compliantOrnot: "",
           })
@@ -149,8 +149,8 @@ const labForm = () => {
       <div className="p-4 md:flex md:flex-row md:justify-center md:items-center">
         <form onSubmit={handleSubmit}>
           {/* labname */}
-          <h1 className="m-2 my-12 text-2xl font-medium">1. Lab Details</h1>
-          <div className="m-2 flex flex-col gap-4">
+          <h1 className="my-8 text-2xl font-semibold">1. Lab Details</h1>
+          <div className="m-2 md:ml-8 flex flex-col gap-4">
             <div className="flex flex-col gap-4 lg:flex-row lg:gap-40">
               <div>
                 <label htmlFor="labName" className="block font-medium mb-2">
@@ -170,8 +170,8 @@ const labForm = () => {
             </div>
           </div>
           {/* contact details */}
-          <h1 className="m-2 my-12 text-2xl font-medium">2. Contact Details</h1>
-          <div className="m-2 flex flex-col gap-4">
+          <h1 className="my-8 text-2xl font-semibold">2. Contact Details</h1>
+          <div className="m-2 md:ml-8 flex flex-col gap-4">
             <div className="flex flex-col gap-4 lg:flex-row lg:gap-40">
               <div>
                 <label htmlFor="ownerName" className="block font-medium mb-2">
@@ -223,7 +223,7 @@ const labForm = () => {
               </div>
             </div>
           </div>
-          <div className="m-2 flex flex-col gap-4">
+          <div className="m-2 md:m-4 md:ml-8 flex flex-col gap-4">
             <div>
               <label htmlFor="address" className="block font-medium mb-2">
                 Address
@@ -257,8 +257,10 @@ const labForm = () => {
                 />
               </div>
             </div>
-            {/* lab details */}
-            <h1 className="my-12 text-2xl font-medium">3. Lab Details</h1>
+          </div>
+          {/* lab details */}
+          <h1 className="my-8 text-2xl font-semibold">3. Lab Details</h1>
+          <div className="m-2 md:m-4 md:ml-8 flex flex-col gap-4">
             <div className=" flex flex-col gap-4">
               <div className="flex flex-col gap-4 lg:flex-row lg:gap-40">
                 <div>
@@ -308,9 +310,11 @@ const labForm = () => {
                 </div>
               </div>
             </div>
-            <h1 className="m-2 my-12 text-2xl font-medium">
-              4. Lab License & Accreditation
-            </h1>
+          </div>
+          <h1 className="my-8 text-2xl font-semibold">
+            4. Lab License & Accreditation
+          </h1>
+          <div className="m-2 md:m-4 md:ml-8 flex flex-col gap-4">
             <div className="flex flex-col gap-4 lg:flex-row lg:gap-40">
               <div>
                 <label
@@ -368,8 +372,10 @@ const labForm = () => {
                 />
               </div>
             </div>
-            {/* 3 dropdowns - services provided */}
-            <h1 className="my-12 text-2xl font-medium">5. Services Provided</h1>
+          </div>
+          {/* 3 dropdowns - services provided */}
+          <h1 className="my-8 text-2xl font-semibold">5. Services Provided</h1>
+          <div className="m-2 md:m-4 md:ml-8 flex flex-col gap-4">
             <div className="flex flex-col gap-4 lg:flex-row lg:gap-40 mb-8">
               {/* serviceTypes */}
               <div>
@@ -555,7 +561,9 @@ const labForm = () => {
                 </div>
               </div>
             </div>
-            <h1 className="my-12 text-2xl font-medium">6. Man Power</h1>
+          </div>
+          <h1 className="my-8 text-2xl font-semibold">6. Man Power</h1>
+          <div className="m-2 md:m-4 md:ml-8 flex flex-col gap-4">
             <div className=" flex flex-col gap-4">
               <div className="flex flex-col gap-4 lg:flex-row lg:gap-40">
                 <div>

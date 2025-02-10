@@ -1,12 +1,15 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
-import { pharmaciesDetails } from "../../../actions/pharmaciesDetails";
+import { pharmaciesDetails, sendOTP, verifyOTP } from "../../../actions/pharmaciesDetails";
 import Navbar from "../../../components/Navbar";
 import { toast } from "react-toastify";
 import Footer from "../../../components/Footer";
+import useAuthStore from "../../../store/authStore"
 
 const pharmacyForm = () => {
+  const [otp, setOtp] = useState("");
+  const [otpSent, setOtpSent] = useState(false);
   const [formData, setFormData] = useState({
     //pharmacyName
     pharmacyName: "",
@@ -35,6 +38,8 @@ const pharmacyForm = () => {
     compliantOrnot: "",
   });
 
+  const { isAuthenticated, user, logout } = useAuthStore();
+
   const handleInputChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
@@ -52,29 +57,70 @@ const pharmacyForm = () => {
       data.append(key, value);
     });
 
-    const res = await pharmaciesDetails(data);
-    if (res) {
-      toast.success("Updated Successfully", {
-        position: "bottom-right",
-        autoClose: 4000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-      });
+    if (!otpSent) {
+      const otpHasSent = await sendOTP(user?.email, user?.phone)
+      if (otpHasSent.success == true) {
+        setOtpSent(true)
+      }
     } else {
-      toast.error("Something went wrong", {
-        position: "bottom-right",
-        autoClose: 4000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-      });
+      const verifyingOTP = await verifyOTP(user?.email, otp)
+      if (verifyingOTP.success == true) {
+
+        const res = await pharmaciesDetails(data);
+        if (
+          (res)
+        ) {
+          toast.success("Updated Successfully", {
+            position: "bottom-right",
+            autoClose: 4000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          });
+
+          setFormData({
+            pharmacyName: "",
+
+            //contact details
+            email: "",
+            mobile: "",
+            address: "",
+            pincode: "",
+
+            //lab details
+            pharmacyType: "",
+            yearsOfOperation: "",
+
+            //lab license & accreditation
+            pharmacyLicenseNumber: "",
+            dateOfIssue: "",
+            issuingAuthority: "",
+
+            //services provided
+            serviceTypes: "",
+            specialTests: "",
+            facilities: "",
+
+            //compliance
+            compliantOrnot: "",
+          })
+        }
+        else {
+          toast.error("Something went wrong", {
+            position: "bottom-right",
+            autoClose: 4000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          });
+        }
+      }
     }
   };
 
@@ -87,7 +133,7 @@ const pharmacyForm = () => {
       <div className="p-4 md:flex md:flex-row md:justify-center md:items-center">
         <form onSubmit={handleSubmit}>
           {/* pharmacyName */}
-          <h1 className="m-2 my-12 text-2xl font-medium">1. Pharmacy Details</h1>
+          <h1 className="my-8 text-2xl font-semibold">1. Pharmacy Details</h1>
           <div className="m-2 flex flex-col gap-4">
             <div className="flex flex-col gap-4 lg:flex-row lg:gap-40">
               <div>
@@ -108,7 +154,7 @@ const pharmacyForm = () => {
             </div>
           </div>
           {/* contact details */}
-          <h1 className="m-2 my-12 text-2xl font-medium">2. Contact Details</h1>
+          <h1 className="my-8 text-2xl font-semibold">2. Contact Details</h1>
           <div className="m-2 flex flex-col gap-4">
             <div className="flex flex-col gap-4 lg:flex-row lg:gap-40">
               <div>
@@ -179,7 +225,7 @@ const pharmacyForm = () => {
               </div>
             </div>
             {/* lab details */}
-            <h1 className="my-12 text-2xl font-medium">3. Business Details</h1>
+            <h1 className="my-8 text-2xl font-semibold">3. Business Details</h1>
             <div className=" flex flex-col gap-4">
               <div className="flex flex-col gap-4 lg:flex-row lg:gap-40">
                 <div>
@@ -222,7 +268,7 @@ const pharmacyForm = () => {
                 </div>
               </div>
             </div>
-            <h1 className="m-2 my-12 text-2xl font-medium">
+            <h1 className="my-8 text-2xl font-semibold">
               4. Pharmacy License & Accreditation
             </h1>
             <div className="flex flex-col gap-4 lg:flex-row lg:gap-40">
@@ -283,7 +329,7 @@ const pharmacyForm = () => {
               </div>
             </div>
             {/* 3 dropdowns - services provided */}
-            <h1 className="my-12 text-2xl font-medium">5. Services Provided</h1>
+            <h1 className="my-8 text-2xl font-semibold">5. Services Provided</h1>
             <div className="flex flex-col gap-4 lg:flex-row lg:gap-40 mb-8">
               {/* serviceTypes */}
               <div>
@@ -419,7 +465,7 @@ const pharmacyForm = () => {
                 </div>
               </div>
             </div>
-            <h1 className="my-12 text-2xl font-medium">6. Compliance and Quality Assurance</h1>
+            <h1 className="my-8 text-2xl font-semibold">6. Compliance and Quality Assurance</h1>
             <div className=" flex flex-col gap-4">
               <div className="flex flex-col gap-4 lg:flex-row lg:gap-40">
                 <div>
@@ -446,13 +492,32 @@ const pharmacyForm = () => {
                 </div>
               </div>
             </div>
-            <button
-              type="submit"
-              className="w-[200px] p-4 bg-black text-white rounded-sm my-10 lg:w-[400px]"
-            >
-              Submit
-            </button>
-             
+            {!otpSent ? (
+              <button
+                type="submit"
+                className="w-[200px] p-4 bg-black text-white rounded-sm my-10 lg:w-[400px]"
+              >
+                Submit
+              </button>
+            ) : (
+              <div className="flex flex-col">
+                <input
+                  type="text"
+                  name="otp"
+                  placeholder="Enter OTP"
+                  value={otp}
+                  onChange={(e) => setOtp(e.target.value)}
+                  className="w-[200px] p-4 border rounded-sm my-4 lg:w-[400px]"
+                />
+                <button
+                  type="submit"
+                  className="w-[200px] p-4 bg-black text-white rounded-sm my-10 lg:w-[400px]"
+                >
+                  Verify OTP and Submit
+                </button>
+              </div>
+            )}
+
           </div>
         </form>
       </div>

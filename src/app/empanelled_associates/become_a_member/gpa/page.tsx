@@ -3,7 +3,8 @@ import React, { useState } from "react";
 import Navbar from "../../../components/Navbar";
 import Footer from "../../../components/Footer";
 import { toast } from "react-toastify";
-import { gpaDetails } from "@/app/actions/gpaDetails";
+import { gpaDetails, sendOTP, verifyOTP } from "@/app/actions/gpaDetails";
+import useAuthStore from "../../../store/authStore"
 
 const today = new Date().toISOString().split("T")[0]; // Generate today's date in YYYY-MM-DD format
 
@@ -47,6 +48,8 @@ interface FormData {
 
 
 const GeneralPhysicianForm = () => {
+  const [otp, setOtp] = useState("");
+  const [otpSent, setOtpSent] = useState(false);
   const [formData, setFormData] = useState<FormData>({
     // Personal Information
     firstName: "",
@@ -91,6 +94,7 @@ const GeneralPhysicianForm = () => {
     signature: "",
     date: today
   });
+  const { isAuthenticated, user, logout } = useAuthStore();
 
   const handleInputChange = (e: any) => {
     const { name, value, type, checked } = e.target;
@@ -105,37 +109,92 @@ const GeneralPhysicianForm = () => {
 
     const data = new FormData();
     Object.entries(formData).forEach(([key, value]) => {
-        data.append(key, value);
+      data.append(key, value);
     });
 
-    const res = await gpaDetails(data);
-    if (
-      (res)
-    ) {
-      toast.success("Updated Successfully", {
-        position: "bottom-right",
-        autoClose: 4000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-      });
+    if (!otpSent) {
+      const otpHasSent = await sendOTP(user?.email, user?.phone)
+      if (otpHasSent.success == true) {
+        setOtpSent(true)
+      }
+    } else {
+      const verifyingOTP = await verifyOTP(user?.email, otp)
+      if (verifyingOTP.success == true) {
+
+        const res = await gpaDetails(data);
+        if (
+          (res)
+        ) {
+          toast.success("Updated Successfully", {
+            position: "bottom-right",
+            autoClose: 4000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          });
+
+          setFormData({
+            firstName: "",
+            lastName: "",
+            phoneNumber: "",
+            email: "",
+            residentialAddress: "",
+            clinicAddress: "",
+            dob: "",
+
+            // Professional Information
+            medicalRegNumber: "",
+            medicalCouncil: "",
+            dateOfReg: "",
+            qualification: "",
+            institution: "",
+            yearOfPassing: "",
+            totalExperience: "",
+            gpExperience: "",
+
+            // Practice Details
+            hospitalName: "",
+            designation: "",
+            affiliations: "",
+            teleconsultationExperience: false,
+            teleconsultationDetails: "",
+
+            // Availability
+            preferredDays: [],
+            preferredTimeSlots: [],
+
+            // Technology
+            hasComputer: false,
+            hasInternet: false,
+            platformUsed: "",
+
+            // Compliance
+            certifications: "",
+            compliantWithGuidelines: false,
+
+            //Declaration
+            signature: "",
+            date: today
+          })
+        }
+        else {
+          toast.error("Something went wrong", {
+            position: "bottom-right",
+            autoClose: 4000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          });
+        }
+      }
     }
-    else {
-      toast.error("Something went wrong", {
-        position: "bottom-right",
-        autoClose: 4000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-      });
-    }
-};
+  };
 
   return (
     <main className="md:px-8 md:py-4 shadow-xl md:border-2 md:border-gray-200">
@@ -453,7 +512,7 @@ const GeneralPhysicianForm = () => {
               <label className="block font-medium mb-2">Preferred Days</label>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].map(
-                  (day:any) => (
+                  (day: any) => (
                     <label key={day} className="flex items-center">
                       <input
                         type="checkbox"
@@ -742,12 +801,31 @@ const GeneralPhysicianForm = () => {
           </section>
 
 
-          <button
-            type="submit"
-            className="w-full md:w-1/2 p-3 bg-blue-600 text-white rounded-lg"
-          >
-            Submit Application
-          </button>
+          {!otpSent ? (
+            <button
+              type="submit"
+              className="w-[200px] p-4 bg-black text-white rounded-sm my-10 lg:w-[400px]"
+            >
+              Submit
+            </button>
+          ) : (
+            <div className="flex flex-col">
+              <input
+                type="text"
+                name="otp"
+                placeholder="Enter OTP"
+                value={otp}
+                onChange={(e) => setOtp(e.target.value)}
+                className="w-[200px] p-4 border rounded-sm my-4 lg:w-[400px]"
+              />
+              <button
+                type="submit"
+                className="w-[200px] p-4 bg-black text-white rounded-sm my-10 lg:w-[400px]"
+              >
+                Verify OTP and Submit
+              </button>
+            </div>
+          )}
         </form>
       </div>
       <Footer />
