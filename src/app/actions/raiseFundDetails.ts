@@ -11,6 +11,15 @@ export const raiseFundDetails = async(formdata: FormData, userId: string|null) =
     const mobile = formdata.get("mobile")
     const address = formdata.get("address")
     const pincode = formdata.get("pincode")
+    const block = formdata.get("block")
+    const center = formdata.get("center")
+    const chaName = formdata.get("chaName")
+    const chaPhoneNumber = formdata.get("chaPhoneNumber")
+    const chaLeader = formdata.get("chaLeader")
+    const documentsFinished = formdata.get("documentsFinished")
+    const aeStudentName = formdata.get("aeStudentName")
+    const aePhoneNumber = formdata.get("aePhoneNumber")
+    const hrName = formdata.get("hrName")
     const beneficiaryName = formdata.get("beneficiaryName")
     const relationship = formdata.get("relationship")
     const amountForFund = formdata.get("amountForFund")
@@ -35,6 +44,15 @@ export const raiseFundDetails = async(formdata: FormData, userId: string|null) =
             mobile,
             address,
             pincode,
+            block,
+            center,
+            chaName,
+            chaPhoneNumber,
+            chaLeader,
+            aeStudentName,
+            aePhoneNumber,
+            hrName,
+            documentsFinished,
             beneficiaryName,
             relationship,
             amountForFund,

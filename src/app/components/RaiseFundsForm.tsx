@@ -12,6 +12,15 @@ const RaiseFundsForm = ({ user }: any) => {
     mobile: "",
     address: "",
     pincode: "",
+    block: "",
+    center: "",
+    chaName: "",
+    chaPhoneNumber: "",
+    chaLeader: "",
+    documentsFinished: false,
+    aeStudentName: "",
+    aePhoneNumber: "",
+    hrName: "",
     beneficiaryName: "",
     relationship: "",
     amountForFund: "",
@@ -37,6 +46,15 @@ const RaiseFundsForm = ({ user }: any) => {
             mobile: data?.mobile || "",
             address: data?.address || "",
             pincode: data?.pincode || "",
+            block: data?.block || "",
+            center: data?.center || "",
+            chaName: data?.chaName || "",
+            chaPhoneNumber: data?.chaPhoneNumber || "",
+            chaLeader: data?.chaLeader || "",
+            documentsFinished: data?.documentsFinished || false,
+            aeStudentName: data?.aeStudentName || "",
+            aePhoneNumber: data?.aePhoneNumber || "",
+            hrName: data?.hrName || "",
             beneficiaryName: data?.beneficiaryName || "",
             relationship: data?.relationship || "",
             amountForFund: data?.amountForFund || "",
@@ -70,7 +88,7 @@ const RaiseFundsForm = ({ user }: any) => {
     event.preventDefault(); // Prevent the form from submitting on load/reload
 
     const data = new FormData();
-    Object.entries(formData).forEach(([key, value]) => {
+    Object.entries(formData).forEach(([key, value]:any) => {
       data.append(key, value);
     });
 
@@ -185,6 +203,187 @@ const RaiseFundsForm = ({ user }: any) => {
               />
             </div>
           </div>
+
+          <div className="flex flex-col gap-4 lg:flex-row lg:gap-40">
+            <div>
+              <label htmlFor="block" className="block font-medium mb-2">
+                Block Name
+              </label>
+              <input
+                type="text"
+                name="block"
+                id="block"
+                placeholder="Enter your block name"
+                value={formData.block}
+                onChange={handleInputChange}
+                required
+                className="w-full p-2 rounded-xl lg:w-[400px] bg-gray-100"
+              />
+            </div>
+            <div>
+              <label htmlFor="center" className="block font-medium mb-2">
+                Centre Name
+              </label>
+              <input
+                type="text"
+                name="center"
+                id="center"
+                placeholder="Enter your center name"
+                value={formData.center}
+                onChange={handleInputChange}
+                required
+                className="w-full p-2 rounded-xl lg:w-[400px] bg-gray-100"
+              />
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-4 lg:flex-row lg:gap-40">
+            <div>
+              <label htmlFor="chaName" className="block font-medium mb-2">
+                Cha Name
+              </label>
+              <input
+                type="text"
+                name="chaName"
+                id="chaName"
+                placeholder="Enter your cha name"
+                value={formData.chaName}
+                onChange={handleInputChange}
+                required
+                className="w-full p-2 rounded-xl lg:w-[400px] bg-gray-100"
+              />
+            </div>
+            <div>
+              <label htmlFor="chaPhoneNumber" className="block font-medium mb-2">
+                Cha Phone Number
+              </label>
+              <input
+                type="text"
+                name="chaPhoneNumber"
+                id="chaPhoneNumber"
+                placeholder="Enter your cha phone number"
+                value={formData.chaPhoneNumber}
+                onChange={handleInputChange}
+                required
+                className="w-full p-2 rounded-xl lg:w-[400px] bg-gray-100"
+              />
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-4 lg:flex-row lg:gap-40">
+            <div>
+              <label htmlFor="chaLeader" className="block font-medium mb-2">
+                Cha Leader
+              </label>
+              <input
+                type="text"
+                name="chaLeader"
+                id="chaLeader"
+                placeholder="Enter your cha leader"
+                value={formData.chaLeader}
+                onChange={handleInputChange}
+                required
+                className="w-full p-2 rounded-xl lg:w-[400px] bg-gray-100"
+              />
+            </div>
+            
+          </div>
+
+
+          <div className="flex flex-col gap-4 lg:flex-row lg:gap-40">
+            <div>
+              <label htmlFor="aeStudentName" className="block font-medium mb-2">
+                AE Student Name
+              </label>
+              <input
+                type="text"
+                name="aeStudentName"
+                id="aeStudentName"
+                placeholder="Enter your ae student name"
+                value={formData.aeStudentName}
+                onChange={handleInputChange}
+                required
+                className="w-full p-2 rounded-xl lg:w-[400px] bg-gray-100"
+              />
+            </div>
+            <div>
+              <label htmlFor="aePhoneNumber" className="block font-medium mb-2">
+                AE Phone Number
+              </label>
+              <input
+                type="text"
+                name="aePhoneNumber"
+                id="aePhoneNumber"
+                placeholder="Enter your AE phone number"
+                value={formData.aePhoneNumber}
+                onChange={handleInputChange}
+                required
+                className="w-full p-2 rounded-xl lg:w-[400px] bg-gray-100"
+              />
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-4 lg:flex-row lg:gap-40">
+            <div>
+              <label htmlFor="hrName" className="block font-medium mb-2">
+                  HR Name
+              </label>
+              <input
+                type="text"
+                name="hrName"
+                id="hrName"
+                placeholder="Enter your HR name"
+                value={formData.hrName}
+                onChange={handleInputChange}
+                required
+                className="w-full p-2 rounded-xl lg:w-[400px] bg-gray-100"
+              />
+            </div>
+            
+          </div>
+
+          <div>
+                <label className="block font-medium mb-2">
+                  Documents Finished
+                </label>
+                <div className="flex gap-4">
+                  <label htmlFor="documentsFinishedYes" className="flex items-center">
+                    <input
+                      type="radio"
+                      name="documentsFinished"
+                      id="documentsFinished"
+                      value="true"
+                      onChange={(e) => {
+                        setFormData((prev) => ({
+                          ...prev,
+                          documentsFinished: e.target.value === "true",
+                        }));
+                      }}
+                      checked={formData.documentsFinished === true}
+                      className="mr-2"
+                    />
+                    Yes
+                  </label>
+                  <label htmlFor="documentsFinishedNo" className="flex items-center">
+                    <input
+                      type="radio"
+                      name="documentsFinished"
+                      id="documentsFinished"
+                      value="false"
+                      onChange={(e) => {
+                        setFormData((prev) => ({
+                          ...prev,
+                          documentsFinished: e.target.value === "true",
+                        }));
+                      }}
+                      checked={formData.documentsFinished === false}
+                      className="mr-2"
+                    />
+                    No
+                  </label>
+                </div>
+              </div>
+
           <h1 className="my-12 text-2xl font-medium">2. Beneficiary Details</h1>
           <div className=" flex flex-col gap-4">
             <div className="flex flex-col gap-4 lg:flex-row lg:gap-40">
